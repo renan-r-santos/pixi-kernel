@@ -1,0 +1,8 @@
+{
+  "argv": ["python", "-m", "pixi_kernel", "-f", "{connection_file}"],
+  "display_name": "Pixi",
+  "language": "python",
+  "metadata": {
+    "debugger": true
+  }
+}

@@ -1,0 +1,12 @@
+[project]
+name = "pyproject_project"
+
+[tool.pixi.project]
+name = "pyproject_project"
+version = "0.1.0"
+channels = ["conda-forge"]
+platforms = ["linux-64"]
+
+[tool.pixi.dependencies]
+python = "*"
+ipykernel = "*"
