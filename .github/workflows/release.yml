@@ -25,6 +25,8 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ env.python-version }}
+      - name: Install environment
+        run: poetry install
       - name: Build release
         run: poetry run python -m build --wheel --outdir dist
       - name: Check that tag version and Poetry version match
