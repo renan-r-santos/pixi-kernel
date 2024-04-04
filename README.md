@@ -14,7 +14,7 @@ configurations.
 1. Install this package with `pip install pixi-kernel` in your JupyterLab environment and restart
    it.
 2. Create a new directory and notebook and select the **Pixi** kernel for the notebook.
-3. Initialize a Pixi project wiht `pixi init` and `pixi add ipykernel`.
+3. Initialize a Pixi project with `pixi init` and `pixi add ipykernel`.
 4. Restart the kernel and you are good to go.
 
 See the [Pixi docs](https://pixi.sh/latest/) for more information on how to use Pixi.
