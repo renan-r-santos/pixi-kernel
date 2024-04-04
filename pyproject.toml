@@ -1,0 +1,103 @@
+[project]
+name = "pixi-kernel"
+version = "0.1.0"
+description = "Python Jupyter kernel using Pixi for reproducible notebooks"
+license = { text = "MIT" }
+authors = [
+    { name = "Renan Rodrigues dos Santos", email = "renan.engmec@gmail.com" },
+]
+
+readme = "README.md"
+keywords = ["kernel", "jupyter", "pixi"]
+
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Framework :: Jupyter",
+    "Framework :: Jupyter :: JupyterLab",
+    "Framework :: Jupyter :: JupyterLab :: 4",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Typing :: Typed",
+]
+
+requires-python = ">=3.8,<4.0"
+dependencies = ["ipykernel>=6,<7", "jupyter-client>=8,<9", "msgspec>=0.18,<1"]
+
+[project.urls]
+Documentation = "https://github.com/renan-r-santos/pixi-kernel"
+Repository = "https://github.com/renan-r-santos/pixi-kernel"
+
+[tool.setuptools.data-files]
+"share/jupyter/kernels/pixi_kernel" = [
+    "assets/kernel.json",
+    "assets/logo-64x64.png",
+]
+
+[tool.poetry]
+name = "pixi-kernel"
+version = "0.1.0"
+authors = ["Renan Rodrigues dos Santos <renan.engmec@gmail.com>"]
+description = "Python Jupyter kernel using Pixi for reproducible notebooks"
+packages = [{ include = "pixi_kernel", from = "src" }]
+
+[tool.poetry.dependencies]
+python = ">=3.8,<4.0"
+ipykernel = ">=6,<7"
+jupyter-client = ">=8,<9"
+msgspec = ">=0.18,<1"
+
+[tool.poetry.group.dev.dependencies]
+build = ">=1.2,<2"
+nox_poetry = ">=1.0.3,<2"
+pytest = ">=8.1,<9"
+pytest-cov = "*"
+ruff = ">=0.3.5,<0.4"
+
+[tool.ruff]
+src = ["src"]
+line-length = 99
+
+[tool.ruff.lint]
+extend-select = [
+    "I", # isort
+    "N", # pep8-naming
+    "RUF", # ruff
+    "B", # flake8-bugbear
+    "N", # flake8-broken-line
+    "C4", # flake8-comprehensions
+    "PIE", # flake8-pie
+    "PT", # flake8-pytest-style
+    "PTH", # flake8-use-pathlib
+    "ERA", # flake8-eradicate
+]
+
+[tool.pytest.ini_options]
+addopts = ["--strict-config", "--strict-markers"]
+xfail_strict = true
+filterwarnings = [
+    "error",
+    "ignore:Jupyter is migrating its paths to use standard platformdirs",
+]
+
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.paths]
+source = [
+    "src/",
+    ".nox/test*/lib/python*/site-packages/",
+    ".nox/test*/Lib/site-packages/",
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
