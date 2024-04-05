@@ -38,3 +38,4 @@ to open a pull request.
 
 - [Pyproject Local Jupyter Kernel](https://github.com/bluss/pyproject-local-kernel)
 - [Poetry-kernel](https://github.com/pathbird/poetry-kernel)
+- [Python Local .venv Kernel](https://github.com/goerz/python-localvenv-kernel)
