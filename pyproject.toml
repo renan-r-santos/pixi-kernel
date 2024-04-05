@@ -1,6 +1,6 @@
 [project]
 name = "pixi-kernel"
-version = "0.1.0"
+version = "0.1.1"
 description = "Python Jupyter kernel using Pixi for reproducible notebooks"
 license = { text = "MIT" }
 authors = [
@@ -44,7 +44,7 @@ Repository = "https://github.com/renan-r-santos/pixi-kernel"
 
 [tool.poetry]
 name = "pixi-kernel"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Renan Rodrigues dos Santos <renan.engmec@gmail.com>"]
 description = "Python Jupyter kernel using Pixi for reproducible notebooks"
 packages = [{ include = "pixi_kernel", from = "src" }]
