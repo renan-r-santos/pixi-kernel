@@ -1,8 +1,8 @@
 # Pixi Kernel
 
 Use per-directory Pixi environments to run Jupyter kernels. The idea behind this project is to
-allow you to capture the exact state of your environment while allowing you to make use of the rich
-PyPI and Conda ecosystems.
+capture the exact state of your environment while allowing you to make use of the rich PyPI and
+Conda ecosystems.
 
 Pixi Kernel supports Python 3.8+ and Pixi 0.18+ using `pyproject.toml` and `pixi.toml`
 configurations.
@@ -11,8 +11,8 @@ configurations.
 
 ## Quick Start
 
-1. Install this package with `pip install pixi-kernel` in your JupyterLab environment and restart
-   it.
+1. Install this package in your JupyterLab environment and restart it. You can install it using
+   `pip`, `pixi` or any other conda or pip-based package manager.
 2. Create a new directory and notebook and select the **Pixi** kernel for the notebook.
 3. Initialize a Pixi project with `pixi init` and `pixi add ipykernel`.
 4. Restart the kernel and you are good to go.
