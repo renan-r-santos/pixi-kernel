@@ -7,6 +7,8 @@ Conda ecosystems.
 Pixi Kernel supports Python 3.8+ and Pixi 0.18+ using `pyproject.toml` and `pixi.toml`
 configurations.
 
+**Disclaimer**: _This project is not affiliated with Pixi, and not an official Pixi plugin._
+
 ![JupyterLab launcher screen showing Pixi Kernel](assets/image1.png)
 
 ## Quick Start
@@ -39,3 +41,8 @@ to open a pull request.
 - [Pyproject Local Jupyter Kernel](https://github.com/bluss/pyproject-local-kernel)
 - [Poetry-kernel](https://github.com/pathbird/poetry-kernel)
 - [Python Local .venv Kernel](https://github.com/goerz/python-localvenv-kernel)
+
+## Acknowledgment
+
+Thanks to the [Python blueprint](https://github.com/johnthagen/python-blueprint) for providing a
+nice template for Python projects.
