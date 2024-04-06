@@ -42,7 +42,7 @@ to open a pull request.
 - [Poetry-kernel](https://github.com/pathbird/poetry-kernel)
 - [Python Local .venv Kernel](https://github.com/goerz/python-localvenv-kernel)
 
-## Acknowledgements
+## Acknowledgment
 
 Thanks to the [Python blueprint](https://github.com/johnthagen/python-blueprint) for providing a
 nice template for Python projects.
