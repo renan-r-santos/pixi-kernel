@@ -1,3 +1,4 @@
+import platform
 from typing import List
 
 from nox import options, parametrize
@@ -9,14 +10,14 @@ options.sessions = ["lint", "test", "integration", "coverage"]
 @session(python=["3.8", "3.9", "3.10", "3.11", "3.12"])
 def test(s: Session):
     s.install(".", "pytest", "pytest-cov")
-    s.env["COVERAGE_FILE"] = f".coverage.{s.python}"
+    s.env["COVERAGE_FILE"] = f".coverage.{platform.system()}.{s.python}"
     s.run("python", "-m", "pytest", "--cov", "pixi_kernel")
 
 
 @session(python=["3.8", "3.9", "3.10", "3.11", "3.12"])
 def integration(s: Session):
     with s.chdir("tests/integration"):
-        s.run("pixi", "run", "python", "kernel.py")
+        s.run("pixi", "run", "python", "kernel.py", external=True)
 
 
 @session(venv_backend="none")
