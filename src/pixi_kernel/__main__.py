@@ -52,31 +52,36 @@ def find_project_manifest() -> Union[str, PixiKernelError]:
     cwd = Path.cwd().resolve()
     candidate_dirs = [cwd, *cwd.parents]
     for dir in candidate_dirs:
-        result = subprocess.run(["pixi", "info", "--json"], cwd=dir, capture_output=True)
-        if result.returncode != 0:
-            logger.error(f"Failed to get pixi info for directory {dir}: {result.stderr}")
-            continue
+        for project_filename in ["pixi.toml", "pyproject.toml"]:
+            result = subprocess.run(
+                ["pixi", "info", f"--manifest-path={project_filename}", "--json"],
+                cwd=dir,
+                capture_output=True,
+            )
+            if result.returncode != 0:
+                logger.error(f"Failed to get pixi info for directory {dir}: {result.stderr}")
+                continue
 
-        try:
-            pixi_info = msgspec.json.decode(result.stdout, type=PixiInfo)
-        except msgspec.ValidationError as exception:
-            logger.error(f"Failed to parse pixi info {result.stdout}: {exception}")
-            continue
+            try:
+                pixi_info = msgspec.json.decode(result.stdout, type=PixiInfo)
+            except msgspec.ValidationError as exception:
+                logger.error(f"Failed to parse pixi info {result.stdout}: {exception}")
+                continue
 
-        if len(pixi_info.environments_info) == 0:
-            continue
+            if len(pixi_info.environments_info) == 0:
+                continue
 
-        for env in pixi_info.environments_info:
-            if env.name == "default" and pixi_info.project_info is not None:
-                if "ipykernel" not in env.dependencies + env.pypi_dependencies:
-                    return PixiKernelError(
-                        message=(
-                            f"The project at {dir} does not have ipykernel as a dependency in the "
-                            "default environment. Please add it by running `pixi add ipykernel` "
-                            "and restart your kernel."
+            for env in pixi_info.environments_info:
+                if env.name == "default" and pixi_info.project_info is not None:
+                    if "ipykernel" not in env.dependencies + env.pypi_dependencies:
+                        return PixiKernelError(
+                            message=(
+                                f"The project at {dir} does not have ipykernel as a dependency in "
+                                "the default environment. Add it by running `pixi add ipykernel` "
+                                "and restart your kernel."
+                            )
                         )
-                    )
-                return pixi_info.project_info.manifest_path
+                    return str(dir / project_filename)
 
     return PixiKernelError(
         message=("Pixi project not found. Run `pixi init` in the project directory.")

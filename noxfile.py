@@ -17,7 +17,7 @@ def test(s: Session):
 @session(python=["3.8", "3.9", "3.10", "3.11", "3.12"])
 def integration(s: Session):
     with s.chdir("tests/integration"):
-        s.run("pixi", "run", "python", "kernel.py", external=True)
+        s.run("pixi", "run", "--manifest-path=pixi.toml", "python", "kernel.py", external=True)
 
 
 @session(venv_backend="none")
