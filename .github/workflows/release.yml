@@ -21,10 +21,8 @@ jobs:
       - name: Install Pixi ${{ env.pixi-version }}
         uses: prefix-dev/setup-pixi@v0.5.1
         with:
-          cache-key: pixi-build-
-          environments: build
-          locked: true
           pixi-version: v${{ env.pixi-version }}
+          run-install: false
       - name: Build release
         run: pixi run --locked --environment build build
       - name: Check that tag version and Pixi version match
