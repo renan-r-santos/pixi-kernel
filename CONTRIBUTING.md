@@ -13,7 +13,7 @@ tests, push the changes, and [open a PR](https://github.com/renan-r-santos/pixi-
 
 To make a local copy of Pixi Kernel, clone the repository with git:
 
-```shell
+```
 git clone https://github.com/renan-r-santos/pixi-kernel.git
 ```
 
@@ -22,7 +22,7 @@ git clone https://github.com/renan-r-santos/pixi-kernel.git
 Pixi Kernel uses Pixi as its packaging and dependency manager. Install Pixi and then use it to
 install Pixi Kernel and its dependencies:
 
-```shell
+```
 pixi install
 ```
 
@@ -30,13 +30,13 @@ pixi install
 
 Pixi Kernel uses pytest to run the tests in the `tests/` directory. To run them, use:
 
-```shell
+```
 pixi run test
 ```
 
 You can also run the tests using a particular Python version:
 
-```shell
+```
 pixi run -e py38 test-py38
 ```
 
@@ -45,7 +45,7 @@ pixi run -e py38 test-py38
 Pixi Kernel uses Ruff to ensure a minimum standard of code quality. The code quality commands are
 encapsulated with Pixi:
 
-```shell
+```
 pixi run format
 pixi run lint
 ```
