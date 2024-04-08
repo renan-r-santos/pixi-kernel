@@ -28,13 +28,13 @@ pixi install
 
 ## Testing and code quality
 
-Pixi Kernel uses pytest to run the tests in the `tests/` directory. To run them as well, use:
+Pixi Kernel uses pytest to run the tests in the `tests/` directory. To run them, use:
 
 ```shell
 pixi run test
 ```
 
-You can also run the tests for a particular Python version:
+You can also run the tests using a particular Python version:
 
 ```shell
 pixi run -e py38 test-py38
