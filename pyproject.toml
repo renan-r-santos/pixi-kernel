@@ -30,10 +30,11 @@ classifiers = [
 ]
 
 requires-python = ">=3.8,<4.0"
-dependencies = ["ipykernel>=6,<7", "jupyter-client>=8,<9", "msgspec>=0.18,<1"]
+dependencies = ["ipykernel>=6,<7", "msgspec>=0.18,<1"]
 
 [project.urls]
 Documentation = "https://github.com/renan-r-santos/pixi-kernel"
+Homepage = "https://github.com/renan-r-santos/pixi-kernel"
 Repository = "https://github.com/renan-r-santos/pixi-kernel"
 
 [tool.setuptools.data-files]
@@ -41,26 +42,6 @@ Repository = "https://github.com/renan-r-santos/pixi-kernel"
     "assets/kernel.json",
     "assets/logo-64x64.png",
 ]
-
-[tool.poetry]
-name = "pixi-kernel"
-version = "0.1.1"
-authors = ["Renan Rodrigues dos Santos <renan.engmec@gmail.com>"]
-description = "Python Jupyter kernel using Pixi for reproducible notebooks"
-packages = [{ include = "pixi_kernel", from = "src" }]
-
-[tool.poetry.dependencies]
-python = ">=3.8,<4.0"
-ipykernel = ">=6,<7"
-jupyter-client = ">=8,<9"
-msgspec = ">=0.18,<1"
-
-[tool.poetry.group.dev.dependencies]
-build = ">=1.2,<2"
-nox_poetry = ">=1.0.3,<2"
-pytest = ">=8.1,<9"
-pytest-cov = "*"
-ruff = ">=0.3.5,<0.4"
 
 [tool.ruff]
 src = ["src"]
@@ -92,11 +73,10 @@ filterwarnings = [
 branch = true
 
 [tool.coverage.paths]
-source = [
-    "src/",
-    ".nox/test*/lib/python*/site-packages/",
-    ".nox/test*/Lib/site-packages/",
-]
+source = ["src/", ".pixi/envs/**/lib/python*/site-packages/"]
+
+[tool.coverage.report]
+fail_under = 60
 
 [build-system]
 requires = ["setuptools"]

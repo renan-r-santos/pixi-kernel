@@ -13,36 +13,47 @@ tests, push the changes, and [open a PR](https://github.com/renan-r-santos/pixi-
 
 To make a local copy of Pixi Kernel, clone the repository with git:
 
-```shell
+```
 git clone https://github.com/renan-r-santos/pixi-kernel.git
 ```
 
 ## Installing from source
 
-Pixi Kernel uses Poetry as its packaging and dependency manager. In whatever Python environment you
-prefer, install Poetry and then use Poetry to install Pixi Kernel and its dependencies:
+Pixi Kernel uses Pixi as its packaging and dependency manager. Install Pixi and then use it to
+install Pixi Kernel and its dependencies:
 
-```shell
-pip install poetry
-poetry install
+```
+pixi install
 ```
 
 ## Testing and code quality
 
-Pixi Kernel uses pytest to run the tests in the `tests/` directory. To run them as well as the
-linters and formatters, use `nox`:
+Pixi Kernel uses pytest to run the tests in the `tests/` directory. To run them, use:
 
-```shell
-poetry run nox
+```
+pixi run test
 ```
 
-This will try to test with all compatible Python versions that `nox` can find and use Ruff to
-ensure a minimum standard of code quality.
+You can also run the tests using a particular Python version:
+
+```
+pixi run -e py38 test-py38
+```
+
+## Code quality
+
+Pixi Kernel uses Ruff to ensure a minimum standard of code quality. The code quality commands are
+encapsulated with Pixi:
+
+```
+pixi run format
+pixi run lint
+```
 
 ## Making a release
 
 1. Bump
-   1. Increment version in `pyproject.toml`
+   1. Increment version in `pyproject.toml` and in `pixi.toml`
    2. Commit with message "Bump version number to X.Y.Z"
    3. Push commit to GitHub
    4. Check [CI](https://github.com/renan-r-santos/pixi-kernel/actions/workflows/ci.yml) to ensure
