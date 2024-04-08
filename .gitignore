@@ -8,9 +8,6 @@
 *.egg-info
 **/.pixi
 
-# nox
-/.nox
-
 # ruff
 /.ruff_cache
 

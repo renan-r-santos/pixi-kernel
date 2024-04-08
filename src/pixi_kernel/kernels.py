@@ -29,6 +29,7 @@ def start_pixi_kernel(manifest_path: str):
             forward_signals = set(signal.Signals) - {
                 signal.CTRL_BREAK_EVENT,
                 signal.CTRL_C_EVENT,
+                signal.SIGBREAK,
                 signal.SIGTERM,
             }
         else:

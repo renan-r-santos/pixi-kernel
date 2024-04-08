@@ -37,7 +37,7 @@ def test_unsupported_pixi_version():
 
 
 def test_empty_project(cwd):
-    with cwd(data_dir / "empty_project"):
+    with cwd("/"):
         result = find_project_manifest()
         assert isinstance(result, PixiKernelError)
         assert "Pixi project not found" in result.message
