@@ -1,7 +1,7 @@
 # Pixi Kernel
 
 [![Pixi Badge][pixi-badge]](https://pixi.sh)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/renan-r-santos/pixi-kernel/main?labpath=/home/jovyan/work/example.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/renan-r-santos/pixi-kernel-binder/main?labpath=example.ipynb)
 [![GitHub Actions][github-actions-badge]](https://github.com/renan-r-santos/pixi-kernel/actions)
 [![Ruff][ruff-badge]](https://github.com/astral-sh/ruff)
 
@@ -29,6 +29,12 @@ configurations.
 4. Restart the kernel and you are good to go.
 
 See the [Pixi docs](https://pixi.sh/latest/) for more information on how to use Pixi.
+
+## mybinder.org
+
+You can try Pixi Kernel on [mybinder.org](https://mybinder.org) by clicking the badge at the top of
+this README. Check [pixi-kernel-binder](https://github.com/renan-r-santos/pixi-kernel-binder) for
+how to set up a Binder repository with Pixi Kernel.
 
 ## User Experience
 
