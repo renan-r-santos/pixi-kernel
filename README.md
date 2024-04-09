@@ -18,7 +18,7 @@ configurations.
 
 **Disclaimer**: _This project is not affiliated with Pixi, and not an official Pixi plugin._
 
-![JupyterLab launcher screen showing Pixi Kernel](assets/image1.png)
+![JupyterLab launcher screen showing Pixi Kernel](assets/launch-dark.png)
 
 ## Quick Start
 
