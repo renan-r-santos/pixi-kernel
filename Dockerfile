@@ -42,13 +42,18 @@ RUN echo '#!/bin/bash\n. /usr/local/share/pixi-activate.sh\nexec "$@"' > /usr/lo
 
 # Make sure the contents of this repo are in ${HOME} and owned by ${NB_USER}
 COPY . ${HOME}
-COPY --from=pixi-builder /root/.bashrc ${HOME}/.bashrc
-RUN chown -R ${NB_UID} ${HOME}
+RUN mv ${HOME}/.binder/example ${HOME}/work && \
+    chown -R ${NB_UID} ${HOME}
 
 USER ${NB_USER}
 
 # Copy the environment
 COPY --from=pixi-builder /opt/binder/.pixi /opt/binder/.pixi
 COPY --from=pixi-builder /pixi-activate.sh /usr/local/share/pixi-activate.sh
+
+WORKDIR ${HOME}/work
+
+# Install the example
+RUN pixi install --manifest-path pixi.toml
 
 ENTRYPOINT ["/usr/local/share/docker-entrypoint.sh"]

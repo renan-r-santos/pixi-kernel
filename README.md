@@ -1,7 +1,7 @@
 # Pixi Kernel
 
 [![Pixi Badge][pixi-badge]](https://pixi.sh)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/renan-r-santos/pixi-kernel/main)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/renan-r-santos/pixi-kernel/main?labpath=/home/jovyan/work/example.ipynb)
 [![GitHub Actions][github-actions-badge]](https://github.com/renan-r-santos/pixi-kernel/actions)
 [![Ruff][ruff-badge]](https://github.com/astral-sh/ruff)
 
