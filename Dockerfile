@@ -1,7 +1,7 @@
 ###################################################################################################
 # Environment builder
 ###################################################################################################
-FROM ghcr.io/prefix-dev/pixi:0.18.0-jammy as pixi-builder
+FROM ghcr.io/prefix-dev/pixi:319bb40faf2f12be48a3aae8b4f74d337763810630a5a78c5bb82d39f8566b9f as pixi-builder
 
 ENV PIXI_LOCKED=true
 
@@ -22,7 +22,7 @@ RUN find .pixi \( -name '*.a' -o -name '*.pyc' -o -name '*.pyx' -o -name '*.pyo'
 ###################################################################################################
 # Final image
 ###################################################################################################
-FROM ghcr.io/prefix-dev/pixi:0.18.0-jammy
+FROM ghcr.io/prefix-dev/pixi:319bb40faf2f12be48a3aae8b4f74d337763810630a5a78c5bb82d39f8566b9f
 
 # https://mybinder.readthedocs.io/en/latest/tutorials/dockerfile.html
 ARG NB_USER=jovyan
