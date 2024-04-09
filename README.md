@@ -1,5 +1,14 @@
 # Pixi Kernel
 
+[![Pixi Badge][pixi-badge]](https://pixi.sh)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/renan-r-santos/pixi-kernel/main?labpath=/home/jovyan/work/example.ipynb)
+[![GitHub Actions][github-actions-badge]](https://github.com/renan-r-santos/pixi-kernel/actions)
+[![Ruff][ruff-badge]](https://github.com/astral-sh/ruff)
+
+[pixi-badge]: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/prefix-dev/pixi/main/assets/badge/v0.json&style=flat-square
+[github-actions-badge]: https://github.com/renan-r-santos/pixi-kernel/actions/workflows/ci.yml/badge.svg
+[ruff-badge]: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json
+
 Use per-directory Pixi environments to run Jupyter kernels. The idea behind this project is to
 capture the exact state of your environment while allowing you to make use of the rich PyPI and
 Conda ecosystems.
@@ -13,8 +22,8 @@ configurations.
 
 ## Quick Start
 
-1. Install this package in your JupyterLab environment and restart it. You can install it using
-   `pip`, `pixi` or any other conda or pip-based package manager.
+1. Install this package in your JupyterLab environment alongside Pixi and restart it. You can
+   install it using `pip`, `pixi` or any other conda or pip-based package manager.
 2. Create a new directory and notebook and select the **Pixi** kernel for the notebook.
 3. Initialize a Pixi project with `pixi init` and `pixi add ipykernel`.
 4. Restart the kernel and you are good to go.
