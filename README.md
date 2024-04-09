@@ -13,8 +13,8 @@ configurations.
 
 ## Quick Start
 
-1. Install this package in your JupyterLab environment and restart it. You can install it using
-   `pip`, `pixi` or any other conda or pip-based package manager.
+1. Install this package in your JupyterLab environment alongside Pixi and restart it. You can
+   install it using `pip`, `pixi` or any other conda or pip-based package manager.
 2. Create a new directory and notebook and select the **Pixi** kernel for the notebook.
 3. Initialize a Pixi project with `pixi init` and `pixi add ipykernel`.
 4. Restart the kernel and you are good to go.

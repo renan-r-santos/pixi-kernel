@@ -1,0 +1,14 @@
+[project]
+name = "binder"
+version = "0.1.0"
+description = "Binder example"
+authors = ["Renan Rodrigues dos Santos <renan.engmec@gmail.com>"]
+channels = ["conda-forge"]
+platforms = ["linux-64", "linux-aarch64"]
+
+[dependencies]
+python = "3.12.*"
+jupyterlab = "4.1.*"
+jupyterhub = "4.1.*"
+notebook = "7.1.*"
+pixi-kernel = "0.1.*"
