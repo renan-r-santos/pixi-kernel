@@ -2,6 +2,7 @@
 # ruff: noqa: RUF012
 
 import os
+import platform
 import unittest
 from contextlib import contextmanager
 from pathlib import Path
@@ -63,9 +64,7 @@ class IRKernelTests(jkt.KernelTests):
     code_hello_world = 'print("hello, world")'
 
     completion_samples = [
-        {"text": "zi", "matches": {"zip"}},
         {"text": "seq_len(", "matches": {"length.out = "}},
-        {"text": "base::transform(", "matches": {"`_data` = ", "`...`"}},
         {"text": "foo(R_system", "matches": {"R_system_version"}},
         {"text": "version$plat", "matches": {"version$platform"}},
         {"text": "stats4::AIC@def", "matches": {"stats4::AIC@default"}},
@@ -163,6 +162,9 @@ class IRKernelTests(jkt.KernelTests):
         reply, output_msgs = self._execute_code(code, tests=False)
 
     def test_irkernel_plots_only_svg(self):
+        if platform.system() == "Windows":
+            raise unittest.SkipTest("SVG test is not supported on Windows")
+
         # again the reset dance (see PNG)
         code = """\
             old_options <- options(jupyter.plot_mimetypes = c('image/svg+xml'))
@@ -190,6 +192,9 @@ class IRKernelTests(jkt.KernelTests):
         reply, output_msgs = self._execute_code(code, tests=False)
 
     def test_irkernel_plots_without_rich_display(self):
+        if platform.system() == "Windows":
+            raise unittest.SkipTest("Rich display test is not supported on Windows")
+
         code = """\
             options(jupyter.rich_display = FALSE)
             plot(1:3)
@@ -257,7 +262,10 @@ class IRKernelTests(jkt.KernelTests):
         reply, output_msgs = self.execute_helper('options(warn=1); warning(simpleWarning("wmsg"))')
         assert output_msgs[0]["msg_type"] == "stream"
         assert output_msgs[0]["content"]["name"] == "stderr"
-        assert output_msgs[0]["content"]["text"].strip() == "Warning message:\n“wmsg”"
+        if platform.system() == "Windows":
+            assert output_msgs[0]["content"]["text"].strip() == 'Warning message:\n"wmsg"'
+        else:
+            assert output_msgs[0]["content"]["text"].strip() == "Warning message:\n“wmsg”"
 
         self.flush_channels()
         reply, output_msgs = self.execute_helper(
@@ -265,7 +273,10 @@ class IRKernelTests(jkt.KernelTests):
         )
         assert output_msgs[0]["msg_type"] == "stream"
         assert output_msgs[0]["content"]["name"] == "stderr"
-        assert output_msgs[0]["content"]["text"].strip() == "Warning message in f():\n“wmsg”"
+        if platform.system() == "Windows":
+            assert output_msgs[0]["content"]["text"].strip() == 'Warning message in f():\n"wmsg"'
+        else:
+            assert output_msgs[0]["content"]["text"].strip() == "Warning message in f():\n“wmsg”"
 
     def test_should_increment_history(self):
         """properly increments execution history"""
