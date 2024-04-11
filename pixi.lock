@@ -6911,7 +6911,7 @@ packages:
   name: pixi-kernel
   version: 0.1.2
   path: .
-  sha256: c58c4f51650bbb5e482ea94341e6dfd38e3ac0728ea2ccc18fe6490e00431bbc
+  sha256: c993e27b57ed10d41c28c401ce1939863aeed9ddcf7e07d6e7d947d782bc7097
   requires_dist:
   - jupyter-client >=7
   - msgspec >=0.18
