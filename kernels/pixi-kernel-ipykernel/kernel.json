@@ -15,6 +15,10 @@
     "debugger": true,
     "pixi-kernel": {
       "package-name": "ipykernel"
+    },
+    "kernel_provisioner": {
+      "provisioner_name": "pixi-provisioner",
+      "config": {}
     }
   }
 }

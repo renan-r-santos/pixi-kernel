@@ -38,7 +38,7 @@ Homepage = "https://github.com/renan-r-santos/pixi-kernel"
 Repository = "https://github.com/renan-r-santos/pixi-kernel"
 
 [project.entry-points."jupyter_client.kernel_provisioners"]
-local-provisioner = "pixi_kernel.provisioner:PixiProvisioner"
+pixi-provisioner = "pixi_kernel.provisioner:PixiProvisioner"
 
 [tool.ruff]
 src = ["src"]

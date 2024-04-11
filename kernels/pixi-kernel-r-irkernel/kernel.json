@@ -15,6 +15,10 @@
   "metadata": {
     "pixi-kernel": {
       "package-name": "r-irkernel"
+    },
+    "kernel_provisioner": {
+      "provisioner_name": "pixi-provisioner",
+      "config": {}
     }
   }
 }
