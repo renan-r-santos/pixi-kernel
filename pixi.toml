@@ -25,9 +25,14 @@ pytest = ">=8.1,<9"
 pytest-cov = "*"
 
 [feature.test.tasks]
+# Unit tests
 unit = "COVERAGE_FILE=.coverage.$(python -c 'import platform; print(platform.system())').$PIXI_ENVIRONMENT_NAME python -m pytest --cov pixi_kernel"
+
+# Integration tests
 ipykernel = { cwd = "tests/integration/ipykernel", cmd = "PYDEVD_DISABLE_FILE_VALIDATION=1 pixi run --locked --manifest-path=pixi.toml python kernel.py" }
 r-irkernel = { cwd = "tests/integration/r-irkernel", cmd = "pixi run --locked --manifest-path=pixi.toml python kernel.py" }
+
+# Combined
 test = { depends_on = ["unit", "ipykernel", "r-irkernel"] }
 coverage = "coverage combine && coverage html && coverage xml"
 
