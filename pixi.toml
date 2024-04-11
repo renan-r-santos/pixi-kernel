@@ -10,8 +10,8 @@ platforms = ["linux-64", "linux-aarch64", "osx-64", "osx-arm64", "win-64"]
 # Dependencies
 [feature.base.dependencies]
 python = ">=3.8,<4.0"
-ipykernel = ">=6,<7"
-msgspec = ">=0.18,<1"
+jupyter_client = ">=7"
+msgspec = ">=0.18"
 
 
 # Development
@@ -26,8 +26,9 @@ pytest-cov = "*"
 
 [feature.test.tasks]
 unit = "COVERAGE_FILE=.coverage.$(python -c 'import platform; print(platform.system())').$PIXI_ENVIRONMENT_NAME python -m pytest --cov pixi_kernel"
-integration = { cwd = "tests/integration", cmd = "PYDEVD_DISABLE_FILE_VALIDATION=1 pixi run --locked --manifest-path=pixi.toml python kernel.py" }
-test = { depends_on = ["unit", "integration"] }
+ipykernel = { cwd = "tests/integration/ipykernel", cmd = "PYDEVD_DISABLE_FILE_VALIDATION=1 pixi run --locked --manifest-path=pixi.toml python kernel.py" }
+r-irkernel = { cwd = "tests/integration/r-irkernel", cmd = "pixi run --locked --manifest-path=pixi.toml python kernel.py" }
+test = { depends_on = ["unit", "ipykernel", "r-irkernel"] }
 coverage = "coverage combine && coverage html && coverage xml"
 
 
@@ -42,13 +43,11 @@ lint = "ruff format --check . && ruff check ."
 
 # Building
 [feature.build.dependencies]
-python-build = ">=1.2,<2"
-setuptools = "*"
+hatch = ">=1.9,<2"
 uv = "*"
-wheel = "*"
 
 [feature.build.tasks]
-build = "python -m build --wheel --sdist --no-isolation --outdir dist"
+build = "hatch build"
 install = { cmd = "uv pip install dist/pixi*.whl", depends_on = ["build"] }
 
 

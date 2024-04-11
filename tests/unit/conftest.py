@@ -1,25 +1,6 @@
-import os
 import subprocess
-from contextlib import contextmanager
-from pathlib import Path
-from typing import Union
 
 import pytest
-
-
-@contextmanager
-def _cwd(new_dir: Union[str, Path]):
-    original_dir = Path.cwd().resolve()
-    try:
-        os.chdir(new_dir)
-        yield
-    finally:
-        os.chdir(original_dir)
-
-
-@pytest.fixture()
-def cwd():
-    return _cwd
 
 
 @pytest.fixture()
@@ -28,31 +9,40 @@ def _patch_path(monkeypatch: pytest.MonkeyPatch):
 
 
 @pytest.fixture()
-def _patch_subprocess_exit_code(monkeypatch: pytest.MonkeyPatch):
-    def mock_run(*args, **kwargs):
-        return subprocess.CompletedProcess(args, returncode=1, stdout="", stderr="")
+def _patch_pixi_version_exit_code(monkeypatch: pytest.MonkeyPatch):
+    def mock_run(cmd, *args, **kwargs):
+        if cmd == ["pixi", "--version"]:
+            return subprocess.CompletedProcess(cmd, returncode=1, stdout="", stderr="")
+        else:
+            return subprocess.run(cmd, *args, **kwargs)
 
     monkeypatch.setattr("subprocess.run", mock_run)
 
 
 @pytest.fixture()
-def _patch_subprocess_stdout(monkeypatch: pytest.MonkeyPatch):
-    def mock_run(*args, **kwargs):
-        return subprocess.CompletedProcess(args, returncode=0, stdout="wrong output", stderr="")
+def _patch_pixi_version_bad_stdout(monkeypatch: pytest.MonkeyPatch):
+    def mock_run(cmd, *args, **kwargs):
+        if cmd == ["pixi", "--version"]:
+            return subprocess.CompletedProcess(cmd, returncode=0, stdout="wrong output", stderr="")
+        else:
+            return subprocess.run(cmd, *args, **kwargs)
 
     monkeypatch.setattr("subprocess.run", mock_run)
 
 
 @pytest.fixture()
-def _patch_pixi_version(monkeypatch: pytest.MonkeyPatch):
+def _patch_pixi_version_value(monkeypatch: pytest.MonkeyPatch):
     original_run = subprocess.run  # Save the original function
 
-    def mock_run(*args, **kwargs):
-        result = original_run(*args, **kwargs)
-        assert result.returncode == 0
-        assert result.stdout.startswith("pixi ")
+    def mock_run(cmd, *args, **kwargs):
+        if cmd == ["pixi", "--version"]:
+            result = original_run(cmd, *args, **kwargs)
+            assert result.returncode == 0
+            assert result.stdout.startswith("pixi ")
 
-        result.stdout = "pixi 0.15.0\n"
-        return result
+            result.stdout = "pixi 0.15.0\n"
+            return result
+        else:
+            return original_run(cmd, *args, **kwargs)
 
     monkeypatch.setattr("subprocess.run", mock_run)

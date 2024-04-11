@@ -30,18 +30,15 @@ classifiers = [
 ]
 
 requires-python = ">=3.8,<4.0"
-dependencies = ["ipykernel>=6,<7", "msgspec>=0.18,<1"]
+dependencies = ["jupyter-client>=7", "msgspec>=0.18"]
 
 [project.urls]
 Documentation = "https://github.com/renan-r-santos/pixi-kernel"
 Homepage = "https://github.com/renan-r-santos/pixi-kernel"
 Repository = "https://github.com/renan-r-santos/pixi-kernel"
 
-[tool.setuptools.data-files]
-"share/jupyter/kernels/pixi_kernel" = [
-    "assets/kernel.json",
-    "assets/logo-64x64.png",
-]
+[project.entry-points."jupyter_client.kernel_provisioners"]
+local-provisioner = "pixi_kernel.provisioner:PixiProvisioner"
 
 [tool.ruff]
 src = ["src"]
@@ -76,8 +73,11 @@ branch = true
 source = ["src/", ".pixi/envs/**/lib/python*/site-packages/"]
 
 [tool.coverage.report]
-fail_under = 60
+fail_under = 65
+
+[tool.hatch.build.targets.wheel.shared-data]
+"kernels" = "share/jupyter/kernels"
 
 [build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"

@@ -9,41 +9,47 @@
 [github-actions-badge]: https://github.com/renan-r-santos/pixi-kernel/actions/workflows/ci.yml/badge.svg
 [ruff-badge]: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json
 
-Use per-directory Pixi environments to run Jupyter kernels. The idea behind this project is to
-capture the exact state of your environment while allowing you to make use of the rich PyPI and
-Conda ecosystems.
+Per-directory Pixi environments with multi-language Jupyter kernels.
 
-Pixi Kernel supports Python 3.8+ and Pixi 0.18+ using `pyproject.toml` and `pixi.toml`
-configurations.
+<!--- TODO: add theme selector when supported on PyPI https://github.com/pypi/warehouse/issues/11251 -->
+
+![JupyterLab launcher screen showing Pixi Kernel](https://raw.githubusercontent.com/renan-r-santos/pixi-kernel/main/assets/launch-light.png)
+
+Pixi Kernel supports Python 3.8+ and Pixi 0.18+ using `pyproject.toml` and `pixi.toml` configurations.
 
 **Disclaimer**: _This project is not affiliated with Pixi, and not an official Pixi plugin._
 
-![JupyterLab launcher screen showing Pixi Kernel](assets/launch-dark.png)
-
 ## Quick Start
 
-1. Install this package in your JupyterLab environment alongside Pixi and restart it. You can
-   install it using `pip`, `pixi` or any other conda or pip-based package manager.
-2. Create a new directory and notebook and select the **Pixi** kernel for the notebook.
-3. Initialize a Pixi project with `pixi init` and `pixi add ipykernel`.
+This assumes you want a Python kernel. For other languages, check the [Kernel
+support](#kernel-support) table and replace `ipykernel` with the desired kernel package.
+
+1. Install `pixi-kernel` and Pixi alongside JupyterLab. You can install it using `pixi`, `pip` or
+   any other conda or pip-based package manager.
+2. Restart JupyterLab.
+3. Create a new directory and initialize a Pixi project with `pixi init` and `pixi add ipykernel`.
 4. Restart the kernel and you are good to go.
 
 See the [Pixi docs](https://pixi.sh/latest/) for more information on how to use Pixi.
+
+## Kernel support
+
+Pixi Kernel supports the following kernels:
+
+| Language | Kernel         | Package name |
+| -------- | -------------- | ------------ |
+| Python   | IPython Kernel | `ipykernel`  |
+| R        | IR Kernel      | `r-irkernel` |
+
+Support for other kernels and languages can be added by opening an issue or a pull request. Check
+the [contributing guide](CONTRIBUTING.md#adding-support-for-new-kernels) for more information on
+adding new kernels.
 
 ## mybinder.org
 
 You can try Pixi Kernel on [mybinder.org](https://mybinder.org) by clicking the badge at the top of
 this README. Check [pixi-kernel-binder](https://github.com/renan-r-santos/pixi-kernel-binder) for
 how to set up a Binder repository with Pixi Kernel.
-
-## User Experience
-
-If the Pixi Kernel is used in a project where `pixi` is not installed or the project does not have
-`ipykernel` installed in the environment, starting the kernel fails.
-
-A fallback kernel is then started showing a helpful message when you try to run the notebook. This
-is a regular IPython kernel which allows you to run shell commands and hopefully fix the
-configuration of the project.
 
 ## Limitations
 

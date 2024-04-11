@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "pixi",
+    "run",
+    "--manifest-path=",
+    "R",
+    "--slave",
+    "-e",
+    "'IRkernel::main()'",
+    "--args",
+    "{connection_file}"
+  ],
+  "display_name": "Pixi - R",
+  "language": "R",
+  "metadata": {
+    "pixi-kernel": {
+      "package-name": "r-irkernel"
+    }
+  }
+}

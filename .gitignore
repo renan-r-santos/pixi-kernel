@@ -2,11 +2,11 @@
 **/__pycache__
 .pytest_cache
 
-# Pixi and Setuptools
-/build
-/dist
-*.egg-info
-**/.pixi
+# Pixi
+.pixi
+
+# Hatch
+dist
 
 # ruff
 /.ruff_cache

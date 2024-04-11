@@ -1,8 +1,23 @@
+"""Reference: https://github.com/jupyter/jupyter_kernel_test/blob/5f2c65271b48dc95fc75a9585cb1d6db0bb55557/test_ipykernel.py"""
 # ruff: noqa: RUF012
 
+import os
 import unittest
+from contextlib import contextmanager
+from pathlib import Path
+from typing import Union
 
 import jupyter_kernel_test as jkt
+
+
+@contextmanager
+def cwd(new_dir: Union[str, Path]):
+    original_dir = Path.cwd().resolve()
+    try:
+        os.chdir(new_dir)
+        yield
+    finally:
+        os.chdir(original_dir)
 
 
 class IPyKernelTests(jkt.KernelTests):
@@ -10,7 +25,7 @@ class IPyKernelTests(jkt.KernelTests):
     # this is the normally the name of the directory containing the
     # kernel.json file - you should be able to do
     # `jupyter console --kernel KERNEL_NAME`
-    kernel_name = "pixi_kernel"
+    kernel_name = "pixi-kernel-ipykernel"
 
     # Everything else is OPTIONAL
 
@@ -104,4 +119,5 @@ class IPyKernelTests(jkt.KernelTests):
 
 
 if __name__ == "__main__":
-    unittest.main()
+    with cwd(Path(__file__).parent.resolve()):
+        unittest.main()
