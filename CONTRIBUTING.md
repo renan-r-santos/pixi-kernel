@@ -70,4 +70,24 @@ pixi run lint
 
 ## Adding support for new kernels
 
-TODO
+Follow the steps below to add support for a new kernel:
+
+1. In a fresh Pixi environment install your kernel with `pixi install <kernel>`.
+2. Copy the new folders created at `.pixi/envs/default/share/jupyter/kernels/` to the `kernels`
+   folder and commit the changes.
+3. Update the display name, metadata and command arguments in the kernel spec file `kernel.json`.
+4. Update the Kernel Support table in the README.
+5. Add integration tests for the new kernel in the `tests/integration` folder and commit the
+   changes.
+
+You can find below two examples of adding support for new kernels:
+
+Steps 1 and 2:
+
+- [feat: copy original xeus cling kernel spec](https://github.com/renan-r-santos/pixi-kernel/commit/f76c4861041b599b77232988dbc8f1d22edfbf49)
+- [feat: copy original bash kernel spec](https://github.com/renan-r-santos/pixi-kernel/commit/93342c82633b4eff8e342a292a143c5f85f829aa)
+
+Steps 3 to 5
+
+- [feat: add support for xeus cling kernel](https://github.com/renan-r-santos/pixi-kernel/commit/8aa9214f220deeb2b133f3ddbfb36e2de2039ca1)
+- [feat: add support for bash kernel](https://github.com/renan-r-santos/pixi-kernel/commit/02459c2063a67b3216c9f0fda11b1613583b472c)

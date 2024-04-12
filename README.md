@@ -24,8 +24,8 @@ Pixi Kernel supports Python 3.8+ and Pixi 0.18+ using `pyproject.toml` and `pixi
 This assumes you want a Python kernel. For other languages, check the [Kernel
 support](#kernel-support) table and replace `ipykernel` with the desired kernel package.
 
-1. Install `pixi-kernel` and Pixi alongside JupyterLab. You can install it using `pixi`, `pip` or
-   any other conda or pip-based package manager.
+1. Install Pixi and `pixi-kernel` alongside JupyterLab using `pixi`, `pip` or any other conda or
+   pip-based package manager.
 2. Restart JupyterLab.
 3. Create a new directory and initialize a Pixi project with `pixi init` and `pixi add ipykernel`.
 4. Restart the kernel and you are good to go.
