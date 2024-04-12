@@ -36,10 +36,11 @@ See the [Pixi docs](https://pixi.sh/latest/) for more information on how to use 
 
 Pixi Kernel supports the following kernels:
 
-| Language | Kernel         | Package name                                       |
-| -------- | -------------- | -------------------------------------------------- |
-| Python   | IPython Kernel | [ipykernel](https://github.com/ipython/ipykernel)  |
-| R        | IR Kernel      | [r-irkernel](https://github.com/IRkernel/IRkernel) |
+| Language | Kernel         | Package name                                             |
+| -------- | -------------- | -------------------------------------------------------- |
+| C++      | Xeus Cling     | [xeus-cling](https://github.com/jupyter-xeus/xeus-cling) |
+| Python   | IPython Kernel | [ipykernel](https://github.com/ipython/ipykernel)        |
+| R        | IR Kernel      | [r-irkernel](https://github.com/IRkernel/IRkernel)       |
 
 Support for other kernels and languages can be added by opening an issue or a pull request. Check
 the [contributing guide](CONTRIBUTING.md#adding-support-for-new-kernels) for more information on

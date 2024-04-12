@@ -1,10 +1,22 @@
 {
-  "display_name": "C++17",
+  "display_name": "Pixi - C++17",
   "argv": [
-    "/root/abm/pixi-kernel/tests/integration/xeus-cling/.pixi/envs/default/bin//xcpp",
+    "pixi",
+    "run",
+    "--manifest-path=",
+    "xcpp",
     "-f",
     "{connection_file}",
     "-std=c++17"
   ],
-  "language": "C++17"
+  "language": "C++17",
+  "metadata": {
+    "pixi-kernel": {
+      "package-name": "xeus-cling"
+    },
+    "kernel_provisioner": {
+      "provisioner_name": "pixi-provisioner",
+      "config": {}
+    }
+  }
 }

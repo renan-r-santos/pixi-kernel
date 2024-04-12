@@ -36,6 +36,15 @@ r-irkernel = { cwd = "tests/integration/r-irkernel", cmd = "pixi run --locked --
 test = { depends_on = ["unit", "ipykernel", "r-irkernel"] }
 coverage = "coverage combine && coverage html && coverage xml"
 
+# Integration tests for platform-specific kernels
+[feature.test.target.linux-64.tasks]
+xeus-cling = { cwd = "tests/integration/xeus-cling", cmd = "pixi run --locked --manifest-path=pixi.toml python kernel.py" }
+test = { depends_on = ["unit", "ipykernel", "r-irkernel", "xeus-cling"] }
+
+[feature.test.target.linux-aarch64.tasks]
+xeus-cling = { cwd = "tests/integration/xeus-cling", cmd = "pixi run --locked --manifest-path=pixi.toml python kernel.py" }
+test = { depends_on = ["unit", "ipykernel", "r-irkernel", "xeus-cling"] }
+
 
 # Linting and formatting
 [feature.ruff.dependencies]
