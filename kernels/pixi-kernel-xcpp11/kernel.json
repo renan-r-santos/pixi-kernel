@@ -1,0 +1,10 @@
+{
+  "display_name": "C++11",
+  "argv": [
+    "/root/abm/pixi-kernel/tests/integration/xeus-cling/.pixi/envs/default/bin//xcpp",
+    "-f",
+    "{connection_file}",
+    "-std=c++11"
+  ],
+  "language": "C++11"
+}
