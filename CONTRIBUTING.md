@@ -54,9 +54,10 @@ pixi run lint
 
 1. Bump
    1. Increment version in `pyproject.toml` and in `pixi.toml`
-   2. Commit with message "Bump version number to X.Y.Z"
-   3. Push commit to GitHub
-   4. Check [CI](https://github.com/renan-r-santos/pixi-kernel/actions/workflows/ci.yml) to ensure
+   2. Update all Pixi lock files
+   3. Commit with message "Bump version number to X.Y.Z"
+   4. Push commit to GitHub
+   5. Check [CI](https://github.com/renan-r-santos/pixi-kernel/actions/workflows/ci.yml) to ensure
       all tests pass
 2. Tag
    1. Tag commit with "vX.Y.Z"
