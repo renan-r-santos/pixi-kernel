@@ -29,6 +29,7 @@ pytest-cov = "*"
 unit = "COVERAGE_FILE=.coverage.$(python -c 'import platform; print(platform.system())').$PIXI_ENVIRONMENT_NAME python -m pytest --cov pixi_kernel"
 
 # Integration tests
+bash-kernel = { cwd = "tests/integration/bash_kernel", cmd = "PYDEVD_DISABLE_FILE_VALIDATION=1 pixi run --locked --manifest-path=pixi.toml python kernel.py" }
 ipykernel = { cwd = "tests/integration/ipykernel", cmd = "PYDEVD_DISABLE_FILE_VALIDATION=1 pixi run --locked --manifest-path=pixi.toml python kernel.py" }
 r-irkernel = { cwd = "tests/integration/r-irkernel", cmd = "pixi run --locked --manifest-path=pixi.toml python kernel.py" }
 

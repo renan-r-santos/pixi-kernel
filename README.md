@@ -38,6 +38,7 @@ Pixi Kernel supports the following kernels:
 
 | Language | Kernel         | Package name                                             |
 | -------- | -------------- | -------------------------------------------------------- |
+| Bash     | Bash Kernel    | [bash_kernel](https://github.com/takluyver/bash_kernel)  |
 | C++      | Xeus Cling     | [xeus-cling](https://github.com/jupyter-xeus/xeus-cling) |
 | Python   | IPython Kernel | [ipykernel](https://github.com/ipython/ipykernel)        |
 | R        | IR Kernel      | [r-irkernel](https://github.com/IRkernel/IRkernel)       |
