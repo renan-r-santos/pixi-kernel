@@ -1,0 +1,22 @@
+{
+  "display_name": "Pixi - C++11",
+  "argv": [
+    "pixi",
+    "run",
+    "--manifest-path=",
+    "xcpp",
+    "-f",
+    "{connection_file}",
+    "-std=c++11"
+  ],
+  "language": "C++11",
+  "metadata": {
+    "pixi-kernel": {
+      "package-name": "xeus-cling"
+    },
+    "kernel_provisioner": {
+      "provisioner_name": "pixi-provisioner",
+      "config": {}
+    }
+  }
+}

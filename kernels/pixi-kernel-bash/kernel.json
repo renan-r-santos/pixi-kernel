@@ -1,0 +1,24 @@
+{
+  "argv": [
+    "pixi",
+    "run",
+    "--manifest-path=",
+    "python",
+    "-m",
+    "bash_kernel",
+    "-f",
+    "{connection_file}"
+  ],
+  "display_name": "Pixi - Bash",
+  "env": { "PS1": "$" },
+  "language": "bash",
+  "metadata": {
+    "pixi-kernel": {
+      "package-name": "bash_kernel"
+    },
+    "kernel_provisioner": {
+      "provisioner_name": "pixi-provisioner",
+      "config": {}
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "display_name": "Pixi - C++14",
+  "argv": [
+    "pixi",
+    "run",
+    "--manifest-path=",
+    "xcpp",
+    "-f",
+    "{connection_file}",
+    "-std=c++14"
+  ],
+  "language": "C++14",
+  "metadata": {
+    "pixi-kernel": {
+      "package-name": "xeus-cling"
+    },
+    "kernel_provisioner": {
+      "provisioner_name": "pixi-provisioner",
+      "config": {}
+    }
+  }
+}

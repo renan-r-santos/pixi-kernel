@@ -67,3 +67,7 @@ pixi run lint
 3. Document
    1. Create [GitHub release](https://github.com/renan-r-santos/pixi-kernel/releases) with name
       "Pixi Kernel X.Y.Z" and major changes in body
+
+## Adding support for new kernels
+
+TODO

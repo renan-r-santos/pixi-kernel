@@ -7,17 +7,14 @@ on:
       - main
 
 env:
-  pixi-version: "0.18.0"
+  pixi-version: "0.19.1"
 
 jobs:
   test:
     strategy:
       matrix:
-        # Remove the noisy windows tests from matrix until figuring out the signals issue
-        # https://github.com/ipython/ipykernel/issues/713
-        # https://stackoverflow.com/questions/70841648/jupyter-reverts-signal-handler-to-default-when-running-next-cell
-        os: [ubuntu-latest, macos-latest]
-        pixi-version: ["0.18.0"]
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        pixi-version: ["0.18.0", "0.19.1"]
         python-version: ["38", "39", "310", "311", "312"]
     runs-on: ${{ matrix.os }}
     steps:
@@ -33,7 +30,7 @@ jobs:
       - name: Store coverage
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-${{ matrix.os }}-${{ matrix.python-version }}
+          name: coverage-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.pixi-version }}
           path: .coverage.Linux*
   coverage:
     needs: test

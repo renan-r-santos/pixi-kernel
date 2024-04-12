@@ -6,7 +6,7 @@ on:
       - "v*"
 
 env:
-  pixi-version: "0.18.0"
+  pixi-version: "0.19.1"
 
 jobs:
   pypi-publish:
@@ -27,10 +27,7 @@ jobs:
         run: pixi run --locked --environment build build
       - name: Check that tag version and Pixi version match
         run: '[[ "v$(pixi project version get)" == "${{ github.ref_name }}" ]]'
-      # TODO: find a better way to get the version from pyproject.toml
       - name: Check that tag version and Pyproject version match
-        run: |
-          pyproject_version=$(pixi run --locked -e build python -c 'import tomllib; from pathlib import Path; print(f"v{tomllib.loads(Path("pyproject.toml").read_text())["project"]["version"]}")')
-          [[ $pyproject_version == "${{ github.ref_name }}" ]]
+        run: '[[ "v$(pixi run --locked --environment build hatch version)" == "${{ github.ref_name }}" ]]'
       - name: Upload distribution to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
