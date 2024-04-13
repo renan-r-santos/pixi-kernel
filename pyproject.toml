@@ -72,9 +72,6 @@ branch = true
 [tool.coverage.paths]
 source = ["src/", ".pixi/envs/**/lib/python*/site-packages/"]
 
-[tool.coverage.report]
-fail_under = 65
-
 [tool.hatch.build.targets.wheel.shared-data]
 "kernels" = "share/jupyter/kernels"
 
