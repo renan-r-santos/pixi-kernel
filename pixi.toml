@@ -1,6 +1,6 @@
 [project]
 name = "pixi-kernel"
-version = "0.2.0"
+version = "0.2.1"
 description = "Python Jupyter kernel using Pixi for reproducible notebooks"
 authors = ["Renan Rodrigues dos Santos <renan.engmec@gmail.com>"]
 channels = ["conda-forge"]
