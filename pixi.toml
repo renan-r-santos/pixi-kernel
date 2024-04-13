@@ -18,6 +18,9 @@ msgspec = ">=0.18"
 [feature.dev.pypi-dependencies]
 pixi-kernel = { path = ".", editable = true }
 
+[feature.dev.tasks]
+update-lock = "scripts/update-lock.sh"
+
 
 # Testing
 [feature.test.dependencies]
@@ -29,8 +32,10 @@ pytest-cov = "*"
 unit = "COVERAGE_FILE=.coverage.$(python -c 'import platform; print(platform.system())').$PIXI_ENVIRONMENT_NAME python -m pytest --cov pixi_kernel"
 
 # Integration tests
+bash-kernel = { cwd = "tests/integration/bash_kernel", cmd = "PYDEVD_DISABLE_FILE_VALIDATION=1 pixi run --locked --manifest-path=pixi.toml python kernel.py" }
 ipykernel = { cwd = "tests/integration/ipykernel", cmd = "PYDEVD_DISABLE_FILE_VALIDATION=1 pixi run --locked --manifest-path=pixi.toml python kernel.py" }
 r-irkernel = { cwd = "tests/integration/r-irkernel", cmd = "pixi run --locked --manifest-path=pixi.toml python kernel.py" }
+xeus-cling = { cwd = "tests/integration/xeus-cling", cmd = "pixi run --locked --manifest-path=pixi.toml python kernel.py" }
 
 # Combined
 test = { depends_on = ["unit", "ipykernel", "r-irkernel"] }
@@ -38,26 +43,16 @@ coverage = "coverage combine && coverage html && coverage xml"
 
 # Integration tests for platform-specific kernels
 [feature.test.target.linux-64.tasks]
-bash-kernel = { cwd = "tests/integration/bash_kernel", cmd = "PYDEVD_DISABLE_FILE_VALIDATION=1 pixi run --locked --manifest-path=pixi.toml python kernel.py" }
-xeus-cling = { cwd = "tests/integration/xeus-cling", cmd = "pixi run --locked --manifest-path=pixi.toml python kernel.py" }
-test = { depends_on = [
-    "unit",
-    "bash-kernel",
-    "ipykernel",
-    "r-irkernel",
-    "xeus-cling",
-] }
+test = { depends_on = ["unit", "bash-kernel", "ipykernel", "r-irkernel", "xeus-cling"] }
 
 [feature.test.target.linux-aarch64.tasks]
-bash-kernel = { cwd = "tests/integration/bash_kernel", cmd = "PYDEVD_DISABLE_FILE_VALIDATION=1 pixi run --locked --manifest-path=pixi.toml python kernel.py" }
-xeus-cling = { cwd = "tests/integration/xeus-cling", cmd = "pixi run --locked --manifest-path=pixi.toml python kernel.py" }
-test = { depends_on = [
-    "unit",
-    "bash-kernel",
-    "ipykernel",
-    "r-irkernel",
-    "xeus-cling",
-] }
+test = { depends_on = ["unit", "bash-kernel", "ipykernel", "r-irkernel", "xeus-cling"] }
+
+[feature.test.target.osx-64.tasks]
+test = { depends_on = ["unit", "bash-kernel", "ipykernel", "r-irkernel"] }
+
+[feature.test.target.osx-arm64.tasks]
+test = { depends_on = ["unit", "bash-kernel", "ipykernel", "r-irkernel"] }
 
 
 # Linting and formatting
@@ -112,13 +107,7 @@ test-py312 = { depends_on = ["install", "test"] }
 
 
 [environments]
-default = { features = [
-    "base",
-    "build",
-    "dev",
-    "ruff",
-    "test",
-], solve-group = "pixi-kernel" }
+default = { features = ["base", "build", "dev", "ruff", "test"], solve-group = "pixi-kernel" }
 build = { features = ["build"], solve-group = "pixi-kernel" }
 ruff = { features = ["ruff"], solve-group = "pixi-kernel" }
 test = { features = ["test"], solve-group = "pixi-kernel" }
