@@ -1391,8 +1391,8 @@ packages:
 - kind: pypi
   name: msgspec
   version: 0.18.6
-  url: https://files.pythonhosted.org/packages/0d/e6/5dd960a7678cbaf90dc910611a0e700775ee341876f029c3c987122afe84/msgspec-0.18.6-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl
-  sha256: c3232fabacef86fe8323cecbe99abbc5c02f7698e3f5f2e248e3480b66a3596b
+  url: https://files.pythonhosted.org/packages/73/16/dfef780ced7d690dd5497846ed242ef3e27e319d59d1ddaae816a4f2c15e/msgspec-0.18.6-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+  sha256: ad237100393f637b297926cae1868b0d500f764ccd2f0623a380e2bcfb2809ca
   requires_dist:
   - pre-commit ; extra == 'dev'
   - coverage ; extra == 'dev'
@@ -1430,8 +1430,8 @@ packages:
 - kind: pypi
   name: msgspec
   version: 0.18.6
-  url: https://files.pythonhosted.org/packages/73/16/dfef780ced7d690dd5497846ed242ef3e27e319d59d1ddaae816a4f2c15e/msgspec-0.18.6-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
-  sha256: ad237100393f637b297926cae1868b0d500f764ccd2f0623a380e2bcfb2809ca
+  url: https://files.pythonhosted.org/packages/0d/e6/5dd960a7678cbaf90dc910611a0e700775ee341876f029c3c987122afe84/msgspec-0.18.6-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl
+  sha256: c3232fabacef86fe8323cecbe99abbc5c02f7698e3f5f2e248e3480b66a3596b
   requires_dist:
   - pre-commit ; extra == 'dev'
   - coverage ; extra == 'dev'
@@ -1554,7 +1554,7 @@ packages:
   name: pixi-kernel
   version: 0.2.0
   path: ../../../../pixi-kernel
-  sha256: d505b18617c43a2be12c4af779636bca35effc06c2b873b9584f4193c0933f2e
+  sha256: 915934d349965bc28b0093514011f415064995f32014a891b24b200b720072c1
   requires_dist:
   - jupyter-client >=7
   - msgspec >=0.18
@@ -1677,16 +1677,16 @@ packages:
 - kind: pypi
   name: pyzmq
   version: 25.1.2
-  url: https://files.pythonhosted.org/packages/bc/4a/ac6469c01813cb3652ab4e30ec4a37815cc9949afc18af33f64e2ec704aa/pyzmq-25.1.2-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl
-  sha256: bc69c96735ab501419c432110016329bf0dea8898ce16fab97c6d9106dc0b348
+  url: https://files.pythonhosted.org/packages/93/b7/6e291eafbbbc66d0e87658dd21383ec2b4ab35edcfb283902c580a6db76f/pyzmq-25.1.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+  sha256: 02c9087b109070c5ab0b383079fa1b5f797f8d43e9a66c07a4b8b8bdecfd88ee
   requires_dist:
   - cffi ; implementation_name == 'pypy'
   requires_python: '>=3.6'
 - kind: pypi
   name: pyzmq
   version: 25.1.2
-  url: https://files.pythonhosted.org/packages/93/b7/6e291eafbbbc66d0e87658dd21383ec2b4ab35edcfb283902c580a6db76f/pyzmq-25.1.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
-  sha256: 02c9087b109070c5ab0b383079fa1b5f797f8d43e9a66c07a4b8b8bdecfd88ee
+  url: https://files.pythonhosted.org/packages/bc/4a/ac6469c01813cb3652ab4e30ec4a37815cc9949afc18af33f64e2ec704aa/pyzmq-25.1.2-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl
+  sha256: bc69c96735ab501419c432110016329bf0dea8898ce16fab97c6d9106dc0b348
   requires_dist:
   - cffi ; implementation_name == 'pypy'
   requires_python: '>=3.6'
@@ -1734,14 +1734,14 @@ packages:
 - kind: pypi
   name: rpds-py
   version: 0.18.0
-  url: https://files.pythonhosted.org/packages/2a/3e/d2ef968eed02cfd9494d5bac0906bce830c4eb2cd27658303d3884e82e27/rpds_py-0.18.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl
-  sha256: fcb25daa9219b4cf3a0ab24b0eb9a5cc8949ed4dc72acb8fa16b7e1681aa3c58
+  url: https://files.pythonhosted.org/packages/c3/96/2211a1ca4b4e259e222169074ec0fa41f0ee18665dfc68988a139dc7e6e8/rpds_py-0.18.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+  sha256: 4457a94da0d5c53dc4b3e4de1158bdab077db23c53232f37a3cb7afdb053a4e3
   requires_python: '>=3.8'
 - kind: pypi
   name: rpds-py
   version: 0.18.0
-  url: https://files.pythonhosted.org/packages/c3/96/2211a1ca4b4e259e222169074ec0fa41f0ee18665dfc68988a139dc7e6e8/rpds_py-0.18.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
-  sha256: 4457a94da0d5c53dc4b3e4de1158bdab077db23c53232f37a3cb7afdb053a4e3
+  url: https://files.pythonhosted.org/packages/2a/3e/d2ef968eed02cfd9494d5bac0906bce830c4eb2cd27658303d3884e82e27/rpds_py-0.18.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl
+  sha256: fcb25daa9219b4cf3a0ab24b0eb9a5cc8949ed4dc72acb8fa16b7e1681aa3c58
   requires_python: '>=3.8'
 - kind: pypi
   name: six
@@ -1816,14 +1816,14 @@ packages:
 - kind: pypi
   name: tornado
   version: '6.4'
-  url: https://files.pythonhosted.org/packages/62/e5/3ee2ba523a13bae5c17d1658580d13597116c1639374ca5033d58fd04724/tornado-6.4-cp38-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl
-  sha256: f7894c581ecdcf91666a0912f18ce5e757213999e183ebfc2c3fdbf4d5bd764e
+  url: https://files.pythonhosted.org/packages/9f/12/11d0a757bb67278d3380d41955ae98527d5ad18330b2edbdc8de222b569b/tornado-6.4-cp38-abi3-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+  sha256: f0251554cdd50b4b44362f73ad5ba7126fc5b2c2895cc62b14a1c2d7ea32f212
   requires_python: '>=3.8'
 - kind: pypi
   name: tornado
   version: '6.4'
-  url: https://files.pythonhosted.org/packages/9f/12/11d0a757bb67278d3380d41955ae98527d5ad18330b2edbdc8de222b569b/tornado-6.4-cp38-abi3-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl
-  sha256: f0251554cdd50b4b44362f73ad5ba7126fc5b2c2895cc62b14a1c2d7ea32f212
+  url: https://files.pythonhosted.org/packages/62/e5/3ee2ba523a13bae5c17d1658580d13597116c1639374ca5033d58fd04724/tornado-6.4-cp38-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl
+  sha256: f7894c581ecdcf91666a0912f18ce5e757213999e183ebfc2c3fdbf4d5bd764e
   requires_python: '>=3.8'
 - kind: pypi
   name: traitlets
