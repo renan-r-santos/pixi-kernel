@@ -13,9 +13,9 @@
   "display_name": "Pixi - R",
   "language": "R",
   "env": {
-    "R_LIBS": "{manifest-path-parent}/.pixi/envs/default/lib/R/site-library",
-    "R_LIBS_SITE": "{manifest-path-parent}/.pixi/envs/default/lib/R/site-library",
-    "R_LIBS_USER": "{manifest-path-parent}/.pixi/envs/default/lib/R/site-library"
+    "R_LIBS": "{manifest-path-parent}/.pixi/envs/default/lib/R/library",
+    "R_LIBS_SITE": "{manifest-path-parent}/.pixi/envs/default/lib/R/library",
+    "R_LIBS_USER": "{manifest-path-parent}/.pixi/envs/default/lib/R/library"
   },
   "metadata": {
     "pixi-kernel": {
