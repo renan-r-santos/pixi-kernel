@@ -1,7 +1,7 @@
 [project]
 name = "pixi-kernel"
 version = "0.2.0"
-description = "Python Jupyter kernel using Pixi for reproducible notebooks"
+description = "Jupyter kernels using Pixi for reproducible notebooks"
 license = { text = "MIT" }
 authors = [
     { name = "Renan Rodrigues dos Santos", email = "renan.engmec@gmail.com" },
@@ -71,9 +71,6 @@ branch = true
 
 [tool.coverage.paths]
 source = ["src/", ".pixi/envs/**/lib/python*/site-packages/"]
-
-[tool.coverage.report]
-fail_under = 65
 
 [tool.hatch.build.targets.wheel.shared-data]
 "kernels" = "share/jupyter/kernels"

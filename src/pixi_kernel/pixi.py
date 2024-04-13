@@ -41,7 +41,7 @@ def find_project_manifest(
     package_name: str,
     kernel_display_name: str,
     logger: Logger,
-) -> str:
+) -> Path:
     # Ensure Pixi is in PATH
     if shutil.which("pixi") is None:
         raise RuntimeError(PIXI_NOT_FOUND.format(kernel_display_name=kernel_display_name))
@@ -102,6 +102,6 @@ def find_project_manifest(
                                 package_name=package_name,
                             )
                         )
-                    return str(dir / project_filename)
+                    return dir / project_filename
 
     raise RuntimeError(PIXI_MANIFEST_NOT_FOUND.format(cwd=cwd))

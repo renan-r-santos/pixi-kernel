@@ -119,7 +119,7 @@ def test_pixi_project():
         kernel_display_name=kernel_display_name,
         logger=logger,
     )
-    assert result == str((cwd / "pixi.toml").resolve())
+    assert result == (cwd / "pixi.toml").resolve()
 
 
 def test_pyproject_project():
@@ -133,4 +133,4 @@ def test_pyproject_project():
         kernel_display_name=kernel_display_name,
         logger=logger,
     )
-    assert result == str((cwd / "pyproject.toml").resolve())
+    assert result == (cwd / "pyproject.toml").resolve()

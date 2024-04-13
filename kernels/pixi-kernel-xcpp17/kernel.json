@@ -3,7 +3,7 @@
   "argv": [
     "pixi",
     "run",
-    "--manifest-path=",
+    "--manifest-path={manifest-path}",
     "xcpp",
     "-f",
     "{connection_file}",
