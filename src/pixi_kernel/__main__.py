@@ -1,8 +1,11 @@
 import logging
 import os
+import signal
+import subprocess
 import sys
 import typing
 from pathlib import Path
+from types import FrameType
 
 from ipykernel.ipkernel import IPythonKernel
 from ipykernel.kernelapp import IPKernelApp
@@ -60,7 +63,26 @@ def main() -> None:
         env["R_LIBS_USER"] = r_libs_path
 
     logger.info(f"launching {kernel_display_name} kernel with {args}")
-    os.execvpe("pixi", args, env)
+
+    if sys.platform == "win32":
+        process = subprocess.Popen(args, env=env)
+
+        forward_signals = set(signal.Signals) - {
+            signal.CTRL_BREAK_EVENT,
+            signal.CTRL_C_EVENT,
+            signal.SIGBREAK,
+            signal.SIGTERM,
+        }
+
+        def handle_signal(sig: int, frame: FrameType | None) -> None:
+            process.send_signal(sig)
+
+        for sig in forward_signals:
+            signal.signal(sig, handle_signal)
+
+        sys.exit(process.wait())
+    else:
+        os.execvpe("pixi", args, env)
 
 
 if __name__ == "__main__":
