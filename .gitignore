@@ -12,6 +12,9 @@ dist
 # ruff
 /.ruff_cache
 
+# MyPy
+.mypy_cache
+
 # IDEs
 /.vscode
 

@@ -30,7 +30,7 @@ classifiers = [
 ]
 
 requires-python = ">=3.8,<4.0"
-dependencies = ["jupyter-client>=7", "msgspec>=0.18"]
+dependencies = ["ipykernel>=6", "jupyter-client>=7", "msgspec>=0.18"]
 
 [project.urls]
 Documentation = "https://github.com/renan-r-santos/pixi-kernel"
@@ -57,6 +57,9 @@ extend-select = [
     "PTH", # flake8-use-pathlib
     "ERA", # flake8-eradicate
 ]
+
+[tool.mypy]
+strict = true
 
 [tool.pytest.ini_options]
 addopts = ["--strict-config", "--strict-markers"]

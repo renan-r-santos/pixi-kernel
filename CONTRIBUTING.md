@@ -42,12 +42,13 @@ pixi run -e py38 test-py38
 
 ## Code quality
 
-Pixi Kernel uses Ruff to ensure a minimum standard of code quality. The code quality commands are
-encapsulated with Pixi:
+Pixi Kernel uses Ruff and MyPy to ensure a minimum standard of code quality. The code quality
+commands are encapsulated with Pixi:
 
 ```
 pixi run format
 pixi run lint
+pixi run type-check
 ```
 
 ## Making a release
@@ -76,7 +77,9 @@ Follow the steps below to add support for a new kernel:
 1. In a fresh Pixi environment install your kernel with `pixi install <kernel>`.
 2. Copy the new folders created at `.pixi/envs/default/share/jupyter/kernels/` to the `kernels`
    folder and commit the changes.
-3. Update the display name, metadata and command arguments in the kernel spec file `kernel.json`.
+3. Update the display name and command arguments in the kernel spec file `kernel.json`. The command
+   arguments should start with `["python", "-m", "pixi_kernel", <package_name>,
+<kernel_display_name>]` and all absolute paths should be removed.
 4. Update the Kernel Support table in the README.
 5. Add integration tests for the new kernel in the `tests/integration` folder and commit the
    changes.
