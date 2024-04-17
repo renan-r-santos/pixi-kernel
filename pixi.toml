@@ -1,7 +1,7 @@
 [project]
 name = "pixi-kernel"
 version = "0.2.1"
-description = "Python Jupyter kernel using Pixi for reproducible notebooks"
+description = "Jupyter kernels using Pixi for reproducible notebooks"
 authors = ["Renan Rodrigues dos Santos <renan.engmec@gmail.com>"]
 channels = ["conda-forge"]
 platforms = ["linux-64", "linux-aarch64", "osx-64", "osx-arm64", "win-64"]
@@ -10,6 +10,7 @@ platforms = ["linux-64", "linux-aarch64", "osx-64", "osx-arm64", "win-64"]
 # Dependencies
 [feature.base.dependencies]
 python = ">=3.8,<4.0"
+ipykernel = ">=6"
 jupyter_client = ">=7"
 msgspec = ">=0.18"
 
@@ -64,6 +65,14 @@ format = "ruff format . && ruff check . --select I --fix"
 lint = "ruff format --check . && ruff check ."
 
 
+# Type checking
+[feature.mypy.dependencies]
+mypy = ">=1.9"
+
+[feature.mypy.tasks]
+type-check = "mypy src"
+
+
 # Building
 [feature.build.dependencies]
 hatch = ">=1.9,<2"
@@ -107,8 +116,9 @@ test-py312 = { depends_on = ["install", "test"] }
 
 
 [environments]
-default = { features = ["base", "build", "dev", "ruff", "test"], solve-group = "pixi-kernel" }
+default = { features = ["base", "build", "dev", "mypy", "ruff", "test"], solve-group = "pixi-kernel" }
 build = { features = ["build"], solve-group = "pixi-kernel" }
+mypy = { features = ["base", "mypy"], solve-group = "pixi-kernel" }
 ruff = { features = ["ruff"], solve-group = "pixi-kernel" }
 test = { features = ["test"], solve-group = "pixi-kernel" }
 

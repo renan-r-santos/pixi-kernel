@@ -1,22 +1,15 @@
 {
-  "display_name": "Pixi - C++17",
   "argv": [
-    "pixi",
-    "run",
-    "--manifest-path={manifest-path}",
+    "python",
+    "-m",
+    "pixi_kernel",
+    "xeus-cling",
+    "Pixi - C++17",
     "xcpp",
     "-f",
     "{connection_file}",
     "-std=c++17"
   ],
-  "language": "C++17",
-  "metadata": {
-    "pixi-kernel": {
-      "package-name": "xeus-cling"
-    },
-    "kernel_provisioner": {
-      "provisioner_name": "pixi-provisioner",
-      "config": {}
-    }
-  }
+  "display_name": "Pixi - C++17",
+  "language": "C++17"
 }

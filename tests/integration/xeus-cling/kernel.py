@@ -1,24 +1,10 @@
 """Reference: https://github.com/jupyter/jupyter_kernel_test/blob/5f2c65271b48dc95fc75a9585cb1d6db0bb55557/test_xeus_cling.py"""
 # ruff: noqa: RUF012
 
-import os
 import unittest
-from contextlib import contextmanager
-from pathlib import Path
-from typing import Union
 
 import jupyter_kernel_test as jkt
 from jupyter_client.kernelspec import NoSuchKernel
-
-
-@contextmanager
-def cwd(new_dir: Union[str, Path]):
-    original_dir = Path.cwd().resolve()
-    try:
-        os.chdir(new_dir)
-        yield
-    finally:
-        os.chdir(original_dir)
 
 
 class XCpp17Tests(jkt.KernelTests):
@@ -58,5 +44,4 @@ class XCpp11Tests(XCpp17Tests):
 
 
 if __name__ == "__main__":
-    with cwd(Path(__file__).parent.resolve()):
-        unittest.main()
+    unittest.main()

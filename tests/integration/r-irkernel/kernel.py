@@ -1,12 +1,8 @@
 """Reference: https://github.com/IRkernel/IRkernel/blob/1eddb304b246c14b62949abd946e8d4ca5080d25/tests/testthat/test_ir.py"""
 # ruff: noqa: RUF012
 
-import os
 import platform
 import unittest
-from contextlib import contextmanager
-from pathlib import Path
-from typing import Union
 
 import jupyter_kernel_test as jkt
 
@@ -18,16 +14,6 @@ options(jupyter.rich_display = TRUE)
 
 
 TIMEOUT = 15
-
-
-@contextmanager
-def cwd(new_dir: Union[str, Path]):
-    original_dir = Path.cwd().resolve()
-    try:
-        os.chdir(new_dir)
-        yield
-    finally:
-        os.chdir(original_dir)
 
 
 class IRKernelTests(jkt.KernelTests):
@@ -413,5 +399,4 @@ class IRKernelTests(jkt.KernelTests):
 
 
 if __name__ == "__main__":
-    with cwd(Path(__file__).parent.resolve()):
-        unittest.main()
+    unittest.main()

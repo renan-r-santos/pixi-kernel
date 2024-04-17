@@ -11,7 +11,7 @@ from pixi_kernel.errors import (
     PIXI_VERSION_ERROR,
     PIXI_VERSION_NOT_SUPPORTED,
 )
-from pixi_kernel.pixi import MINIMUM_PIXI_VERSION, find_project_manifest
+from pixi_kernel.pixi import MINIMUM_PIXI_VERSION, PixiDiscoveryError, find_project_manifest
 
 data_dir = Path(__file__).parent / "data"
 logger = logging.getLogger(__name__)
@@ -21,39 +21,24 @@ logger = logging.getLogger(__name__)
 def test_pixi_not_installed():
     expected_error_message = re.escape(PIXI_NOT_FOUND.format(kernel_display_name="Pixi"))
 
-    with pytest.raises(RuntimeError, match=expected_error_message):
-        find_project_manifest(
-            cwd=Path("/"),
-            package_name="pixi",
-            kernel_display_name="Pixi",
-            logger=logger,
-        )
+    with pytest.raises(PixiDiscoveryError, match=expected_error_message):
+        find_project_manifest(cwd=Path("/"), package_name="pixi", kernel_display_name="Pixi")
 
 
 @pytest.mark.usefixtures("_patch_pixi_version_exit_code")
 def test_pixi_version_bad_exit_code():
     expected_error_message = re.escape(PIXI_VERSION_ERROR.format(kernel_display_name="Pixi"))
 
-    with pytest.raises(RuntimeError, match=expected_error_message):
-        find_project_manifest(
-            cwd=Path("/"),
-            package_name="pixi",
-            kernel_display_name="Pixi",
-            logger=logger,
-        )
+    with pytest.raises(PixiDiscoveryError, match=expected_error_message):
+        find_project_manifest(cwd=Path("/"), package_name="pixi", kernel_display_name="Pixi")
 
 
 @pytest.mark.usefixtures("_patch_pixi_version_bad_stdout")
 def test_pixi_version_bad_stdout():
     expected_error_message = re.escape(PIXI_VERSION_ERROR.format(kernel_display_name="Pixi"))
 
-    with pytest.raises(RuntimeError, match=expected_error_message):
-        find_project_manifest(
-            cwd=Path("/"),
-            package_name="pixi",
-            kernel_display_name="Pixi",
-            logger=logger,
-        )
+    with pytest.raises(PixiDiscoveryError, match=expected_error_message):
+        find_project_manifest(cwd=Path("/"), package_name="pixi", kernel_display_name="Pixi")
 
 
 @pytest.mark.usefixtures("_patch_pixi_version_value")
@@ -65,26 +50,16 @@ def test_outdated_pixi():
         )
     )
 
-    with pytest.raises(RuntimeError, match=expected_error_message):
-        find_project_manifest(
-            cwd=Path("/"),
-            package_name="pixi",
-            kernel_display_name="Pixi",
-            logger=logger,
-        )
+    with pytest.raises(PixiDiscoveryError, match=expected_error_message):
+        find_project_manifest(cwd=Path("/"), package_name="pixi", kernel_display_name="Pixi")
 
 
 def test_empty_project():
     cwd = Path("/")
     expected_error_message = re.escape(PIXI_MANIFEST_NOT_FOUND.format(cwd=cwd))
 
-    with pytest.raises(RuntimeError, match=expected_error_message):
-        find_project_manifest(
-            cwd=cwd,
-            package_name="pixi",
-            kernel_display_name="Pixi",
-            logger=logger,
-        )
+    with pytest.raises(PixiDiscoveryError, match=expected_error_message):
+        find_project_manifest(cwd=cwd, package_name="pixi", kernel_display_name="Pixi")
 
 
 def test_missing_ipykernel():
@@ -99,12 +74,11 @@ def test_missing_ipykernel():
         )
     )
 
-    with pytest.raises(RuntimeError, match=expected_error_message):
+    with pytest.raises(PixiDiscoveryError, match=expected_error_message):
         find_project_manifest(
             cwd=cwd,
             package_name=package_name,
             kernel_display_name=kernel_display_name,
-            logger=logger,
         )
 
 
@@ -117,7 +91,6 @@ def test_pixi_project():
         cwd=cwd,
         package_name=package_name,
         kernel_display_name=kernel_display_name,
-        logger=logger,
     )
     assert result == (cwd / "pixi.toml").resolve()
 
@@ -131,6 +104,5 @@ def test_pyproject_project():
         cwd=cwd,
         package_name=package_name,
         kernel_display_name=kernel_display_name,
-        logger=logger,
     )
     assert result == (cwd / "pyproject.toml").resolve()

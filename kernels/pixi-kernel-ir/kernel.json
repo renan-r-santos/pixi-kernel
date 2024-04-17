@@ -1,8 +1,10 @@
 {
   "argv": [
-    "pixi",
-    "run",
-    "--manifest-path={manifest-path}",
+    "python",
+    "-m",
+    "pixi_kernel",
+    "r-irkernel",
+    "Pixi - R",
     "R",
     "--slave",
     "-e",
@@ -11,19 +13,5 @@
     "{connection_file}"
   ],
   "display_name": "Pixi - R",
-  "language": "R",
-  "env": {
-    "R_LIBS": "{manifest-path-parent}/.pixi/envs/default/lib/R/library",
-    "R_LIBS_SITE": "{manifest-path-parent}/.pixi/envs/default/lib/R/library",
-    "R_LIBS_USER": "{manifest-path-parent}/.pixi/envs/default/lib/R/library"
-  },
-  "metadata": {
-    "pixi-kernel": {
-      "package-name": "r-irkernel"
-    },
-    "kernel_provisioner": {
-      "provisioner_name": "pixi-provisioner",
-      "config": {}
-    }
-  }
+  "language": "R"
 }
