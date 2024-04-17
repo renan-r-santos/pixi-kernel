@@ -6,6 +6,7 @@ import sys
 import typing
 from pathlib import Path
 from types import FrameType
+from typing import Optional
 
 from ipykernel.ipkernel import IPythonKernel
 from ipykernel.kernelapp import IPKernelApp
@@ -73,7 +74,7 @@ def main() -> None:
             signal.SIGTERM,
         }
 
-        def handle_signal(sig: int, frame: FrameType | None) -> None:
+        def handle_signal(sig: int, frame: Optional[FrameType]) -> None:
             process.send_signal(sig)
 
         for sig in forward_signals:
