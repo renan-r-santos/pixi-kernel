@@ -7857,9 +7857,9 @@ packages:
   timestamp: 1602536313357
 - kind: pypi
   name: pixi-kernel
-  version: 0.2.1
+  version: 0.3.0
   path: .
-  sha256: 090348dcf18fddd891c941b84a1903f0d78e779a816775abba252c5516fc489d
+  sha256: 026726c0f08b63327906964394fdaf6d1b2324c25bf50c37e37b0300731fba40
   requires_dist:
   - ipykernel >=6
   - jupyter-client >=7
