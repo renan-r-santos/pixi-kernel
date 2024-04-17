@@ -70,7 +70,6 @@ def main() -> None:
         forward_signals = set(signal.Signals) - {
             signal.CTRL_BREAK_EVENT,
             signal.CTRL_C_EVENT,
-            signal.SIGBREAK,
             signal.SIGTERM,
         }
 
