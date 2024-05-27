@@ -7,7 +7,7 @@ on:
       - main
 
 env:
-  pixi-version: "0.19.1"
+  pixi-version: "0.23.0"
 
 jobs:
   test:
@@ -17,14 +17,14 @@ jobs:
         # https://github.com/ipython/ipykernel/issues/713
         # https://stackoverflow.com/questions/70841648/jupyter-reverts-signal-handler-to-default-when-running-next-cell
         os: [ubuntu-latest, macos-latest]
-        pixi-version: ["0.18.0", "0.19.1"]
+        pixi-version: ["0.18.0", "0.23.0"]
         python-version: ["38", "39", "310", "311", "312"]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
       - name: Install Pixi ${{ matrix.pixi-version }}
-        uses: prefix-dev/setup-pixi@v0.5.1
+        uses: prefix-dev/setup-pixi@v0.8.0
         with:
           pixi-version: v${{ matrix.pixi-version }}
           run-install: false
@@ -42,7 +42,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
       - name: Install Pixi ${{ env.pixi-version }}
-        uses: prefix-dev/setup-pixi@v0.5.1
+        uses: prefix-dev/setup-pixi@v0.8.0
         with:
           pixi-version: v${{ env.pixi-version }}
           run-install: false
@@ -64,7 +64,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
       - name: Install Pixi ${{ env.pixi-version }}
-        uses: prefix-dev/setup-pixi@v0.5.1
+        uses: prefix-dev/setup-pixi@v0.8.0
         with:
           pixi-version: v${{ env.pixi-version }}
           run-install: false
@@ -76,7 +76,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
       - name: Install Pixi ${{ env.pixi-version }}
-        uses: prefix-dev/setup-pixi@v0.5.1
+        uses: prefix-dev/setup-pixi@v0.8.0
         with:
           pixi-version: v${{ env.pixi-version }}
           run-install: false
