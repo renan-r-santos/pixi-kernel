@@ -40,7 +40,7 @@ class ProjectInfo(msgspec.Struct, frozen=True, kw_only=True):
     manifest_path: str
 
 
-def find_pixi_version(kernel_display_name: str) -> Tuple[str, str, str]:
+def find_pixi_version(kernel_display_name: str) -> Tuple[int, int, int]:
     # Ensure Pixi is in PATH
     if shutil.which("pixi") is None:
         raise PixiDiscoveryError(PIXI_NOT_FOUND.format(kernel_display_name=kernel_display_name))
