@@ -6,7 +6,7 @@ on:
       - "v*"
 
 env:
-  pixi-version: "0.19.1"
+  pixi-version: "0.26.1"
 
 jobs:
   pypi-publish:
