@@ -11,3 +11,10 @@ ipykernel = "*"
 [pypi-dependencies]
 jupyter-kernel-test = ">=0.7,<0.8"
 pixi-kernel = { path = "../../../../pixi-kernel", editable = true }
+
+[environments]
+py38 = {}
+py39 = {}
+py310 = {}
+py311 = {}
+py312 = {}
