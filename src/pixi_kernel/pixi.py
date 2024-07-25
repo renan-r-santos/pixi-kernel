@@ -4,7 +4,7 @@ import logging
 import shutil
 import subprocess
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 import msgspec
 
@@ -40,7 +40,7 @@ class ProjectInfo(msgspec.Struct, frozen=True, kw_only=True):
     manifest_path: str
 
 
-def find_project_manifest(*, cwd: Path, package_name: str, kernel_display_name: str) -> Path:
+def find_pixi_version(kernel_display_name: str) -> Tuple[str, str, str]:
     # Ensure Pixi is in PATH
     if shutil.which("pixi") is None:
         raise PixiDiscoveryError(PIXI_NOT_FOUND.format(kernel_display_name=kernel_display_name))
@@ -63,7 +63,10 @@ def find_project_manifest(*, cwd: Path, package_name: str, kernel_display_name: 
             )
         )
     logger.info(f"found Pixi {pixi_version}")
+    return (major, minor, patch)
 
+
+def find_project_manifest(*, cwd: Path, package_name: str, kernel_display_name: str) -> Path:
     # Find project's manifest file
     candidate_dirs = [cwd, *cwd.parents]
     for dir in candidate_dirs:
