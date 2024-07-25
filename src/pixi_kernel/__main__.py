@@ -11,7 +11,7 @@ from typing import Optional
 from ipykernel.ipkernel import IPythonKernel
 from ipykernel.kernelapp import IPKernelApp
 
-from .pixi import PixiDiscoveryError, find_project_manifest
+from .pixi import PixiDiscoveryError, find_pixi_version, find_project_manifest
 
 logger = logging.getLogger(__name__)
 
@@ -43,6 +43,7 @@ def main() -> None:
     kernel_display_name = sys.argv[2]
 
     try:
+        pixi_version = find_pixi_version(kernel_display_name)
         manifest_path = find_project_manifest(
             cwd=Path.cwd(),
             package_name=package_name,
@@ -62,6 +63,10 @@ def main() -> None:
         env["R_LIBS"] = r_libs_path
         env["R_LIBS_SITE"] = r_libs_path
         env["R_LIBS_USER"] = r_libs_path
+
+        if pixi_version >= (0, 26, 0):
+            # Remove single quotes from R kernel spec arguments: https://github.com/prefix-dev/pixi/pull/1582
+            args = [arg.replace("'", "") for arg in args]
 
     logger.info(f"launching {kernel_display_name} kernel with {args}")
 
