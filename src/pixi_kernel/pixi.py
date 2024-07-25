@@ -17,7 +17,7 @@ from .errors import (
 )
 
 logger = logging.getLogger(__name__)
-MINIMUM_PIXI_VERSION = "0.18.0"
+MINIMUM_PIXI_VERSION = "0.21.0"
 
 
 class PixiDiscoveryError(Exception):
