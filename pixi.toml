@@ -29,7 +29,7 @@ pytest = ">=8.1,<9"
 
 [feature.test.tasks]
 # Unit tests
-unit = "python -m pytest pixi_kernel"
+unit = "python -m pytest tests/unit"
 
 # Integration tests
 bash-kernel = { cwd = "tests/integration/bash_kernel", cmd = "PYDEVD_DISABLE_FILE_VALIDATION=1 pixi run --locked --manifest-path=pixi.toml python kernel.py" }
