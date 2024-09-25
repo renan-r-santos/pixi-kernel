@@ -18,10 +18,5 @@ dist
 # IDEs
 /.vscode
 
-# coverage
-/.coverage*
-/htmlcov
-/coverage.xml
-
 # System
 .DS_Store

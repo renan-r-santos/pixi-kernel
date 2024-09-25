@@ -26,11 +26,10 @@ update-lock = "scripts/update-lock.sh"
 # Testing
 [feature.test.dependencies]
 pytest = ">=8.1,<9"
-pytest-cov = "*"
 
 [feature.test.tasks]
 # Unit tests
-unit = "COVERAGE_FILE=.coverage.$(python -c 'import platform; print(platform.system())').$PIXI_ENVIRONMENT_NAME python -m pytest --cov pixi_kernel"
+unit = "python -m pytest --cov pixi_kernel"
 
 # Integration tests
 bash-kernel = { cwd = "tests/integration/bash_kernel", cmd = "PYDEVD_DISABLE_FILE_VALIDATION=1 pixi run --locked --manifest-path=pixi.toml python kernel.py" }
@@ -40,7 +39,6 @@ xeus-cling = { cwd = "tests/integration/xeus-cling", cmd = "pixi run --locked --
 
 # Combined
 test = { depends_on = ["unit", "ipykernel", "r-irkernel"] }
-coverage = "coverage combine && coverage html && coverage xml"
 
 # Integration tests for platform-specific kernels
 [feature.test.target.linux-64.tasks]
