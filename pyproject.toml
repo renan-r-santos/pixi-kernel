@@ -69,12 +69,6 @@ filterwarnings = [
     "ignore:Jupyter is migrating its paths to use standard platformdirs",
 ]
 
-[tool.coverage.run]
-branch = true
-
-[tool.coverage.paths]
-source = ["src/", ".pixi/envs/**/lib/python*/site-packages/"]
-
 [tool.hatch.build.targets.wheel.shared-data]
 "kernels" = "share/jupyter/kernels"
 
