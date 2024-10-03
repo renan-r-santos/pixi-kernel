@@ -2,8 +2,9 @@
 **/__pycache__
 .pytest_cache
 
-# Pixi
+# Environment
 .pixi
+.venv
 
 # Hatch
 dist
@@ -15,8 +16,13 @@ dist
 # MyPy
 .mypy_cache
 
-# IDEs
-/.vscode
+# coverage
+/.coverage*
+/htmlcov
+/coverage.xml
+
+# Tox
+.tox
 
 # System
 .DS_Store

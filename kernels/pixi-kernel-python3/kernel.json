@@ -1,19 +1,23 @@
 {
   "argv": [
-    "python",
-    "-m",
-    "pixi_kernel",
-    "ipykernel",
-    "Pixi - Python 3 (ipykernel)",
+    "pixi",
+    "run",
     "python",
     "-m",
     "ipykernel_launcher",
     "-f",
     "{connection_file}"
   ],
-  "display_name": "Pixi - Python 3 (ipykernel)",
+  "display_name": "Python (Pixi)",
   "language": "python",
   "metadata": {
-    "debugger": true
+    "debugger": true,
+    "pixi-kernel": {
+      "required-package": "ipykernel"
+    },
+    "kernel_provisioner": {
+      "provisioner_name": "pixi-kernel-provisioner",
+      "config": {}
+    }
   }
 }

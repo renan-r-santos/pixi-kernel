@@ -1,0 +1,24 @@
+{
+  "editor.rulers": [99],
+  "python.testing.pytestEnabled": true,
+  "python.testing.pytestArgs": ["tests/unit"]
+
+  // Modify the following to run tests in the respective folders.
+  // Apparently VSCode cant' handle unittests and pytest at the same time.
+  //
+  // "python.testing.unittestEnabled": false
+  // "python.testing.unittestArgs": [
+  //   "-v",
+  //   "-s",
+  //   "./tests/integration/ipykernel",
+  //   "-p",
+  //   "kernel.py"
+  // ],
+  // "python.testing.unittestArgs": [
+  //   "-v",
+  //   "-s",
+  //   "./tests/integration/r-irkernel",
+  //   "-p",
+  //   "kernel.py"
+  // ]
+}

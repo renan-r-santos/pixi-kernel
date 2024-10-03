@@ -1,9 +1,13 @@
-"""Reference: https://github.com/jupyter/jupyter_kernel_test/blob/5f2c65271b48dc95fc75a9585cb1d6db0bb55557/test_ipykernel.py"""
+# https://github.com/jupyter/jupyter_kernel_test/blob/5f2c65271b48dc95fc75a9585cb1d6db0bb55557/test_ipykernel.py
 # ruff: noqa: RUF012
 
+import os
 import unittest
+from pathlib import Path
 
 import jupyter_kernel_test as jkt
+
+os.chdir(Path(__file__).parent)
 
 
 class IPyKernelTests(jkt.KernelTests):
