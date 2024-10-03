@@ -40,13 +40,14 @@ Pixi Kernel supports the following kernels:
 | Python   | IPython Kernel | [ipykernel](https://github.com/ipython/ipykernel)  |
 | R        | IR Kernel      | [r-irkernel](https://github.com/IRkernel/IRkernel) |
 
-Support for other kernels and languages can be added by opening an issue or a pull request, see [CONTRIBUTING](CONTRIBUTING.md#adding-support-for-new-kernels).
+Support for other kernels and languages can be added by opening an issue or a pull request, see
+[CONTRIBUTING](CONTRIBUTING.md#adding-support-for-new-kernels).
 
 ## Limitations
 
-Pixi Kernel only works with the default environment. If you have an
-idea how to support this see [this issue](https://github.com/renan-r-santos/pixi-kernel/issues/20)
-or see [CONTRIBUTING](CONTRIBUTING.md#adding-support-for-new-kernels).
+Pixi Kernel only works with the default environment. If you have an idea how to support multiple
+environments see [this issue](https://github.com/renan-r-santos/pixi-kernel/issues/20) or see
+[CONTRIBUTING](CONTRIBUTING.md#adding-support-for-new-kernels).
 
 ## Related
 

@@ -1,6 +1,6 @@
 from logging import Logger
 from pathlib import Path
-from typing import Any, cast
+from typing import Any, Optional, cast
 
 from jupyter_client.kernelspec import KernelSpec
 from jupyter_client.provisioning.local_provisioner import LocalProvisioner
@@ -17,7 +17,7 @@ class PixiKernelProvisioner(LocalProvisioner):  # type: ignore
         logger = cast(Logger, self.log)
         kernel_spec = cast(KernelSpec, self.kernel_spec)
 
-        kernel_metadata: dict[str, str] | None = kernel_spec.metadata.get("pixi-kernel")
+        kernel_metadata: Optional[dict[str, str]] = kernel_spec.metadata.get("pixi-kernel")
         if kernel_metadata is None:
             logger.info(
                 f"Kernel {kernel_spec.display_name} does not have Pixi Kernel metadata."

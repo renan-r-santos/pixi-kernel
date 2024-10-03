@@ -3,8 +3,8 @@
   "python.testing.pytestEnabled": true,
   "python.testing.pytestArgs": ["tests/unit"]
 
-  // Modify the following to run tests in the respective folders.
-  // Apparently VSCode cant' handle unittests and pytest at the same time.
+  // Uncomment the following lines to enable unittest.
+  // Apparently VSCode cant' handle unittest and pytest at the same time.
   //
   // "python.testing.unittestEnabled": false
   // "python.testing.unittestArgs": [

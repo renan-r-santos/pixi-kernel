@@ -6,17 +6,17 @@
 .pixi
 .venv
 
-# Hatch
+# Build
 dist
 *.egg-info
 
-# ruff
+# Ruff
 /.ruff_cache
 
 # MyPy
 .mypy_cache
 
-# coverage
+# Coverage
 /.coverage*
 /htmlcov
 /coverage.xml
