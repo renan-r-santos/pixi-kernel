@@ -125,7 +125,7 @@ def test_pixi_project():
     kernel_name = "Python (Pixi)"
 
     prefix = ensure_readiness(cwd=cwd, required_package=required_package, kernel_name=kernel_name)
-    assert str(prefix).endswith("/envs/default")
+    assert Path(prefix).parts[-2:] == ("envs", "default")
 
 
 def test_pyproject_project():
@@ -134,4 +134,4 @@ def test_pyproject_project():
     kernel_name = "Python (Pixi)"
 
     prefix = ensure_readiness(cwd=cwd, required_package=required_package, kernel_name=kernel_name)
-    assert str(prefix).endswith("/envs/default")
+    assert Path(prefix).parts[-2:] == ("envs", "default")
