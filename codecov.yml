@@ -1,0 +1,12 @@
+github_checks:
+  annotations: false
+coverage:
+  status:
+    project:
+      default:
+        target: 90%
+        informational: false
+    patch:
+      default:
+        target: 90%
+        informational: false

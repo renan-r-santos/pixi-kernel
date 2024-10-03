@@ -1,10 +1,14 @@
-"""Reference: https://github.com/IRkernel/IRkernel/blob/1eddb304b246c14b62949abd946e8d4ca5080d25/tests/testthat/test_ir.py"""
+# https://github.com/IRkernel/IRkernel/blob/1eddb304b246c14b62949abd946e8d4ca5080d25/tests/testthat/test_ir.py"""
 # ruff: noqa: RUF012
 
+import os
 import platform
 import unittest
+from pathlib import Path
 
 import jupyter_kernel_test as jkt
+
+os.chdir(Path(__file__).parent)
 
 without_rich_display = """\
 options(jupyter.rich_display = FALSE)
@@ -79,7 +83,7 @@ class IRKernelTests(jkt.KernelTests):
     ]
 
     def test_display_vector(self):
-        """display of vectors"""
+        """Display of vectors."""
         code = "1:3"
         reply, output_msgs = self._execute_code(code)
 
@@ -95,7 +99,7 @@ class IRKernelTests(jkt.KernelTests):
         assert "text/markdown" in output_msgs[0]["content"]["data"]
 
     def test_display_vector_only_plaintext(self):
-        """display of plain text vectors"""
+        """Display of plain text vectors."""
         code = without_rich_display.format("1:3")
         reply, output_msgs = self._execute_code(code)
         data = output_msgs[0]["content"]["data"]
@@ -103,7 +107,7 @@ class IRKernelTests(jkt.KernelTests):
         assert data["text/plain"] == "[1] 1 2 3"
 
     def test_irkernel_plots(self):
-        """plotting"""
+        """Plotting."""
         code = "plot(1:3)"
         reply, output_msgs = self._execute_code(code)
 
@@ -120,7 +124,7 @@ class IRKernelTests(jkt.KernelTests):
         assert metadata["image/png"] == {"width": 420, "height": 420}, metadata["image/png"]
 
     def test_irkernel_plots_only_png(self):
-        """plotting PNG"""
+        """Plotting PNG."""
         # the reset needs to happen in another execute because plots are sent after either
         # the next plot is opened or everything is executed, not at the time when plot
         # command is actually happening.
@@ -198,7 +202,7 @@ class IRKernelTests(jkt.KernelTests):
         reply, output_msgs = self._execute_code(code, tests=False)
 
     def test_irkernel_df_default_rich_output(self):
-        """data.frame rich representation"""
+        """Data.frame rich representation."""
         code = "data.frame(x = 1:3)"
         reply, output_msgs = self._execute_code(code)
 
@@ -207,7 +211,7 @@ class IRKernelTests(jkt.KernelTests):
         assert len(data) == 4, data.keys()
 
     def test_irkernel_df_no_rich_output(self):
-        """data.frame plain representation"""
+        """Data.frame plain representation."""
         code = """
             options(jupyter.rich_display = FALSE)
             data.frame(x = 1:3)
@@ -220,7 +224,7 @@ class IRKernelTests(jkt.KernelTests):
         assert len(data) == 1, data.keys()
 
     def test_html_isolated(self):
-        """HTML isolation"""
+        """HTML isolation."""
         code = """
             repr_html.full_page <- function(obj) sprintf('<html><body>%s</body></html>', obj)
             structure(0, class = 'full_page')
@@ -237,7 +241,7 @@ class IRKernelTests(jkt.KernelTests):
         assert metadata["text/html"]["isolated"] is True
 
     def test_in_kernel_set(self):
-        """jupyter.in_kernel option"""
+        """Jupyter.in_kernel option."""
         reply, output_msgs = self._execute_code('getOption("jupyter.in_kernel")')
         data = output_msgs[0]["content"]["data"]
         assert len(data) >= 1, data.keys()
@@ -265,7 +269,7 @@ class IRKernelTests(jkt.KernelTests):
             assert output_msgs[0]["content"]["text"].strip() == "Warning message in f():\n“wmsg”"
 
     def test_should_increment_history(self):
-        """properly increments execution history"""
+        """Properly increments execution history."""
         code = "data.frame(x = 1:3)"
         reply, output_msgs = self._execute_code(code)
         reply2, output_msgs2 = self._execute_code(code)
@@ -274,7 +278,7 @@ class IRKernelTests(jkt.KernelTests):
         assert execution_count_1 + 1 == execution_count_2
 
     def test_should_not_increment_history(self):
-        """Does not increment history if silent is true or store_history is false"""
+        """Does not increment history if silent is true or store_history is false."""
         code = "data.frame(x = 1:3)"
         reply, output_msgs = self._execute_code(code, store_history=False)
         reply2, output_msgs2 = self._execute_code(code, store_history=False)
@@ -383,8 +387,7 @@ class IRKernelTests(jkt.KernelTests):
     ]
 
     def test_non_syntactic_completions(self):
-        """Test tab-completion for non-syntactic names which require setup/teardown"""
-
+        """Test tab-completion for non-syntactic names which require setup/teardown."""
         for sample in self.non_syntactic_completion_samples:
             with self.subTest(text=sample["text"]):
                 for var_name, var_value in sample["vars"].items():

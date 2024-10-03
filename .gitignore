@@ -2,21 +2,27 @@
 **/__pycache__
 .pytest_cache
 
-# Pixi
+# Environment
 .pixi
+.venv
 
-# Hatch
+# Build
 dist
 *.egg-info
 
-# ruff
+# Ruff
 /.ruff_cache
 
 # MyPy
 .mypy_cache
 
-# IDEs
-/.vscode
+# Coverage
+/.coverage*
+/htmlcov
+/coverage.xml
+
+# Tox
+.tox
 
 # System
 .DS_Store

@@ -6,17 +6,11 @@ import pytest
 
 from pixi_kernel.errors import (
     PIXI_KERNEL_NOT_FOUND,
-    PIXI_MANIFEST_NOT_FOUND,
     PIXI_NOT_FOUND,
+    PIXI_OUTDATED,
     PIXI_VERSION_ERROR,
-    PIXI_VERSION_NOT_SUPPORTED,
 )
-from pixi_kernel.pixi import (
-    MINIMUM_PIXI_VERSION,
-    PixiDiscoveryError,
-    find_pixi_version,
-    find_project_manifest,
-)
+from pixi_kernel.pixi import MINIMUM_PIXI_VERSION, ensure_readiness
 
 data_dir = Path(__file__).parent / "data"
 logger = logging.getLogger(__name__)
@@ -24,94 +18,120 @@ logger = logging.getLogger(__name__)
 
 @pytest.mark.usefixtures("_patch_path")
 def test_pixi_not_installed():
-    expected_error_message = re.escape(PIXI_NOT_FOUND.format(kernel_display_name="Pixi"))
-
-    with pytest.raises(PixiDiscoveryError, match=expected_error_message):
-        find_pixi_version(kernel_display_name="Pixi")
+    message = re.escape(PIXI_NOT_FOUND.format(kernel_name="Pixi"))
+    with pytest.raises(RuntimeError, match=message):
+        ensure_readiness(cwd=Path.cwd(), required_package="pixi", kernel_name="Pixi")
 
 
 @pytest.mark.usefixtures("_patch_pixi_version_exit_code")
 def test_pixi_version_bad_exit_code():
-    expected_error_message = re.escape(PIXI_VERSION_ERROR.format(kernel_display_name="Pixi"))
+    message = re.escape(PIXI_VERSION_ERROR.format(kernel_name="Pixi"))
+    with pytest.raises(RuntimeError, match=message):
+        ensure_readiness(cwd=Path.cwd(), required_package="pixi", kernel_name="Pixi")
 
-    with pytest.raises(PixiDiscoveryError, match=expected_error_message):
-        find_pixi_version(kernel_display_name="Pixi")
 
-
-@pytest.mark.usefixtures("_patch_pixi_version_bad_stdout")
+@pytest.mark.usefixtures("_patch_pixi_version_stdout")
 def test_pixi_version_bad_stdout():
-    expected_error_message = re.escape(PIXI_VERSION_ERROR.format(kernel_display_name="Pixi"))
+    message = re.escape(PIXI_VERSION_ERROR.format(kernel_name="Pixi"))
+    with pytest.raises(RuntimeError, match=message):
+        ensure_readiness(cwd=Path.cwd(), required_package="pixi", kernel_name="Pixi")
 
-    with pytest.raises(PixiDiscoveryError, match=expected_error_message):
-        find_pixi_version(kernel_display_name="Pixi")
 
-
-@pytest.mark.usefixtures("_patch_pixi_version_value")
+@pytest.mark.usefixtures("_patch_pixi_version")
 def test_outdated_pixi():
-    expected_error_message = re.escape(
-        PIXI_VERSION_NOT_SUPPORTED.format(
-            kernel_display_name="Pixi",
+    message = re.escape(
+        PIXI_OUTDATED.format(
+            kernel_name="Pixi",
             minimum_version=MINIMUM_PIXI_VERSION,
         )
     )
+    with pytest.raises(RuntimeError, match=message):
+        ensure_readiness(cwd=Path.cwd(), required_package="pixi", kernel_name="Pixi")
 
-    with pytest.raises(PixiDiscoveryError, match=expected_error_message):
-        find_pixi_version(kernel_display_name="Pixi")
+
+@pytest.mark.usefixtures("_patch_pixi_info_exit_code")
+def test_pixi_info_bad_exit_code():
+    message = re.escape("Failed to run 'pixi info': error")
+    with pytest.raises(RuntimeError, match=message):
+        ensure_readiness(cwd=Path.cwd(), required_package="pixi", kernel_name="Pixi")
+
+
+@pytest.mark.usefixtures("_patch_pixi_info_stdout")
+def test_pixi_info_bad_stdout():
+    message = re.escape(
+        (
+            "Failed to parse 'pixi info' output: not JSON\n"
+            "JSON is malformed: invalid character (byte 4)"
+        )
+    )
+    with pytest.raises(RuntimeError, match=message):
+        ensure_readiness(cwd=Path.cwd(), required_package="pixi", kernel_name="Pixi")
 
 
 def test_empty_project():
     cwd = Path("/")
-    expected_error_message = re.escape(PIXI_MANIFEST_NOT_FOUND.format(cwd=cwd))
+    assert not (cwd / "pixi.toml").exists(), "You should not have a pixi.toml file in /"
+    assert not (cwd / "pyproject.toml").exists(), "You should not have a pyproject.toml file in /"
 
-    find_pixi_version(kernel_display_name="Pixi")
-    with pytest.raises(PixiDiscoveryError, match=expected_error_message):
-        find_project_manifest(cwd=cwd, package_name="pixi", kernel_display_name="Pixi")
+    message = re.escape(
+        "could not find pixi.toml or pyproject.toml which is configured to use pixi"
+    )
+    with pytest.raises(RuntimeError, match=message):
+        ensure_readiness(cwd=cwd, required_package="pixi", kernel_name="Pixi")
+
+
+def test_bad_pixi_toml():
+    cwd = data_dir / "bad_pixi_toml"
+    message = re.escape("failed to parse project manifest")
+    with pytest.raises(RuntimeError, match=message):
+        ensure_readiness(cwd=cwd, required_package="pixi", kernel_name="Pixi")
+
+
+@pytest.mark.usefixtures("_patch_pixi_info_no_default_env")
+def test_missing_default_environment():
+    message = re.escape("Default Pixi environment not found.")
+    with pytest.raises(RuntimeError, match=message):
+        ensure_readiness(cwd=Path.cwd(), required_package="pixi", kernel_name="Pixi")
 
 
 def test_missing_ipykernel():
     cwd = data_dir / "missing_ipykernel"
-    package_name = "ipykernel"
-    kernel_display_name = "Pixi - Python 3 (ipykernel)"
+    required_package = "ipykernel"
+    kernel_name = "Python (Pixi)"
 
-    expected_error_message = re.escape(
+    message = re.escape(
         PIXI_KERNEL_NOT_FOUND.format(
-            package_name=package_name,
-            kernel_display_name=kernel_display_name,
+            required_package=required_package,
+            kernel_name=kernel_name,
         )
     )
+    with pytest.raises(RuntimeError, match=message):
+        ensure_readiness(cwd=cwd, required_package=required_package, kernel_name=kernel_name)
 
-    find_pixi_version(kernel_display_name=kernel_display_name)
-    with pytest.raises(PixiDiscoveryError, match=expected_error_message):
-        find_project_manifest(
-            cwd=cwd,
-            package_name=package_name,
-            kernel_display_name=kernel_display_name,
-        )
+
+def test_non_existing_dependency():
+    cwd = data_dir / "non_existing_dependency"
+    required_package = "ipykernel"
+    kernel_name = "Python (Pixi)"
+
+    message = re.escape("Failed to run 'pixi install':")
+    with pytest.raises(RuntimeError, match=message):
+        ensure_readiness(cwd=cwd, required_package=required_package, kernel_name=kernel_name)
 
 
 def test_pixi_project():
     cwd = data_dir / "pixi_project"
-    package_name = "ipykernel"
-    kernel_display_name = "Pixi - Python 3 (ipykernel)"
+    required_package = "ipykernel"
+    kernel_name = "Python (Pixi)"
 
-    find_pixi_version(kernel_display_name=kernel_display_name)
-    result = find_project_manifest(
-        cwd=cwd,
-        package_name=package_name,
-        kernel_display_name=kernel_display_name,
-    )
-    assert result == (cwd / "pixi.toml").resolve()
+    prefix = ensure_readiness(cwd=cwd, required_package=required_package, kernel_name=kernel_name)
+    assert Path(prefix).parts[-2:] == ("envs", "default")
 
 
 def test_pyproject_project():
     cwd = data_dir / "pyproject_project"
-    package_name = "ipykernel"
-    kernel_display_name = "Pixi - Python 3 (ipykernel)"
+    required_package = "ipykernel"
+    kernel_name = "Python (Pixi)"
 
-    find_pixi_version(kernel_display_name=kernel_display_name)
-    result = find_project_manifest(
-        cwd=cwd,
-        package_name=package_name,
-        kernel_display_name=kernel_display_name,
-    )
-    assert result == (cwd / "pyproject.toml").resolve()
+    prefix = ensure_readiness(cwd=cwd, required_package=required_package, kernel_name=kernel_name)
+    assert Path(prefix).parts[-2:] == ("envs", "default")

@@ -7,51 +7,33 @@ on:
       - main
 
 env:
-  pixi-version: "0.30.0"
+  pixi-version: "0.31.0"
 
 jobs:
   test:
     strategy:
       matrix:
-        # Remove the noisy windows tests from matrix until figuring out the signals issue
-        # https://github.com/ipython/ipykernel/issues/713
-        # https://stackoverflow.com/questions/70841648/jupyter-reverts-signal-handler-to-default-when-running-next-cell
-        os: [ubuntu-latest, macos-latest]
-        pixi-version: ["0.30.0"]
-        python-version: ["38", "39", "310", "311", "312"]
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        pixi-version: ["0.30.0", "0.31.0"]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+
       - name: Install Pixi ${{ matrix.pixi-version }}
-        uses: prefix-dev/setup-pixi@v0.8.0
+        uses: prefix-dev/setup-pixi@v0.8.1
         with:
           pixi-version: v${{ matrix.pixi-version }}
           run-install: false
-      - name: Test with pixi
-        run: pixi run --locked --environment py${{ matrix.python-version }} test-py${{ matrix.python-version }}
 
-  lint:
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-      - name: Install Pixi ${{ env.pixi-version }}
-        uses: prefix-dev/setup-pixi@v0.8.0
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+
+      - name: Test, lint and typecheck
+        run: uv run tox
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
         with:
-          pixi-version: v${{ env.pixi-version }}
-          run-install: false
-      - name: Run code quality checks
-        run: pixi run --locked --environment ruff lint
-  type-check:
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-      - name: Install Pixi ${{ env.pixi-version }}
-        uses: prefix-dev/setup-pixi@v0.8.0
-        with:
-          pixi-version: v${{ env.pixi-version }}
-          run-install: false
-      - name: Run type checks
-        run: pixi run --locked --environment mypy type-check
+          fail_ci_if_error: true
+          token: ${{ secrets.CODECOV_TOKEN }}

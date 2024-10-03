@@ -17,45 +17,46 @@ To make a local copy of Pixi Kernel, clone the repository with git:
 git clone https://github.com/renan-r-santos/pixi-kernel.git
 ```
 
-## Installing from source
+## Installing system dependencies
 
-Pixi Kernel uses Pixi as its packaging and dependency manager. Install Pixi and then use it to
-install Pixi Kernel and its dependencies:
+Pixi Kernel uses `uv` as its packaging and dependency manager. Follow the
+[official docs](https://docs.astral.sh/uv) for installing `uv`.
 
-```
-pixi install
-```
+Additionally, Pixi Kernel needs `pixi` to run tests. Follow the [official docs](https://pixi.sh)
+for installing `pixi`.
 
 ## Testing and code quality
 
-Pixi Kernel uses pytest to run the tests in the `tests/` directory. To run them, use:
+Pixi Kernel uses `pytest`, `unittest` and `tox` to run the tests in the `tests/` directory.
+To run all of them, use:
 
 ```
-pixi run test
+uv run tox
 ```
 
-You can also run the tests using a particular Python version:
+You can also list and select one specific test by running:
 
 ```
-pixi run -e py38 test-py38
+uv run tox -l
+uv run tox run -e py312-test
 ```
 
 ## Code quality
 
 Pixi Kernel uses Ruff and MyPy to ensure a minimum standard of code quality. The code quality
-commands are encapsulated with Pixi:
+commands are encapsulated with `uv` and `tox`:
 
 ```
-pixi run format
-pixi run lint
-pixi run type-check
+uv run tox run -e fmt
+uv run tox run -e lint
+uv run tox run -e type_check
 ```
 
 ## Making a release
 
 1. Bump
-   1. Increment version in `pyproject.toml` and in `pixi.toml`
-   2. Update all Pixi lock files by running `pixi run update-lock`
+   1. Increment version in `pyproject.toml`
+   2. Update all Pixi lock files by running `uv sync`
    3. Commit with message "Bump version number to X.Y.Z"
    4. Push commit to GitHub
    5. Check [CI](https://github.com/renan-r-santos/pixi-kernel/actions/workflows/ci.yml) to ensure
@@ -69,29 +70,3 @@ pixi run type-check
 3. Document
    1. Create [GitHub release](https://github.com/renan-r-santos/pixi-kernel/releases) with name
       "Pixi Kernel X.Y.Z" and major changes in body
-
-## Adding support for new kernels
-
-Follow the steps below to add support for a new kernel:
-
-1. In a fresh Pixi environment install your kernel with `pixi install <kernel>`.
-2. Copy the new folders created at `.pixi/envs/default/share/jupyter/kernels/` to the `kernels`
-   folder and commit the changes.
-3. Update the display name and command arguments in the kernel spec file `kernel.json`. The command
-   arguments should start with `["python", "-m", "pixi_kernel", <package_name>,
-<kernel_display_name>]` and all absolute paths should be removed.
-4. Update the Kernel Support table in the README.
-5. Add integration tests for the new kernel in the `tests/integration` folder and commit the
-   changes.
-
-You can find below two examples of adding support for new kernels:
-
-Steps 1 and 2:
-
-- [feat: copy original xeus cling kernel spec](https://github.com/renan-r-santos/pixi-kernel/commit/f76c4861041b599b77232988dbc8f1d22edfbf49)
-- [feat: copy original bash kernel spec](https://github.com/renan-r-santos/pixi-kernel/commit/93342c82633b4eff8e342a292a143c5f85f829aa)
-
-Steps 3 to 5
-
-- [feat: add support for xeus cling kernel](https://github.com/renan-r-santos/pixi-kernel/commit/8aa9214f220deeb2b133f3ddbfb36e2de2039ca1)
-- [feat: add support for bash kernel](https://github.com/renan-r-santos/pixi-kernel/commit/02459c2063a67b3216c9f0fda11b1613583b472c)
