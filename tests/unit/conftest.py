@@ -89,7 +89,17 @@ def _patch_pixi_info_no_default_env(monkeypatch: pytest.MonkeyPatch):
                 cmd,
                 returncode=0,
                 stdout=json.dumps(
-                    {"project_info": {"manifest_path": "/"}, "environments_info": []}
+                    {
+                        "project_info": {"manifest_path": "/"},
+                        "environments_info": [
+                            {
+                                "name": "test",
+                                "dependencies": [],
+                                "pypi_dependencies": [],
+                                "prefix": "",
+                            },
+                        ],
+                    }
                 ),
                 stderr="",
             )
