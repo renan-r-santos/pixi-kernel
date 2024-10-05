@@ -41,6 +41,7 @@ dev-dependencies = [
     "jupyter-kernel-test>=0.7,<0.8",
     "mypy>=1,<2",
     "pytest>=8,<9",
+    "pytest-asyncio>=0.24,<0.25",
     "pytest-cov>=5,<6",
     "ruff>=0.6,<0.7",
     "tox-uv>=1,<2",
@@ -56,18 +57,18 @@ target-version = "py39"
 
 [tool.ruff.lint]
 extend-select = [
-    "I", # isort
-    "N", # pep8-naming
-    "RUF", # ruff
+    "I",     # isort
+    "N",     # pep8-naming
+    "RUF",   # ruff
     "ASYNC", # flake8-async
-    "B", # flake8-bugbear
-    "N", # flake8-broken-line
-    "C4", # flake8-comprehensions
-    "D", # pydocstyle
-    "PIE", # flake8-pie
-    "PT", # flake8-pytest-style
-    "PTH", # flake8-use-pathlib
-    "ERA", # flake8-eradicate
+    "B",     # flake8-bugbear
+    "N",     # flake8-broken-line
+    "C4",    # flake8-comprehensions
+    "D",     # pydocstyle
+    "PIE",   # flake8-pie
+    "PT",    # flake8-pytest-style
+    "PTH",   # flake8-use-pathlib
+    "ERA",   # flake8-eradicate
 ]
 
 # D1xx: Missing docstrings
@@ -80,6 +81,10 @@ strict = true
 
 [tool.pytest.ini_options]
 addopts = ["--strict-config", "--strict-markers"]
+asyncio_default_fixture_loop_scope = "function"
+filterwarnings = [
+    "ignore:Jupyter is migrating its paths to use standard platformdirs",
+]
 xfail_strict = true
 
 [tool.coverage.run]
