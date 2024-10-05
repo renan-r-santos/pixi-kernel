@@ -124,8 +124,12 @@ def test_pixi_project():
     required_package = "ipykernel"
     kernel_name = "Python (Pixi)"
 
-    prefix = ensure_readiness(cwd=cwd, required_package=required_package, kernel_name=kernel_name)
-    assert Path(prefix).parts[-2:] == ("envs", "default")
+    environment = ensure_readiness(
+        cwd=cwd,
+        required_package=required_package,
+        kernel_name=kernel_name,
+    )
+    assert Path(environment.prefix).parts[-2:] == ("envs", "default")
 
 
 def test_pyproject_project():
@@ -133,5 +137,9 @@ def test_pyproject_project():
     required_package = "ipykernel"
     kernel_name = "Python (Pixi)"
 
-    prefix = ensure_readiness(cwd=cwd, required_package=required_package, kernel_name=kernel_name)
-    assert Path(prefix).parts[-2:] == ("envs", "default")
+    environment = ensure_readiness(
+        cwd=cwd,
+        required_package=required_package,
+        kernel_name=kernel_name,
+    )
+    assert Path(environment.prefix).parts[-2:] == ("envs", "default")

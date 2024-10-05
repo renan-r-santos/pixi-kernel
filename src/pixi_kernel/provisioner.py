@@ -19,11 +19,10 @@ class PixiKernelProvisioner(LocalProvisioner):  # type: ignore
 
         kernel_metadata: Optional[dict[str, str]] = kernel_spec.metadata.get("pixi-kernel")
         if kernel_metadata is None:
-            logger.info(
-                f"Kernel {kernel_spec.display_name} does not have Pixi Kernel metadata."
-                "Falling back to LocalProvisioner."
+            raise ValueError(
+                f"Kernel {kernel_spec.display_name} uses the PixiKernelProvisioner but it"
+                "does not have Pixi Kernel metadata."
             )
-            return await super().pre_launch(**kwargs)
 
         required_package = kernel_metadata.get("required-package")
         if required_package is None:
@@ -32,7 +31,7 @@ class PixiKernelProvisioner(LocalProvisioner):  # type: ignore
         cwd = Path(kwargs.get("cwd", Path.cwd()))
         logger.info(f"The current working directory is {cwd}")
 
-        prefix = ensure_readiness(
+        environment = ensure_readiness(
             cwd=cwd,
             required_package=required_package,
             kernel_name=kernel_spec.display_name,
@@ -41,7 +40,7 @@ class PixiKernelProvisioner(LocalProvisioner):  # type: ignore
         # R kernel needs special treatment
         # https://github.com/renan-r-santos/pixi-kernel/issues/15
         if required_package == "r-irkernel":
-            r_libs_path = str(Path(prefix) / "lib" / "R" / "library")
+            r_libs_path = str(Path(environment.prefix) / "lib" / "R" / "library")
             kernel_spec.env["R_LIBS"] = r_libs_path
             kernel_spec.env["R_LIBS_SITE"] = r_libs_path
             kernel_spec.env["R_LIBS_USER"] = r_libs_path
