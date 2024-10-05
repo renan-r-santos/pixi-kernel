@@ -1,13 +1,12 @@
 # Pixi Kernel
 
-[![GitHub Actions][github-actions-badge]](https://github.com/renan-r-santos/pixi-kernel/actions)
+[![image](https://img.shields.io/pypi/v/pixi-kernel)](https://pypi.python.org/pypi/pixi-kernel)
+[![image](https://img.shields.io/pypi/l/pixi-kernel)](https://pypi.python.org/pypi/pixi-kernel)
+[![image](https://img.shields.io/pypi/pyversions/pixi-kernel)](https://pypi.python.org/pypi/pixi-kernel)
+[![Actions status](https://github.com/renan-r-santos/pixi-kernel/actions/workflows/ci.yml/badge.svg)](https://github.com/renan-r-santos/pixi-kernel/actions)
 [![codecov](https://codecov.io/gh/renan-r-santos/pixi-kernel/graph/badge.svg?token=7PCsXpsYSH)](https://codecov.io/gh/renan-r-santos/pixi-kernel)
-[![Pixi Badge][pixi-badge]](https://pixi.sh)
-[![Ruff][ruff-badge]](https://github.com/astral-sh/ruff)
-
-[github-actions-badge]: https://github.com/renan-r-santos/pixi-kernel/actions/workflows/ci.yml/badge.svg
-[pixi-badge]: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/prefix-dev/pixi/main/assets/badge/v0.json&style=flat-square
-[ruff-badge]: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 Per-directory Pixi environments with multi-language Jupyter kernels.
 
