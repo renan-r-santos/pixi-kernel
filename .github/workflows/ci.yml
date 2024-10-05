@@ -31,7 +31,7 @@ jobs:
         uses: astral-sh/setup-uv@v3
 
       - name: Test, lint and typecheck
-        run: uv run tasdx
+        run: uv run tox
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
