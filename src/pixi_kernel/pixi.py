@@ -13,22 +13,22 @@ MINIMUM_PIXI_VERSION = "0.30.0"
 
 
 class PixiInfo(msgspec.Struct, frozen=True, kw_only=True):
-    environments_info: list[EnvironmentInfo]
-    project_info: Optional[ProjectInfo]
+    environments: list[Environment] = msgspec.field(name="environments_info")
+    project: Optional[Project] = msgspec.field(name="project_info")
 
 
-class EnvironmentInfo(msgspec.Struct, frozen=True, kw_only=True):
+class Environment(msgspec.Struct, frozen=True, kw_only=True):
     name: str
     dependencies: list[str]
     pypi_dependencies: list[str]
     prefix: str
 
 
-class ProjectInfo(msgspec.Struct, frozen=True, kw_only=True):
+class Project(msgspec.Struct, frozen=True, kw_only=True):
     manifest_path: str
 
 
-def ensure_readiness(*, cwd: Path, required_package: str, kernel_name: str) -> str:
+def ensure_readiness(*, cwd: Path, required_package: str, kernel_name: str) -> Environment:
     """Ensure the Pixi environment is ready to run the kernel.
 
     This function checks the following:
@@ -80,7 +80,7 @@ def ensure_readiness(*, cwd: Path, required_package: str, kernel_name: str) -> s
             f"Failed to parse 'pixi info' output: {result.stdout}\n{exception}"
         ) from exception
 
-    if pixi_info.project_info is None:
+    if pixi_info.project is None:
         # Attempt to get a good error message by running `pixi project version get`. Maybe there's
         # a typo in the toml file (parsing error) or there is no project at all.
         result = subprocess.run(
@@ -92,7 +92,7 @@ def ensure_readiness(*, cwd: Path, required_package: str, kernel_name: str) -> s
         raise RuntimeError(result.stderr)
 
     # Find the default environment and check if the required kernel package is a dependency
-    for env in pixi_info.environments_info:
+    for env in pixi_info.environments:
         if env.name == "default":
             default_environment = env
             break
@@ -117,4 +117,4 @@ def ensure_readiness(*, cwd: Path, required_package: str, kernel_name: str) -> s
     if result.returncode != 0:
         raise RuntimeError(f"Failed to run 'pixi install': {result.stderr}")
 
-    return default_environment.prefix
+    return default_environment
