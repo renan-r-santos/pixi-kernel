@@ -5,26 +5,26 @@ import subprocess
 from pathlib import Path
 from typing import Optional
 
-import msgspec
+from pydantic import BaseModel, Field, ValidationError
 
 from .errors import PIXI_KERNEL_NOT_FOUND, PIXI_NOT_FOUND, PIXI_OUTDATED, PIXI_VERSION_ERROR
 
 MINIMUM_PIXI_VERSION = "0.30.0"
 
 
-class PixiInfo(msgspec.Struct, frozen=True, kw_only=True):
-    environments: list[Environment] = msgspec.field(name="environments_info")
-    project: Optional[Project] = msgspec.field(name="project_info")
+class PixiInfo(BaseModel):
+    environments: list[Environment] = Field(alias="environments_info")
+    project: Optional[Project] = Field(alias="project_info")
 
 
-class Environment(msgspec.Struct, frozen=True, kw_only=True):
+class Environment(BaseModel):
     name: str
     dependencies: list[str]
     pypi_dependencies: list[str]
     prefix: str
 
 
-class Project(msgspec.Struct, frozen=True, kw_only=True):
+class Project(BaseModel):
     manifest_path: str
 
 
@@ -74,8 +74,8 @@ def ensure_readiness(*, cwd: Path, required_package: str, kernel_name: str) -> E
         raise RuntimeError(f"Failed to run 'pixi info': {result.stderr}")
 
     try:
-        pixi_info = msgspec.json.decode(result.stdout, type=PixiInfo)
-    except msgspec.MsgspecError as exception:
+        pixi_info = PixiInfo.model_validate_json(result.stdout, strict=True)
+    except ValidationError as exception:
         raise RuntimeError(
             f"Failed to parse 'pixi info' output: {result.stdout}\n{exception}"
         ) from exception

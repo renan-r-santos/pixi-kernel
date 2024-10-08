@@ -38,7 +38,7 @@ You can also list and select one specific test by running:
 
 ```
 uv run tox -l
-uv run tox run -e py312-test
+uv run tox run -e py313-test
 ```
 
 ## Code quality
