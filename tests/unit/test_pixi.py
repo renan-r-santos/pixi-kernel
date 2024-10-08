@@ -59,10 +59,7 @@ def test_pixi_info_bad_exit_code():
 @pytest.mark.usefixtures("_patch_pixi_info_stdout")
 def test_pixi_info_bad_stdout():
     message = re.escape(
-        (
-            "Failed to parse 'pixi info' output: not JSON\n"
-            "JSON is malformed: invalid character (byte 4)"
-        )
+        ("Failed to parse 'pixi info' output: not JSON\n1 validation error for PixiInfo")
     )
     with pytest.raises(RuntimeError, match=message):
         ensure_readiness(cwd=Path.cwd(), required_package="pixi", kernel_name="Pixi")
