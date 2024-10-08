@@ -1,6 +1,6 @@
 [project]
 name = "pixi-kernel"
-version = "0.5.0"
+version = "0.5.1"
 description = "Jupyter kernels using Pixi for reproducible notebooks"
 license = { text = "MIT" }
 authors = [
