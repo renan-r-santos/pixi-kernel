@@ -52,6 +52,10 @@ def ensure_readiness(
 
     Returns the path to the Pixi environment prefix.
     """
+    # Remove PIXI_IN_SHELL for when JupyterLab is started from a Pixi shell
+    # https://github.com/renan-r-santos/pixi-kernel/issues/35
+    env.pop("PIXI_IN_SHELL", None)
+
     # Ensure Pixi is in PATH
     if shutil.which("pixi") is None:
         raise RuntimeError(PIXI_NOT_FOUND.format(kernel_name=kernel_name))
@@ -75,7 +79,7 @@ def ensure_readiness(
     # Ensure there is a Pixi project in the current working directory or any of its parents
     result = subprocess.run(
         ["pixi", "info", "--json"],
-        cwd=str(cwd.absolute()),
+        cwd=cwd,
         capture_output=True,
         env=env,
         text=True,
@@ -97,7 +101,7 @@ def ensure_readiness(
         # a typo in the toml file (parsing error) or there is no project at all.
         result = subprocess.run(
             ["pixi", "project", "version", "get"],
-            cwd=str(cwd.absolute()),
+            cwd=cwd,
             capture_output=True,
             env=env,
             text=True,
@@ -123,13 +127,7 @@ def ensure_readiness(
         )
 
     # Make sure the environment can be solved and is up-to-date
-    result = subprocess.run(
-        ["pixi", "install"],
-        cwd=str(cwd.absolute()),
-        capture_output=True,
-        env=env,
-        text=True,
-    )
+    result = subprocess.run(["pixi", "install"], cwd=cwd, capture_output=True, env=env, text=True)
     if result.returncode != 0:
         raise RuntimeError(f"Failed to run 'pixi install': {result.stderr}")
 

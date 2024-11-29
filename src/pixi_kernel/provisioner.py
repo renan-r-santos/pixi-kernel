@@ -34,13 +34,9 @@ class PixiKernelProvisioner(LocalProvisioner):  # type: ignore
         logger.info(f"JupyterLab provided this value for cwd: {kwargs.get('cwd', None)}")
         logger.info(f"The current working directory is {cwd}")
 
-        # Remove PIXI_IN_SHELL for when JupyterLab is started from a Pixi shell
-        # https://github.com/renan-r-santos/pixi-kernel/issues/35
         env: dict[str, str] = kwargs.get("env", os.environ)
-        env.pop("PIXI_IN_SHELL", None)
-
-        environment = ensure_readiness(
-            cwd=cwd,
+        pixi_environment = ensure_readiness(
+            cwd=cwd.resolve(),
             env=env,
             required_package=required_package,
             kernel_name=kernel_spec.display_name,
@@ -49,7 +45,7 @@ class PixiKernelProvisioner(LocalProvisioner):  # type: ignore
         # R kernel needs special treatment
         # https://github.com/renan-r-santos/pixi-kernel/issues/15
         if required_package == "r-irkernel":
-            r_libs_path = str(Path(environment.prefix) / "lib" / "R" / "library")
+            r_libs_path = str(Path(pixi_environment.prefix) / "lib" / "R" / "library")
             kernel_spec.env["R_LIBS"] = r_libs_path
             kernel_spec.env["R_LIBS_SITE"] = r_libs_path
             kernel_spec.env["R_LIBS_USER"] = r_libs_path

@@ -167,22 +167,21 @@ def test_pyproject_project():
 
 
 @pytest.fixture
-def env_for_pixi_on_pixi():
+def env_for_pixi_in_pixi():
     result = subprocess.run(
         ["pixi", "run", "env"],
-        cwd=data_dir / "pixi_on_pixi",
+        cwd=data_dir / "pixi_in_pixi",
         capture_output=True,
         text=True,
     )
     assert result.returncode == 0, result.stderr
 
     # Update the current environment where the tests are running to merge all the env vars returned
-    # by `pixi run env` except for PIXI_IN_SHELL
+    # by `pixi run env`
     original_env = dict(os.environ)
     for line in result.stdout.splitlines():
         key, value = line.split("=", 1)
-        if key != "PIXI_IN_SHELL":
-            os.environ[key] = value
+        os.environ[key] = value
 
     yield os.environ
 
@@ -193,14 +192,14 @@ def env_for_pixi_on_pixi():
 
 # https://github.com/renan-r-santos/pixi-kernel/issues/35
 @pytest.mark.skipif(sys.platform == "win32", reason="No need to write Windows-specific code here")
-def test_pixi_on_pixi(env_for_pixi_on_pixi: dict[str, str]):
-    cwd = data_dir / "pixi_on_pixi" / "good_project"
+def test_pixi_in_pixi(env_for_pixi_in_pixi: dict[str, str]):
+    cwd = data_dir / "pixi_in_pixi" / "good_project"
     required_package = "ipykernel"
     kernel_name = "Python (Pixi)"
 
     environment = ensure_readiness(
         cwd=cwd,
-        env=env_for_pixi_on_pixi,
+        env=env_for_pixi_in_pixi,
         required_package=required_package,
         kernel_name=kernel_name,
     )
