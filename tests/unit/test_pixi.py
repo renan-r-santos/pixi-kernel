@@ -1,5 +1,8 @@
 import logging
+import os
 import re
+import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -20,21 +23,27 @@ logger = logging.getLogger(__name__)
 def test_pixi_not_installed():
     message = re.escape(PIXI_NOT_FOUND.format(kernel_name="Pixi"))
     with pytest.raises(RuntimeError, match=message):
-        ensure_readiness(cwd=Path.cwd(), required_package="pixi", kernel_name="Pixi")
+        ensure_readiness(
+            cwd=Path.cwd(), env=os.environ.copy(), required_package="pixi", kernel_name="Pixi"
+        )
 
 
 @pytest.mark.usefixtures("_patch_pixi_version_exit_code")
 def test_pixi_version_bad_exit_code():
     message = re.escape(PIXI_VERSION_ERROR.format(kernel_name="Pixi"))
     with pytest.raises(RuntimeError, match=message):
-        ensure_readiness(cwd=Path.cwd(), required_package="pixi", kernel_name="Pixi")
+        ensure_readiness(
+            cwd=Path.cwd(), env=os.environ.copy(), required_package="pixi", kernel_name="Pixi"
+        )
 
 
 @pytest.mark.usefixtures("_patch_pixi_version_stdout")
 def test_pixi_version_bad_stdout():
     message = re.escape(PIXI_VERSION_ERROR.format(kernel_name="Pixi"))
     with pytest.raises(RuntimeError, match=message):
-        ensure_readiness(cwd=Path.cwd(), required_package="pixi", kernel_name="Pixi")
+        ensure_readiness(
+            cwd=Path.cwd(), env=os.environ.copy(), required_package="pixi", kernel_name="Pixi"
+        )
 
 
 @pytest.mark.usefixtures("_patch_pixi_version")
@@ -46,14 +55,18 @@ def test_outdated_pixi():
         )
     )
     with pytest.raises(RuntimeError, match=message):
-        ensure_readiness(cwd=Path.cwd(), required_package="pixi", kernel_name="Pixi")
+        ensure_readiness(
+            cwd=Path.cwd(), env=os.environ.copy(), required_package="pixi", kernel_name="Pixi"
+        )
 
 
 @pytest.mark.usefixtures("_patch_pixi_info_exit_code")
 def test_pixi_info_bad_exit_code():
     message = re.escape("Failed to run 'pixi info': error")
     with pytest.raises(RuntimeError, match=message):
-        ensure_readiness(cwd=Path.cwd(), required_package="pixi", kernel_name="Pixi")
+        ensure_readiness(
+            cwd=Path.cwd(), env=os.environ.copy(), required_package="pixi", kernel_name="Pixi"
+        )
 
 
 @pytest.mark.usefixtures("_patch_pixi_info_stdout")
@@ -62,7 +75,9 @@ def test_pixi_info_bad_stdout():
         ("Failed to parse 'pixi info' output: not JSON\n1 validation error for PixiInfo")
     )
     with pytest.raises(RuntimeError, match=message):
-        ensure_readiness(cwd=Path.cwd(), required_package="pixi", kernel_name="Pixi")
+        ensure_readiness(
+            cwd=Path.cwd(), env=os.environ.copy(), required_package="pixi", kernel_name="Pixi"
+        )
 
 
 def test_empty_project():
@@ -74,21 +89,27 @@ def test_empty_project():
         "could not find pixi.toml or pyproject.toml which is configured to use pixi"
     )
     with pytest.raises(RuntimeError, match=message):
-        ensure_readiness(cwd=cwd, required_package="pixi", kernel_name="Pixi")
+        ensure_readiness(
+            cwd=cwd, env=os.environ.copy(), required_package="pixi", kernel_name="Pixi"
+        )
 
 
 def test_bad_pixi_toml():
     cwd = data_dir / "bad_pixi_toml"
     message = re.escape("failed to parse project manifest")
     with pytest.raises(RuntimeError, match=message):
-        ensure_readiness(cwd=cwd, required_package="pixi", kernel_name="Pixi")
+        ensure_readiness(
+            cwd=cwd, env=os.environ.copy(), required_package="pixi", kernel_name="Pixi"
+        )
 
 
 @pytest.mark.usefixtures("_patch_pixi_info_no_default_env")
 def test_missing_default_environment():
     message = re.escape("Default Pixi environment not found.")
     with pytest.raises(RuntimeError, match=message):
-        ensure_readiness(cwd=Path.cwd(), required_package="pixi", kernel_name="Pixi")
+        ensure_readiness(
+            cwd=Path.cwd(), env=os.environ.copy(), required_package="pixi", kernel_name="Pixi"
+        )
 
 
 def test_missing_ipykernel():
@@ -100,10 +121,16 @@ def test_missing_ipykernel():
         PIXI_KERNEL_NOT_FOUND.format(
             required_package=required_package,
             kernel_name=kernel_name,
+            prefix=str(cwd / ".pixi" / "envs" / "default"),
         )
     )
     with pytest.raises(RuntimeError, match=message):
-        ensure_readiness(cwd=cwd, required_package=required_package, kernel_name=kernel_name)
+        ensure_readiness(
+            cwd=cwd,
+            env=os.environ.copy(),
+            required_package=required_package,
+            kernel_name=kernel_name,
+        )
 
 
 def test_non_existing_dependency():
@@ -113,7 +140,12 @@ def test_non_existing_dependency():
 
     message = re.escape("Failed to run 'pixi install':")
     with pytest.raises(RuntimeError, match=message):
-        ensure_readiness(cwd=cwd, required_package=required_package, kernel_name=kernel_name)
+        ensure_readiness(
+            cwd=cwd,
+            env=os.environ.copy(),
+            required_package=required_package,
+            kernel_name=kernel_name,
+        )
 
 
 def test_pixi_project():
@@ -123,6 +155,7 @@ def test_pixi_project():
 
     environment = ensure_readiness(
         cwd=cwd,
+        env=os.environ.copy(),
         required_package=required_package,
         kernel_name=kernel_name,
     )
@@ -136,6 +169,47 @@ def test_pyproject_project():
 
     environment = ensure_readiness(
         cwd=cwd,
+        env=os.environ.copy(),
+        required_package=required_package,
+        kernel_name=kernel_name,
+    )
+    assert Path(environment.prefix).parts[-2:] == ("envs", "default")
+
+
+@pytest.fixture
+def env_for_pixi_in_pixi():
+    result = subprocess.run(
+        ["pixi", "run", "env"],
+        cwd=data_dir / "pixi_in_pixi",
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 0, result.stderr
+
+    # Update the current environment where the tests are running to merge all the env vars returned
+    # by `pixi run env`
+    original_env = dict(os.environ)
+    for line in result.stdout.splitlines():
+        key, value = line.split("=", 1)
+        os.environ[key] = value
+
+    yield os.environ
+
+    # Restore the original environment
+    os.environ.clear()
+    os.environ.update(original_env)
+
+
+# https://github.com/renan-r-santos/pixi-kernel/issues/35
+@pytest.mark.skipif(sys.platform == "win32", reason="No need to write Windows-specific code here")
+def test_pixi_in_pixi(env_for_pixi_in_pixi: dict[str, str]):
+    cwd = data_dir / "pixi_in_pixi" / "good_project"
+    required_package = "ipykernel"
+    kernel_name = "Python (Pixi)"
+
+    environment = ensure_readiness(
+        cwd=cwd,
+        env=env_for_pixi_in_pixi,
         required_package=required_package,
         kernel_name=kernel_name,
     )
