@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import shutil
 import subprocess
 from pathlib import Path
@@ -62,6 +63,10 @@ def ensure_readiness(*, cwd: Path, required_package: str, kernel_name: str) -> E
         raise RuntimeError(
             PIXI_OUTDATED.format(kernel_name=kernel_name, minimum_version=MINIMUM_PIXI_VERSION)
         )
+
+    # Remove PIXI_IN_SHELL for when JupyterLab was started from a Pixi shell
+    # https://github.com/renan-r-santos/pixi-kernel/issues/35
+    os.environ.pop("PIXI_IN_SHELL", None)
 
     # Ensure there is a Pixi project in the current working directory or any of its parents
     result = subprocess.run(
