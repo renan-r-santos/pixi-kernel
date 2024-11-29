@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import logging
-import os
 import shutil
 import subprocess
 from pathlib import Path
@@ -32,7 +31,13 @@ class Project(BaseModel):
     manifest_path: str
 
 
-def ensure_readiness(*, cwd: Path, required_package: str, kernel_name: str) -> Environment:
+def ensure_readiness(
+    *,
+    cwd: Path,
+    env: dict[str, str],
+    required_package: str,
+    kernel_name: str,
+) -> Environment:
     """Ensure the Pixi environment is ready to run the kernel.
 
     This function checks the following:
@@ -52,7 +57,7 @@ def ensure_readiness(*, cwd: Path, required_package: str, kernel_name: str) -> E
         raise RuntimeError(PIXI_NOT_FOUND.format(kernel_name=kernel_name))
 
     # Ensure a supported Pixi version is installed
-    result = subprocess.run(["pixi", "--version"], capture_output=True, text=True)
+    result = subprocess.run(["pixi", "--version"], capture_output=True, env=env, text=True)
     if result.returncode != 0 or not result.stdout.startswith("pixi "):
         raise RuntimeError(PIXI_VERSION_ERROR.format(kernel_name=kernel_name))
 
@@ -67,15 +72,12 @@ def ensure_readiness(*, cwd: Path, required_package: str, kernel_name: str) -> E
             PIXI_OUTDATED.format(kernel_name=kernel_name, minimum_version=MINIMUM_PIXI_VERSION)
         )
 
-    # Remove PIXI_IN_SHELL for when JupyterLab was started from a Pixi shell
-    # https://github.com/renan-r-santos/pixi-kernel/issues/35
-    os.environ.pop("PIXI_IN_SHELL", None)
-
     # Ensure there is a Pixi project in the current working directory or any of its parents
     result = subprocess.run(
         ["pixi", "info", "--json"],
         cwd=str(cwd.absolute()),
         capture_output=True,
+        env=env,
         text=True,
     )
     logger.info(f"pixi info stderr: {result.stderr}")
@@ -97,14 +99,15 @@ def ensure_readiness(*, cwd: Path, required_package: str, kernel_name: str) -> E
             ["pixi", "project", "version", "get"],
             cwd=str(cwd.absolute()),
             capture_output=True,
+            env=env,
             text=True,
         )
         raise RuntimeError(result.stderr)
 
     # Find the default environment and check if the required kernel package is a dependency
-    for env in pixi_info.environments:
-        if env.name == "default":
-            default_environment = env
+    for pixi_env in pixi_info.environments:
+        if pixi_env.name == "default":
+            default_environment = pixi_env
             break
     else:
         raise RuntimeError("Default Pixi environment not found.")
@@ -124,6 +127,7 @@ def ensure_readiness(*, cwd: Path, required_package: str, kernel_name: str) -> E
         ["pixi", "install"],
         cwd=str(cwd.absolute()),
         capture_output=True,
+        env=env,
         text=True,
     )
     if result.returncode != 0:

@@ -1,4 +1,5 @@
 import logging
+import os
 from pathlib import Path
 from typing import Any, Optional, cast
 
@@ -30,11 +31,17 @@ class PixiKernelProvisioner(LocalProvisioner):  # type: ignore
             raise ValueError("Pixi Kernel metadata is missing the 'required-package' key")
 
         cwd = Path(kwargs.get("cwd", Path.cwd()))
-        logger.info(f"JupyterLab provided current working directory: {kwargs.get("cwd", None)}")
+        logger.info(f"JupyterLab provided this value for cwd: {kwargs.get('cwd', None)}")
         logger.info(f"The current working directory is {cwd}")
+
+        # Remove PIXI_IN_SHELL for when JupyterLab is started from a Pixi shell
+        # https://github.com/renan-r-santos/pixi-kernel/issues/35
+        env: dict[str, str] = kwargs.get("env", os.environ)
+        env.pop("PIXI_IN_SHELL", None)
 
         environment = ensure_readiness(
             cwd=cwd,
+            env=env,
             required_package=required_package,
             kernel_name=kernel_spec.display_name,
         )
