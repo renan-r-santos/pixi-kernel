@@ -103,6 +103,7 @@ def test_missing_ipykernel():
         PIXI_KERNEL_NOT_FOUND.format(
             required_package=required_package,
             kernel_name=kernel_name,
+            prefix=str(cwd / ".pixi" / "envs" / "default"),
         )
     )
     with pytest.raises(RuntimeError, match=message):

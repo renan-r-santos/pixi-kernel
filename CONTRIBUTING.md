@@ -56,7 +56,7 @@ uv run tox run -e type_check
 
 1. Bump
    1. Increment version in `pyproject.toml`
-   2. Update all Pixi lock files by running `uv sync`
+   2. Update all lock files by running `uv sync -U` and `pixi update`
    3. Commit with message "chore: Bump version number to X.Y.Z"
    4. Push commit to GitHub
    5. Check [CI](https://github.com/renan-r-santos/pixi-kernel/actions/workflows/ci.yml) to ensure

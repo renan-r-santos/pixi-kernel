@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import os
 import shutil
 import subprocess
@@ -11,6 +12,8 @@ from pydantic import BaseModel, Field, ValidationError
 from .errors import PIXI_KERNEL_NOT_FOUND, PIXI_NOT_FOUND, PIXI_OUTDATED, PIXI_VERSION_ERROR
 
 MINIMUM_PIXI_VERSION = "0.30.0"
+
+logger = logging.getLogger(__name__)
 
 
 class PixiInfo(BaseModel):
@@ -75,6 +78,8 @@ def ensure_readiness(*, cwd: Path, required_package: str, kernel_name: str) -> E
         capture_output=True,
         text=True,
     )
+    logger.info(f"pixi info stderr: {result.stderr}")
+    logger.info(f"pixi info stdout: {result.stdout}")
     if result.returncode != 0:
         raise RuntimeError(f"Failed to run 'pixi info': {result.stderr}")
 
@@ -108,7 +113,9 @@ def ensure_readiness(*, cwd: Path, required_package: str, kernel_name: str) -> E
     if required_package not in dependencies:
         raise RuntimeError(
             PIXI_KERNEL_NOT_FOUND.format(
-                kernel_name=kernel_name, required_package=required_package
+                kernel_name=kernel_name,
+                required_package=required_package,
+                prefix=default_environment.prefix,
             )
         )
 

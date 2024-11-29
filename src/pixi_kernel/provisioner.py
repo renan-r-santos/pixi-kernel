@@ -1,4 +1,4 @@
-from logging import Logger
+import logging
 from pathlib import Path
 from typing import Any, Optional, cast
 
@@ -7,6 +7,8 @@ from jupyter_client.provisioning.local_provisioner import LocalProvisioner
 
 from .pixi import ensure_readiness
 
+logger = logging.getLogger(__name__)
+
 
 class PixiKernelProvisioner(LocalProvisioner):  # type: ignore
     async def pre_launch(self, **kwargs: Any) -> dict[str, Any]:
@@ -14,7 +16,6 @@ class PixiKernelProvisioner(LocalProvisioner):  # type: ignore
 
         This includes ensuring Pixi is installed and that a Pixi project is available.
         """
-        logger = cast(Logger, self.log)
         kernel_spec = cast(KernelSpec, self.kernel_spec)
 
         kernel_metadata: Optional[dict[str, str]] = kernel_spec.metadata.get("pixi-kernel")
@@ -29,6 +30,7 @@ class PixiKernelProvisioner(LocalProvisioner):  # type: ignore
             raise ValueError("Pixi Kernel metadata is missing the 'required-package' key")
 
         cwd = Path(kwargs.get("cwd", Path.cwd()))
+        logger.info(f"JupyterLab provided current working directory: {kwargs.get("cwd", None)}")
         logger.info(f"The current working directory is {cwd}")
 
         environment = ensure_readiness(

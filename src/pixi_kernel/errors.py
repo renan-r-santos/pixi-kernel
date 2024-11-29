@@ -31,7 +31,9 @@ If you continue to face issues, report them at https://github.com/renan-r-santos
 PIXI_KERNEL_NOT_FOUND = """
 To run the {kernel_name} kernel, you need to add the {required_package} package to 
 your project dependencies. You can do this by running 'pixi add {required_package}'
-in your project directory and restarting your kernel.
+in your project directory and restarting your kernel. Make sure the prefix
+{prefix}
+points to the correct Pixi environment.
 
 If you continue to face issues, report them at https://github.com/renan-r-santos/pixi-kernel/issues
 """
