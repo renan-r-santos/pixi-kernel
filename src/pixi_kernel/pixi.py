@@ -2,9 +2,10 @@ from __future__ import annotations
 
 import logging
 import shutil
-import subprocess
+from asyncio import create_subprocess_exec
+from asyncio.subprocess import PIPE, Process
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
 from pydantic import BaseModel, Field, ValidationError
 
@@ -29,6 +30,13 @@ class Environment(BaseModel):
 
 class Project(BaseModel):
     manifest_path: str
+
+
+async def subprocess_exec(program: str, *args: str, **kwargs: Any) -> tuple[Process, str, str]:
+    process = await create_subprocess_exec(program, *args, stdout=PIPE, stderr=PIPE, **kwargs)
+    stdout_bytes, stderr_bytes = await process.communicate()
+    stdout, stderr = stdout_bytes.decode("utf-8"), stderr_bytes.decode("utf-8")
+    return process, stdout, stderr
 
 
 async def ensure_readiness(
@@ -61,12 +69,12 @@ async def ensure_readiness(
         raise RuntimeError(PIXI_NOT_FOUND.format(kernel_name=kernel_name))
 
     # Ensure a supported Pixi version is installed
-    result = subprocess.run(["pixi", "--version"], capture_output=True, env=env, text=True)
-    if result.returncode != 0 or not result.stdout.startswith("pixi "):
+    process, stdout, stderr = await subprocess_exec("pixi", "--version")
+    if process.returncode != 0 or not stdout.startswith("pixi "):
         raise RuntimeError(PIXI_VERSION_ERROR.format(kernel_name=kernel_name))
 
     # Parse Pixi version and check it against the minimum required version
-    pixi_version = result.stdout[len("pixi ") :].strip()
+    pixi_version = stdout[len("pixi ") :].strip()
 
     major, minor, patch = map(int, pixi_version.split("."))
     required_major, required_minor, required_patch = map(int, MINIMUM_PIXI_VERSION.split("."))
@@ -77,36 +85,32 @@ async def ensure_readiness(
         )
 
     # Ensure there is a Pixi project in the current working directory or any of its parents
-    result = subprocess.run(
-        ["pixi", "info", "--json"],
-        cwd=cwd,
-        capture_output=True,
-        env=env,
-        text=True,
-    )
-    logger.info(f"pixi info stderr: {result.stderr}")
-    logger.info(f"pixi info stdout: {result.stdout}")
-    if result.returncode != 0:
-        raise RuntimeError(f"Failed to run 'pixi info': {result.stderr}")
+    process, stdout, stderr = await subprocess_exec("pixi", "info", "--json", cwd=cwd, env=env)
+
+    logger.info(f"pixi info stderr: {stderr}")
+    logger.info(f"pixi info stdout: {stdout}")
+    if process.returncode != 0:
+        raise RuntimeError(f"Failed to run 'pixi info': {stderr}")
 
     try:
-        pixi_info = PixiInfo.model_validate_json(result.stdout, strict=True)
+        pixi_info = PixiInfo.model_validate_json(stdout, strict=True)
     except ValidationError as exception:
         raise RuntimeError(
-            f"Failed to parse 'pixi info' output: {result.stdout}\n{exception}"
+            f"Failed to parse 'pixi info' output: {stdout}\n{exception}"
         ) from exception
 
     if pixi_info.project is None:
         # Attempt to get a good error message by running `pixi project version get`. Maybe there's
         # a typo in the toml file (parsing error) or there is no project at all.
-        result = subprocess.run(
-            ["pixi", "project", "version", "get"],
+        process, stdout, stderr = await subprocess_exec(
+            "pixi",
+            "project",
+            "version",
+            "get",
             cwd=cwd,
-            capture_output=True,
             env=env,
-            text=True,
         )
-        raise RuntimeError(result.stderr)
+        raise RuntimeError(stderr)
 
     # Find the default environment and check if the required kernel package is a dependency
     for pixi_env in pixi_info.environments:
@@ -127,8 +131,8 @@ async def ensure_readiness(
         )
 
     # Make sure the environment can be solved and is up-to-date
-    result = subprocess.run(["pixi", "install"], cwd=cwd, capture_output=True, env=env, text=True)
-    if result.returncode != 0:
-        raise RuntimeError(f"Failed to run 'pixi install': {result.stderr}")
+    process, stdout, stderr = await subprocess_exec("pixi", "install", cwd=cwd, env=env)
+    if process.returncode != 0:
+        raise RuntimeError(f"Failed to run 'pixi install': {stderr}")
 
     return default_environment

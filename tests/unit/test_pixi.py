@@ -1,7 +1,6 @@
 import logging
 import os
 import re
-import subprocess
 import sys
 from pathlib import Path
 
@@ -13,7 +12,7 @@ from pixi_kernel.errors import (
     PIXI_OUTDATED,
     PIXI_VERSION_ERROR,
 )
-from pixi_kernel.pixi import MINIMUM_PIXI_VERSION, ensure_readiness
+from pixi_kernel.pixi import MINIMUM_PIXI_VERSION, ensure_readiness, subprocess_exec
 
 data_dir = Path(__file__).parent / "data"
 logger = logging.getLogger(__name__)
@@ -177,19 +176,15 @@ async def test_pyproject_project():
 
 
 @pytest.fixture
-def env_for_pixi_in_pixi():
-    result = subprocess.run(
-        ["pixi", "run", "printenv"],
-        cwd=data_dir / "pixi_in_pixi",
-        capture_output=True,
-        text=True,
-    )
-    assert result.returncode == 0, result.stderr
+async def env_for_pixi_in_pixi():
+    cwd = data_dir / "pixi_in_pixi"
+    process, stdout, stderr = await subprocess_exec("pixi", "run", "printenv", cwd=cwd)
+    assert process.returncode == 0, stderr
 
     # Update the current environment where the tests are running to merge all the env vars returned
     # by `pixi run env`
     original_env = dict(os.environ)
-    for line in result.stdout.splitlines():
+    for line in stdout.splitlines():
         key, value = line.split("=", 1)
         os.environ[key] = value
 
