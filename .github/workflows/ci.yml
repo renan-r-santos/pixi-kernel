@@ -12,7 +12,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        pixi-version: ["0.30.0", "0.38.0"]
+        pixi-version: ["0.30.0", "0.39.3"]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repo
@@ -25,7 +25,7 @@ jobs:
           run-install: false
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v4
+        uses: astral-sh/setup-uv@v5
 
       - name: Test, lint and typecheck
         run: uv run tox

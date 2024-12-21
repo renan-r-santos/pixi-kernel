@@ -96,7 +96,7 @@ def test_empty_project():
 
 def test_bad_pixi_toml():
     cwd = data_dir / "bad_pixi_toml"
-    message = re.escape("failed to parse project manifest")
+    message = re.escape("failed to parse project manifest") + "|" + re.escape("unknown field")
     with pytest.raises(RuntimeError, match=message):
         ensure_readiness(
             cwd=cwd, env=os.environ.copy(), required_package="pixi", kernel_name="Pixi"
@@ -179,7 +179,7 @@ def test_pyproject_project():
 @pytest.fixture
 def env_for_pixi_in_pixi():
     result = subprocess.run(
-        ["pixi", "run", "env"],
+        ["pixi", "run", "printenv"],
         cwd=data_dir / "pixi_in_pixi",
         capture_output=True,
         text=True,
