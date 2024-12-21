@@ -1,7 +1,14 @@
 import json
-import subprocess
+from dataclasses import dataclass
 
 import pytest
+
+import pixi_kernel.pixi
+
+
+@dataclass
+class MockProcessResult:
+    returncode: int
 
 
 @pytest.fixture
@@ -11,84 +18,83 @@ def _patch_path(monkeypatch: pytest.MonkeyPatch):
 
 @pytest.fixture
 def _patch_pixi_version_exit_code(monkeypatch: pytest.MonkeyPatch):
-    original_run = subprocess.run
+    orig_subprocess_exec = pixi_kernel.pixi.subprocess_exec
 
-    def mock_run(cmd, *args, **kwargs):
-        if cmd == ["pixi", "--version"]:
-            return subprocess.CompletedProcess(cmd, returncode=1, stdout="", stderr="")
+    async def mock_subprocess_exec(cmd, *args, **kwargs):
+        if cmd == "pixi" and args == ("--version",):
+            return MockProcessResult(1), "", ""
         else:
-            return original_run(cmd, *args, **kwargs)
+            return await orig_subprocess_exec(cmd, *args, **kwargs)
 
-    monkeypatch.setattr("subprocess.run", mock_run)
+    monkeypatch.setattr("pixi_kernel.pixi.subprocess_exec", mock_subprocess_exec)
 
 
 @pytest.fixture
 def _patch_pixi_version_stdout(monkeypatch: pytest.MonkeyPatch):
-    original_run = subprocess.run
+    orig_subprocess_exec = pixi_kernel.pixi.subprocess_exec
 
-    def mock_run(cmd, *args, **kwargs):
-        if cmd == ["pixi", "--version"]:
-            return subprocess.CompletedProcess(cmd, returncode=0, stdout="wrong output", stderr="")
+    async def mock_subprocess_exec(cmd, *args, **kwargs):
+        if cmd == "pixi" and args == ("--version",):
+            return MockProcessResult(0), "wrong output", ""
         else:
-            return original_run(cmd, *args, **kwargs)
+            return await orig_subprocess_exec(cmd, *args, **kwargs)
 
-    monkeypatch.setattr("subprocess.run", mock_run)
+    monkeypatch.setattr("pixi_kernel.pixi.subprocess_exec", mock_subprocess_exec)
 
 
 @pytest.fixture
 def _patch_pixi_version(monkeypatch: pytest.MonkeyPatch):
-    original_run = subprocess.run
+    orig_subprocess_exec = pixi_kernel.pixi.subprocess_exec
 
-    def mock_run(cmd, *args, **kwargs):
-        if cmd == ["pixi", "--version"]:
-            result = original_run(cmd, *args, **kwargs)
-            assert result.returncode == 0
-            assert result.stdout.startswith("pixi ")
+    async def mock_subprocess_exec(cmd, *args, **kwargs):
+        if cmd == "pixi" and args == ("--version",):
+            process, stdout, stderr = await orig_subprocess_exec(cmd, *args, **kwargs)
+            assert process.returncode == 0
+            assert stdout.startswith("pixi ")
 
-            result.stdout = "pixi 0.15.0\n"
-            return result
+            stdout = "pixi 0.15.0\n"
+            return process, stdout, stderr
         else:
-            return original_run(cmd, *args, **kwargs)
+            return await orig_subprocess_exec(cmd, *args, **kwargs)
 
-    monkeypatch.setattr("subprocess.run", mock_run)
+    monkeypatch.setattr("pixi_kernel.pixi.subprocess_exec", mock_subprocess_exec)
 
 
 @pytest.fixture
 def _patch_pixi_info_exit_code(monkeypatch: pytest.MonkeyPatch):
-    original_run = subprocess.run
+    orig_subprocess_exec = pixi_kernel.pixi.subprocess_exec
 
-    def mock_run(cmd, *args, **kwargs):
-        if cmd == ["pixi", "info", "--json"]:
-            return subprocess.CompletedProcess(cmd, returncode=1, stdout="", stderr="error")
+    async def mock_subprocess_exec(cmd, *args, **kwargs):
+        if cmd == "pixi" and args == ("info", "--json"):
+            return MockProcessResult(1), "", "error"
         else:
-            return original_run(cmd, *args, **kwargs)
+            return await orig_subprocess_exec(cmd, *args, **kwargs)
 
-    monkeypatch.setattr("subprocess.run", mock_run)
+    monkeypatch.setattr("pixi_kernel.pixi.subprocess_exec", mock_subprocess_exec)
 
 
 @pytest.fixture
 def _patch_pixi_info_stdout(monkeypatch: pytest.MonkeyPatch):
-    original_run = subprocess.run
+    orig_subprocess_exec = pixi_kernel.pixi.subprocess_exec
 
-    def mock_run(cmd, *args, **kwargs):
-        if cmd == ["pixi", "info", "--json"]:
-            return subprocess.CompletedProcess(cmd, returncode=0, stdout="not JSON", stderr="")
+    async def mock_subprocess_exec(cmd, *args, **kwargs):
+        if cmd == "pixi" and args == ("info", "--json"):
+            return MockProcessResult(0), "not JSON", ""
         else:
-            return original_run(cmd, *args, **kwargs)
+            return await orig_subprocess_exec(cmd, *args, **kwargs)
 
-    monkeypatch.setattr("subprocess.run", mock_run)
+    monkeypatch.setattr("pixi_kernel.pixi.subprocess_exec", mock_subprocess_exec)
 
 
 @pytest.fixture
 def _patch_pixi_info_no_default_env(monkeypatch: pytest.MonkeyPatch):
-    original_run = subprocess.run
+    orig_subprocess_exec = pixi_kernel.pixi.subprocess_exec
 
-    def mock_run(cmd, *args, **kwargs):
-        if cmd == ["pixi", "info", "--json"]:
-            return subprocess.CompletedProcess(
-                cmd,
-                returncode=0,
-                stdout=json.dumps(
+    async def mock_subprocess_exec(cmd, *args, **kwargs):
+        if cmd == "pixi" and args == ("info", "--json"):
+            return (
+                MockProcessResult(0),
+                json.dumps(
                     {
                         "project_info": {"manifest_path": "/"},
                         "environments_info": [
@@ -101,9 +107,9 @@ def _patch_pixi_info_no_default_env(monkeypatch: pytest.MonkeyPatch):
                         ],
                     }
                 ),
-                stderr="",
+                "",
             )
         else:
-            return original_run(cmd, *args, **kwargs)
+            return await orig_subprocess_exec(cmd, *args, **kwargs)
 
-    monkeypatch.setattr("subprocess.run", mock_run)
+    monkeypatch.setattr("pixi_kernel.pixi.subprocess_exec", mock_subprocess_exec)

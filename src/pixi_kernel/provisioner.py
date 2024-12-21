@@ -35,7 +35,7 @@ class PixiKernelProvisioner(LocalProvisioner):  # type: ignore
         logger.info(f"The current working directory is {cwd}")
 
         env: dict[str, str] = kwargs.get("env", os.environ)
-        pixi_environment = ensure_readiness(
+        pixi_environment = await ensure_readiness(
             cwd=cwd.resolve(),
             env=env,
             required_package=required_package,
