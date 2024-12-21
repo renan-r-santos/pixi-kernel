@@ -31,7 +31,7 @@ class Project(BaseModel):
     manifest_path: str
 
 
-def ensure_readiness(
+async def ensure_readiness(
     *,
     cwd: Path,
     env: dict[str, str],

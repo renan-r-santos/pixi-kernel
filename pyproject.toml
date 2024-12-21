@@ -83,6 +83,7 @@ strict = true
 [tool.pytest.ini_options]
 addopts = ["--strict-config", "--strict-markers"]
 asyncio_default_fixture_loop_scope = "function"
+asyncio_mode = "auto"
 filterwarnings = [
     "ignore:Jupyter is migrating its paths to use standard platformdirs",
 ]
