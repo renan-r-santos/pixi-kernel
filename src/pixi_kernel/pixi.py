@@ -69,7 +69,7 @@ async def ensure_readiness(
         raise RuntimeError(PIXI_NOT_FOUND.format(kernel_name=kernel_name))
 
     # Ensure a supported Pixi version is installed
-    process, stdout, stderr = await subprocess_exec("pixi", "--version")
+    process, stdout, stderr = await subprocess_exec("pixi", "--version", env=env)
     if process.returncode != 0 or not stdout.startswith("pixi "):
         raise RuntimeError(PIXI_VERSION_ERROR.format(kernel_name=kernel_name))
 
