@@ -34,7 +34,7 @@ class PixiKernelProvisioner(LocalProvisioner):  # type: ignore
         logger.info(f"JupyterLab provided this value for cwd: {kwargs.get('cwd', None)}")
         logger.info(f"The current working directory is {cwd}")
 
-        env: dict[str, str] = kwargs.get("env", os.environ)
+        env: dict[str, str] = kwargs.get("env", os.environ.copy())
         pixi_environment = await ensure_readiness(
             cwd=cwd.resolve(),
             env=env,
