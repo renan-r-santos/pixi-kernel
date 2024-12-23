@@ -2,8 +2,9 @@ from __future__ import annotations
 
 import logging
 import shutil
-from asyncio import create_subprocess_exec
-from asyncio.subprocess import PIPE, Process
+import subprocess
+from asyncio import SelectorEventLoop, create_subprocess_exec, get_event_loop
+from asyncio.subprocess import PIPE
 from pathlib import Path
 from typing import Any, Optional
 
@@ -32,11 +33,18 @@ class Project(BaseModel):
     manifest_path: str
 
 
-async def subprocess_exec(program: str, *args: str, **kwargs: Any) -> tuple[Process, str, str]:
-    process = await create_subprocess_exec(program, *args, stdout=PIPE, stderr=PIPE, **kwargs)
-    stdout_bytes, stderr_bytes = await process.communicate()
-    stdout, stderr = stdout_bytes.decode("utf-8"), stderr_bytes.decode("utf-8")
-    return process, stdout, stderr
+async def subprocess_exec(program: str, *args: str, **kwargs: Any) -> tuple[int, str, str]:
+    # The SelectorEventLoop does not support asyncio.subprocess
+    # https://github.com/renan-r-santos/pixi-kernel/issues/39
+    if isinstance(get_event_loop(), SelectorEventLoop):
+        result = subprocess.run([program, *args], capture_output=True, text=True, **kwargs)  # noqa: ASYNC221
+        return result.returncode, result.stdout, result.stderr
+    else:
+        process = await create_subprocess_exec(program, *args, stdout=PIPE, stderr=PIPE, **kwargs)
+        stdout_bytes, stderr_bytes = await process.communicate()
+        assert process.returncode is not None
+        stdout, stderr = stdout_bytes.decode("utf-8"), stderr_bytes.decode("utf-8")
+        return process.returncode, stdout, stderr
 
 
 async def ensure_readiness(
@@ -69,8 +77,8 @@ async def ensure_readiness(
         raise RuntimeError(PIXI_NOT_FOUND.format(kernel_name=kernel_name))
 
     # Ensure a supported Pixi version is installed
-    process, stdout, stderr = await subprocess_exec("pixi", "--version", env=env)
-    if process.returncode != 0 or not stdout.startswith("pixi "):
+    returncode, stdout, stderr = await subprocess_exec("pixi", "--version", env=env)
+    if returncode != 0 or not stdout.startswith("pixi "):
         raise RuntimeError(PIXI_VERSION_ERROR.format(kernel_name=kernel_name))
 
     # Parse Pixi version and check it against the minimum required version
@@ -85,11 +93,11 @@ async def ensure_readiness(
         )
 
     # Ensure there is a Pixi project in the current working directory or any of its parents
-    process, stdout, stderr = await subprocess_exec("pixi", "info", "--json", cwd=cwd, env=env)
+    returncode, stdout, stderr = await subprocess_exec("pixi", "info", "--json", cwd=cwd, env=env)
 
     logger.info(f"pixi info stderr: {stderr}")
     logger.info(f"pixi info stdout: {stdout}")
-    if process.returncode != 0:
+    if returncode != 0:
         raise RuntimeError(f"Failed to run 'pixi info': {stderr}")
 
     try:
@@ -102,7 +110,7 @@ async def ensure_readiness(
     if pixi_info.project is None:
         # Attempt to get a good error message by running `pixi project version get`. Maybe there's
         # a typo in the toml file (parsing error) or there is no project at all.
-        process, stdout, stderr = await subprocess_exec(
+        returncode, stdout, stderr = await subprocess_exec(
             "pixi",
             "project",
             "version",
@@ -131,8 +139,8 @@ async def ensure_readiness(
         )
 
     # Make sure the environment can be solved and is up-to-date
-    process, stdout, stderr = await subprocess_exec("pixi", "install", cwd=cwd, env=env)
-    if process.returncode != 0:
+    returncode, stdout, stderr = await subprocess_exec("pixi", "install", cwd=cwd, env=env)
+    if returncode != 0:
         raise RuntimeError(f"Failed to run 'pixi install': {stderr}")
 
     return default_environment

@@ -1,14 +1,23 @@
+import asyncio
 import json
-from dataclasses import dataclass
+import platform
 
 import pytest
 
 import pixi_kernel.pixi
 
-
-@dataclass
-class MockProcessResult:
-    returncode: int
+if platform.system() == "Windows":
+    # Test both event loop policies on Windows
+    # https://github.com/renan-r-santos/pixi-kernel/issues/39
+    @pytest.fixture(
+        scope="session",
+        params=(
+            asyncio.WindowsSelectorEventLoopPolicy(),
+            asyncio.WindowsProactorEventLoopPolicy(),
+        ),
+    )
+    def event_loop_policy(request: pytest.FixtureRequest):
+        return request.param
 
 
 @pytest.fixture
@@ -22,7 +31,7 @@ def _patch_pixi_version_exit_code(monkeypatch: pytest.MonkeyPatch):
 
     async def mock_subprocess_exec(cmd, *args, **kwargs):
         if cmd == "pixi" and args == ("--version",):
-            return MockProcessResult(1), "", ""
+            return 1, "", ""
         else:
             return await orig_subprocess_exec(cmd, *args, **kwargs)
 
@@ -35,7 +44,7 @@ def _patch_pixi_version_stdout(monkeypatch: pytest.MonkeyPatch):
 
     async def mock_subprocess_exec(cmd, *args, **kwargs):
         if cmd == "pixi" and args == ("--version",):
-            return MockProcessResult(0), "wrong output", ""
+            return 0, "wrong output", ""
         else:
             return await orig_subprocess_exec(cmd, *args, **kwargs)
 
@@ -48,12 +57,12 @@ def _patch_pixi_version(monkeypatch: pytest.MonkeyPatch):
 
     async def mock_subprocess_exec(cmd, *args, **kwargs):
         if cmd == "pixi" and args == ("--version",):
-            process, stdout, stderr = await orig_subprocess_exec(cmd, *args, **kwargs)
-            assert process.returncode == 0
+            returncode, stdout, stderr = await orig_subprocess_exec(cmd, *args, **kwargs)
+            assert returncode == 0
             assert stdout.startswith("pixi ")
 
             stdout = "pixi 0.15.0\n"
-            return process, stdout, stderr
+            return returncode, stdout, stderr
         else:
             return await orig_subprocess_exec(cmd, *args, **kwargs)
 
@@ -66,7 +75,7 @@ def _patch_pixi_info_exit_code(monkeypatch: pytest.MonkeyPatch):
 
     async def mock_subprocess_exec(cmd, *args, **kwargs):
         if cmd == "pixi" and args == ("info", "--json"):
-            return MockProcessResult(1), "", "error"
+            return 1, "", "error"
         else:
             return await orig_subprocess_exec(cmd, *args, **kwargs)
 
@@ -79,7 +88,7 @@ def _patch_pixi_info_stdout(monkeypatch: pytest.MonkeyPatch):
 
     async def mock_subprocess_exec(cmd, *args, **kwargs):
         if cmd == "pixi" and args == ("info", "--json"):
-            return MockProcessResult(0), "not JSON", ""
+            return 0, "not JSON", ""
         else:
             return await orig_subprocess_exec(cmd, *args, **kwargs)
 
@@ -93,7 +102,7 @@ def _patch_pixi_info_no_default_env(monkeypatch: pytest.MonkeyPatch):
     async def mock_subprocess_exec(cmd, *args, **kwargs):
         if cmd == "pixi" and args == ("info", "--json"):
             return (
-                MockProcessResult(0),
+                0,
                 json.dumps(
                     {
                         "project_info": {"manifest_path": "/"},

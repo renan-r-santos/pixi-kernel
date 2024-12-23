@@ -178,8 +178,8 @@ async def test_pyproject_project():
 @pytest.fixture
 async def env_for_pixi_in_pixi():
     cwd = data_dir / "pixi_in_pixi"
-    process, stdout, stderr = await subprocess_exec("pixi", "run", "printenv", cwd=cwd)
-    assert process.returncode == 0, stderr
+    returncode, stdout, stderr = await subprocess_exec("pixi", "run", "printenv", cwd=cwd)
+    assert returncode == 0, stderr
 
     # Update the current environment where the tests are running to merge all the env vars returned
     # by `pixi run env`
