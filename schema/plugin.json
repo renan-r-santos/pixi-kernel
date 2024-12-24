@@ -1,0 +1,28 @@
+{
+  "additionalProperties": false,
+  "description": "pixi-kernel settings.",
+  "jupyter.lab.metadataforms": [
+    {
+      "id": "pixi-kernel:plugin",
+      "label": "Pixi kernel",
+      "metadataOptions": {
+        "/pixi-kernel/environment": {
+          "customRenderer": "pixi-kernel:plugin.pixi-envs",
+          "metadataLevel": "notebook"
+        }
+      },
+      "metadataSchema": {
+        "type": "object",
+        "properties": {
+          "/pixi-kernel/environment": {
+            "title": "Which Pixi environment to use",
+            "type": "string",
+            "default": ""
+          }
+        }
+      }
+    }
+  ],
+  "title": "pixi-kernel",
+  "type": "object"
+}

@@ -1,6 +1,6 @@
 [project]
 name = "pixi-kernel"
-version = "0.5.4"
+version = "0.6.0"
 description = "Jupyter kernels using Pixi for reproducible notebooks"
 license = { text = "MIT" }
 authors = [
@@ -8,7 +8,7 @@ authors = [
 ]
 
 readme = "README.md"
-keywords = ["kernel", "jupyter", "pixi"]
+keywords = ["kernel", "jupyter", "jupyterlab", "jupyterlab-extension", "pixi"]
 
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -18,6 +18,8 @@ classifiers = [
     "Framework :: Jupyter",
     "Framework :: Jupyter :: JupyterLab",
     "Framework :: Jupyter :: JupyterLab :: 4",
+    "Framework :: Jupyter :: JupyterLab :: Extensions",
+    "Framework :: Jupyter :: JupyterLab :: Extensions :: Prebuilt",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
@@ -30,7 +32,13 @@ classifiers = [
 ]
 
 requires-python = ">=3.9,<4.0"
-dependencies = ["jupyter-client>=7", "pydantic>=2,<3"]
+dependencies = [
+    "ipykernel>=6",
+    "jupyter-client>=7",
+    "jupyter_server>=2.4.0,<3",
+    "pydantic>=2,<3",
+    "returns>=0.23,<0.24",  # 0.24 drops Python 3.9 support
+]
 
 [project.urls]
 Documentation = "https://github.com/renan-r-santos/pixi-kernel"
@@ -40,6 +48,7 @@ Repository = "https://github.com/renan-r-santos/pixi-kernel"
 [tool.uv]
 dev-dependencies = [
     "jupyter-kernel-test>=0.7,<0.8",
+    "jupyterlab>=4,<5",
     "mypy>=1,<2",
     "pytest>=8,<9",
     "pytest-asyncio>=0.25,<0.26",
@@ -52,7 +61,7 @@ dev-dependencies = [
 pixi-kernel-provisioner = "pixi_kernel.provisioner:PixiKernelProvisioner"
 
 [tool.ruff]
-src = ["src"]
+src = ["pixi_kernel"]
 line-length = 99
 target-version = "py39"
 
@@ -91,14 +100,35 @@ xfail_strict = true
 
 [tool.coverage.run]
 branch = true
-source = ["src"]
+source = ["pixi_kernel"]
 
 [tool.coverage.report]
 skip_empty = true
 
+[tool.hatch.build.hooks.jupyter-builder]
+dependencies = ["hatch-jupyter-builder>=0.9"]
+build-function = "hatch_jupyter_builder.npm_builder"
+ensured-targets = ["pixi_kernel/labextension/package.json"]
+
+[tool.hatch.build.hooks.jupyter-builder.build-kwargs]
+build_cmd = "build:prod"
+npm = ["jlpm"]
+
+[tool.hatch.build.hooks.jupyter-builder.editable-build-kwargs]
+build_cmd = "install:extension"
+npm = ["jlpm"]
+source_dir = "src"
+build_dir = "pixi_kernel/labextension"
+
+[tool.hatch.build.targets.sdist]
+artifacts = ["pixi_kernel/labextension"]
+exclude = [".github"]
+
 [tool.hatch.build.targets.wheel.shared-data]
+"jupyter-config/server-config" = "etc/jupyter/jupyter_server_config.d"
 "kernels" = "share/jupyter/kernels"
+"pixi_kernel/labextension" = "share/jupyter/labextensions/pixi-kernel"
 
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "jupyterlab>=4,<5"]
 build-backend = "hatchling.build"

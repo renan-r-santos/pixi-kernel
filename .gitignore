@@ -1,28 +1,72 @@
-# Python
-**/__pycache__
-.pytest_cache
-
 # Environment
 .pixi
 .venv
 
-# Build
-dist
-*.egg-info
-
 # Ruff
 /.ruff_cache
 
-# MyPy
-.mypy_cache
+lib/
+node_modules/
+.eslintcache
+*.egg-info/
+.ipynb_checkpoints
+*.tsbuildinfo
+pixi_kernel/labextension
 
-# Coverage
-/.coverage*
-/htmlcov
-/coverage.xml
+# Integration tests
+tests/ui-tests/test-results/
+tests/ui-tests/playwright-report/
 
-# Tox
-.tox
+# Created by https://www.gitignore.io/api/python
+# Edit at https://www.gitignore.io/?templates=python
 
-# System
+### Python ###
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+coverage/
+coverage.xml
+*.cover
+.pytest_cache/
+
+# pyenv
+.python-version
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# OSX files
 .DS_Store
+
+# Yarn cache
+.yarn/
