@@ -26,3 +26,11 @@ dist
 
 # System
 .DS_Store
+
+# Frontend
+lib
+node_modules
+.yarn
+tsconfig.tsbuildinfo
+.eslintcache
+pixi_kernel/labextension

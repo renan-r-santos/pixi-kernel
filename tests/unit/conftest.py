@@ -2,9 +2,9 @@ import asyncio
 import json
 import platform
 
+import pixi_kernel.compatibility
+import pixi_kernel.readiness
 import pytest
-
-import pixi_kernel.pixi
 
 if platform.system() == "Windows":
     # Test both event loop policies on Windows
@@ -27,7 +27,7 @@ def _patch_path(monkeypatch: pytest.MonkeyPatch):
 
 @pytest.fixture
 def _patch_pixi_version_exit_code(monkeypatch: pytest.MonkeyPatch):
-    orig_subprocess_exec = pixi_kernel.pixi.subprocess_exec
+    orig_subprocess_exec = pixi_kernel.compatibility.subprocess_exec
 
     async def mock_subprocess_exec(cmd, *args, **kwargs):
         if cmd == "pixi" and args == ("--version",):
@@ -35,12 +35,12 @@ def _patch_pixi_version_exit_code(monkeypatch: pytest.MonkeyPatch):
         else:
             return await orig_subprocess_exec(cmd, *args, **kwargs)
 
-    monkeypatch.setattr("pixi_kernel.pixi.subprocess_exec", mock_subprocess_exec)
+    monkeypatch.setattr(pixi_kernel.compatibility, "subprocess_exec", mock_subprocess_exec)
 
 
 @pytest.fixture
 def _patch_pixi_version_stdout(monkeypatch: pytest.MonkeyPatch):
-    orig_subprocess_exec = pixi_kernel.pixi.subprocess_exec
+    orig_subprocess_exec = pixi_kernel.compatibility.subprocess_exec
 
     async def mock_subprocess_exec(cmd, *args, **kwargs):
         if cmd == "pixi" and args == ("--version",):
@@ -48,12 +48,12 @@ def _patch_pixi_version_stdout(monkeypatch: pytest.MonkeyPatch):
         else:
             return await orig_subprocess_exec(cmd, *args, **kwargs)
 
-    monkeypatch.setattr("pixi_kernel.pixi.subprocess_exec", mock_subprocess_exec)
+    monkeypatch.setattr(pixi_kernel.compatibility, "subprocess_exec", mock_subprocess_exec)
 
 
 @pytest.fixture
 def _patch_pixi_version(monkeypatch: pytest.MonkeyPatch):
-    orig_subprocess_exec = pixi_kernel.pixi.subprocess_exec
+    orig_subprocess_exec = pixi_kernel.compatibility.subprocess_exec
 
     async def mock_subprocess_exec(cmd, *args, **kwargs):
         if cmd == "pixi" and args == ("--version",):
@@ -66,12 +66,12 @@ def _patch_pixi_version(monkeypatch: pytest.MonkeyPatch):
         else:
             return await orig_subprocess_exec(cmd, *args, **kwargs)
 
-    monkeypatch.setattr("pixi_kernel.pixi.subprocess_exec", mock_subprocess_exec)
+    monkeypatch.setattr(pixi_kernel.compatibility, "subprocess_exec", mock_subprocess_exec)
 
 
 @pytest.fixture
 def _patch_pixi_info_exit_code(monkeypatch: pytest.MonkeyPatch):
-    orig_subprocess_exec = pixi_kernel.pixi.subprocess_exec
+    orig_subprocess_exec = pixi_kernel.readiness.subprocess_exec
 
     async def mock_subprocess_exec(cmd, *args, **kwargs):
         if cmd == "pixi" and args == ("info", "--json"):
@@ -79,12 +79,12 @@ def _patch_pixi_info_exit_code(monkeypatch: pytest.MonkeyPatch):
         else:
             return await orig_subprocess_exec(cmd, *args, **kwargs)
 
-    monkeypatch.setattr("pixi_kernel.pixi.subprocess_exec", mock_subprocess_exec)
+    monkeypatch.setattr(pixi_kernel.readiness, "subprocess_exec", mock_subprocess_exec)
 
 
 @pytest.fixture
 def _patch_pixi_info_stdout(monkeypatch: pytest.MonkeyPatch):
-    orig_subprocess_exec = pixi_kernel.pixi.subprocess_exec
+    orig_subprocess_exec = pixi_kernel.readiness.subprocess_exec
 
     async def mock_subprocess_exec(cmd, *args, **kwargs):
         if cmd == "pixi" and args == ("info", "--json"):
@@ -92,12 +92,12 @@ def _patch_pixi_info_stdout(monkeypatch: pytest.MonkeyPatch):
         else:
             return await orig_subprocess_exec(cmd, *args, **kwargs)
 
-    monkeypatch.setattr("pixi_kernel.pixi.subprocess_exec", mock_subprocess_exec)
+    monkeypatch.setattr(pixi_kernel.readiness, "subprocess_exec", mock_subprocess_exec)
 
 
 @pytest.fixture
 def _patch_pixi_info_no_default_env(monkeypatch: pytest.MonkeyPatch):
-    orig_subprocess_exec = pixi_kernel.pixi.subprocess_exec
+    orig_subprocess_exec = pixi_kernel.readiness.subprocess_exec
 
     async def mock_subprocess_exec(cmd, *args, **kwargs):
         if cmd == "pixi" and args == ("info", "--json"):
@@ -121,4 +121,4 @@ def _patch_pixi_info_no_default_env(monkeypatch: pytest.MonkeyPatch):
         else:
             return await orig_subprocess_exec(cmd, *args, **kwargs)
 
-    monkeypatch.setattr("pixi_kernel.pixi.subprocess_exec", mock_subprocess_exec)
+    monkeypatch.setattr(pixi_kernel.readiness, "subprocess_exec", mock_subprocess_exec)
