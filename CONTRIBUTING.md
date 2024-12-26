@@ -1,6 +1,6 @@
 # Contributing
 
-Pixi Kernel is free and open source software developed under an MIT license. Development occurs at
+Pixi kernel is free and open source software developed under an MIT license. Development occurs at
 the [GitHub project](https://github.com/renan-r-santos/pixi-kernel). Contributions are welcome.
 
 Bug reports and feature requests may be made directly on the
@@ -11,7 +11,7 @@ tests, push the changes, and [open a PR](https://github.com/renan-r-santos/pixi-
 
 ## Cloning the repo
 
-To make a local copy of Pixi Kernel, clone the repository with git:
+To make a local copy of Pixi kernel, clone the repository with git:
 
 ```
 git clone https://github.com/renan-r-santos/pixi-kernel.git
@@ -19,15 +19,21 @@ git clone https://github.com/renan-r-santos/pixi-kernel.git
 
 ## Installing system dependencies
 
-Pixi Kernel uses `uv` as its packaging and dependency manager. Follow the
+Pixi kernel uses `uv` as its packaging and dependency manager. Follow the
 [official docs](https://docs.astral.sh/uv) for installing `uv`.
 
-Additionally, Pixi Kernel needs `pixi` to run tests. Follow the [official docs](https://pixi.sh)
+Additionally, Pixi kernel needs `pixi` to run tests. Follow the [official docs](https://pixi.sh)
 for installing `pixi`.
+
+Install the project dependencies with:
+
+```
+uv sync
+```
 
 ## Testing and code quality
 
-Pixi Kernel uses `pytest`, `unittest` and `tox` to run the tests in the `tests/` directory.
+Pixi kernel uses `pytest`, `unittest` and `tox` to run the tests in the `tests/` directory.
 To run all of them, use:
 
 ```
@@ -43,7 +49,7 @@ uv run tox run -e py313-test
 
 ## Code quality
 
-Pixi Kernel uses Ruff and MyPy to ensure a minimum standard of code quality. The code quality
+Pixi kernel uses Ruff and MyPy to ensure a minimum standard of code quality. The code quality
 commands are encapsulated with `uv` and `tox`:
 
 ```
@@ -55,7 +61,7 @@ uv run tox run -e type_check
 ## Making a release
 
 1. Bump
-   1. Increment version in `pyproject.toml`
+   1. Increment version in `pyproject.toml` and `package.json`
    2. Update all lock files by running `uv sync -U` and `pixi update`
    3. Commit with message "chore: Bump version number to X.Y.Z"
    4. Push commit to GitHub
@@ -69,4 +75,4 @@ uv run tox run -e type_check
    4. Check [PyPI](https://pypi.org/project/pixi-kernel/) for good upload
 3. Document
    1. Create [GitHub release](https://github.com/renan-r-santos/pixi-kernel/releases) with name
-      "Pixi Kernel X.Y.Z" and major changes in body
+      "Pixi kernel X.Y.Z" and major changes in body

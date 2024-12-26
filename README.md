@@ -1,4 +1,4 @@
-# Pixi Kernel
+# Pixi kernel
 
 [![image](https://img.shields.io/pypi/v/pixi-kernel)](https://pypi.python.org/pypi/pixi-kernel)
 [![image](https://img.shields.io/pypi/l/pixi-kernel)](https://pypi.python.org/pypi/pixi-kernel)
@@ -12,9 +12,10 @@ Per-directory Pixi environments with multi-language Jupyter kernels.
 
 <!--- TODO: add theme selector when supported on PyPI https://github.com/pypi/warehouse/issues/11251 -->
 
-![JupyterLab launcher screen showing Pixi Kernel](https://raw.githubusercontent.com/renan-r-santos/pixi-kernel/main/assets/launch-light.png)
+![JupyterLab launcher screen showing Pixi kernel](https://raw.githubusercontent.com/renan-r-santos/pixi-kernel/main/assets/launch-light.png)
 
-Pixi Kernel supports Python 3.9+ and Pixi 0.30.0+ using `pyproject.toml` and `pixi.toml` configurations.
+Pixi kernel supports Jupyterlab 4, Python 3.9+ and Pixi 0.30.0+ using `pyproject.toml` and
+`pixi.toml` configurations.
 
 **Disclaimer**: _This project is not affiliated with Pixi, and not an official Pixi plugin._
 
@@ -32,7 +33,7 @@ See the [Pixi docs](https://pixi.sh/latest/) for more information on how to use 
 
 ## Kernel support
 
-Pixi Kernel supports the following kernels:
+Pixi kernel supports the following kernels:
 
 | Language | Kernel         | Package name                                       |
 | -------- | -------------- | -------------------------------------------------- |
@@ -42,11 +43,16 @@ Pixi Kernel supports the following kernels:
 Support for other kernels and languages can be added by opening an issue or a pull request, see
 [CONTRIBUTING](CONTRIBUTING.md#adding-support-for-new-kernels).
 
+## Pixi environments
+
+Pixi kernel supports multiple Pixi environments in a single Pixi project. To select a specific
+environment, use JupyterLab property inspector, save your notebook and restart your kernel.
+
+![JupyterLab property inspector showing Pixi environment selector](https://raw.githubusercontent.com/renan-r-santos/pixi-kernel/main/assets/env-selector-light.png)
+
 ## Limitations
 
-Pixi Kernel only works with the default environment. If you have an idea how to support multiple
-environments see [this issue](https://github.com/renan-r-santos/pixi-kernel/issues/20) or see
-[CONTRIBUTING](CONTRIBUTING.md#adding-support-for-new-kernels).
+Pixi kernel only works with the default environment in VSCode.
 
 ## Related
 

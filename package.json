@@ -1,0 +1,97 @@
+{
+    "name": "pixi-kernel",
+    "version": "0.6.0",
+    "description": "Jupyter kernels using Pixi for reproducible notebooks.",
+    "keywords": [
+        "kernel",
+        "jupyter",
+        "jupyterlab",
+        "jupyterlab-extension",
+        "pixi"
+    ],
+    "homepage": "https://github.com/renan-r-santos/pixi-kernel",
+    "bugs": {
+        "url": "https://github.com/renan-r-santos/pixi-kernel/issues"
+    },
+    "license": "MIT",
+    "author": {
+        "name": "Renan Rodrigues dos Santos",
+        "email": "renan.engmec@gmail.com"
+    },
+    "files": [
+        "lib/**/*.{d.ts,js,js.map,json}",
+        "src/**/*.{ts,tsx}",
+        "schema/*.json"
+    ],
+    "main": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:renan-r-santos/pixi-kernel.git"
+    },
+    "scripts": {
+        "build": "jlpm build:lib && jlpm build:labextension:dev",
+        "build:prod": "jlpm clean && jlpm build:lib:prod && jlpm build:labextension",
+        "build:labextension": "jupyter labextension build .",
+        "build:labextension:dev": "jupyter labextension build --development True .",
+        "build:lib": "tsc --sourceMap",
+        "build:lib:prod": "tsc",
+        "clean": "jlpm clean:lib",
+        "clean:lib": "rimraf lib tsconfig.tsbuildinfo",
+        "clean:lintcache": "rimraf .eslintcache",
+        "clean:labextension": "rimraf pixi_kernel/labextension",
+        "clean:all": "jlpm clean:lib && jlpm clean:labextension && jlpm clean:lintcache",
+        "eslint": "jlpm eslint:check --fix",
+        "eslint:check": "eslint . --cache",
+        "install:extension": "jlpm build",
+        "lint": "jlpm prettier && jlpm eslint",
+        "lint:check": "jlpm prettier:check && jlpm eslint:check",
+        "prettier": "jlpm prettier:base --write --list-different",
+        "prettier:base": "prettier \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
+        "prettier:check": "jlpm prettier:base --check",
+        "watch": "run-p watch:src watch:labextension",
+        "watch:src": "tsc -w --sourceMap",
+        "watch:labextension": "jupyter labextension watch ."
+    },
+    "dependencies": {
+        "@jupyterlab/application": "^4.3.4",
+        "@jupyterlab/coreutils": "^6.3.4",
+        "@jupyterlab/notebook": "^4.3.4",
+        "@jupyterlab/services": "^7.3.4",
+        "@rjsf/utils": "^5.23.2",
+        "react": "^18.3.1"
+    },
+    "devDependencies": {
+        "@eslint/eslintrc": "^3.2.0",
+        "@eslint/js": "^9.17.0",
+        "@jupyterlab/builder": "^4.3.4",
+        "@types/json-schema": "^7.0.15",
+        "@types/react": "^18.3.1",
+        "@types/react-addons-linked-state-mixin": "^0.14.27",
+        "@typescript-eslint/eslint-plugin": "^8.18.1",
+        "@typescript-eslint/parser": "^8.18.1",
+        "eslint": "^9.17.0",
+        "eslint-config-prettier": "^9.1.0",
+        "eslint-plugin-prettier": "^5.2.1",
+        "npm-run-all2": "^7.0.2",
+        "prettier": "^3.4.2",
+        "rimraf": "^6.0.1",
+        "source-map-loader": "^5.0.0",
+        "typescript": "~5.7.2"
+    },
+    "jupyterlab": {
+        "discovery": {
+            "server": {
+                "managers": [
+                    "pip"
+                ],
+                "base": {
+                    "name": "pixi_kernel"
+                }
+            }
+        },
+        "extension": true,
+        "outputDir": "pixi_kernel/labextension",
+        "schemaDir": "schema"
+    }
+}
