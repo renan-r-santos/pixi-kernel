@@ -1,3 +1,4 @@
+import logging
 import os
 import subprocess
 import sys
@@ -23,6 +24,7 @@ def kwargs():
         "env": os.environ.copy(),
         "required_package": "ipykernel",
         "kernel_name": "Pixi",
+        "logger": logging.getLogger("pixi_kernel"),
     }
 
 
@@ -85,10 +87,7 @@ async def test_empty_project(kwargs: dict):
 async def test_bad_pixi_toml(kwargs: dict):
     kwargs["cwd"] = data_dir / "bad_pixi_toml"
     result = await verify_env_readiness(**kwargs)
-    assert (
-        "failed to parse project manifest" in result.failure()
-        or "unknown field" in result.failure()
-    )
+    assert "failed to parse project" in result.failure() or "unknown field" in result.failure()
 
 
 @pytest.mark.usefixtures("_patch_pixi_info_no_default_env")

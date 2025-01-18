@@ -1,5 +1,4 @@
 import json
-import logging
 import os
 import sys
 from pathlib import Path
@@ -11,14 +10,12 @@ from returns.result import Failure
 
 from .readiness import verify_env_readiness
 
-logger = logging.getLogger(__name__)
-
 
 class PixiKernelProvisioner(LocalProvisioner):  # type: ignore[misc]
     async def _launch_fallback_kernel(self, *, message: str, **kwargs: Any) -> dict[str, Any]:
         kernel_spec = cast(KernelSpec, self.kernel_spec)
         kernel_spec.argv = [sys.executable, "-m", "pixi_kernel", "{connection_file}", message]
-        logger.info(f"Launching fallback kernel: {kernel_spec.to_dict()}")
+        self.log.info(f"Launching fallback kernel: {kernel_spec.to_dict()}")
         return await super().pre_launch(**kwargs)
 
     async def pre_launch(self, **kwargs: Any) -> dict[str, Any]:
@@ -43,14 +40,14 @@ class PixiKernelProvisioner(LocalProvisioner):  # type: ignore[misc]
             return await self._launch_fallback_kernel(message=message, **kwargs)
 
         cwd = Path(kwargs.get("cwd", Path.cwd()))
-        logger.info(f"Working directory: {cwd} (provided by JupyterLab: {kwargs.get('cwd')})")
+        self.log.info(f"Working directory: {cwd} (provided by JupyterLab: {kwargs.get('cwd')})")
 
         env: dict[str, str] = kwargs.get("env", os.environ.copy())
 
         # https://github.com/jupyterlab/jupyterlab/issues/16282
         notebook_path = env.get("JPY_SESSION_NAME")
         if notebook_path is None:
-            logger.error(
+            self.log.error(
                 "Failed to get notebook path from JPY_SESSION_NAME variable."
                 "Falling back to the default environment."
             )
@@ -60,7 +57,7 @@ class PixiKernelProvisioner(LocalProvisioner):  # type: ignore[misc]
                 notebook = json.loads(Path(notebook_path).read_text())
                 environment_name = notebook["metadata"]["pixi-kernel"]["environment"]
             except Exception as exception:
-                logger.error(
+                self.log.error(
                     f"Failed to get Pixi environment name from notebook metadata."
                     f"Falling back to default environment. {exception}"
                 )
@@ -72,6 +69,7 @@ class PixiKernelProvisioner(LocalProvisioner):  # type: ignore[misc]
             env=env,
             required_package=required_package,
             kernel_name=kernel_spec.display_name,
+            logger=self.log,
         )
         if isinstance(result, Failure):
             return await self._launch_fallback_kernel(message=result.failure(), **kwargs)
@@ -90,5 +88,5 @@ class PixiKernelProvisioner(LocalProvisioner):  # type: ignore[misc]
             kernel_spec.env["R_LIBS_SITE"] = r_libs_path
             kernel_spec.env["R_LIBS_USER"] = r_libs_path
 
-        logger.info(f"Launching {kernel_spec.display_name}: {kernel_spec.to_dict()}")
+        self.log.info(f"Launching {kernel_spec.display_name}: {kernel_spec.to_dict()}")
         return await super().pre_launch(**kwargs)
