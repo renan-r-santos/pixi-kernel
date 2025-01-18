@@ -8,8 +8,6 @@ from .async_subprocess import subprocess_exec
 from .compatibility import has_compatible_pixi
 from .types import Environment, PixiInfo
 
-logger = logging.getLogger(__name__)
-
 PIXI_KERNEL_NOT_FOUND = """To run the {kernel_name} kernel, you need to add the {required_package}
 package to your project dependencies and restart your kernel. The project environment prefix is
 {prefix}.
@@ -26,6 +24,7 @@ async def verify_env_readiness(
     env: dict[str, str],
     required_package: str,
     kernel_name: str,
+    logger: logging.Logger,
 ) -> Result[Environment, str]:
     """Ensure the Pixi environment is ready to run the kernel.
 
