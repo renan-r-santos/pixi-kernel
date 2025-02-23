@@ -78,16 +78,13 @@ async def test_empty_project(kwargs: dict):
     assert not (cwd / "pyproject.toml").exists(), "You should not have a pyproject.toml file in /"
 
     result = await verify_env_readiness(**kwargs)
-    assert (
-        "could not find pixi.toml or pyproject.toml which is configured to use pixi"
-        in result.failure()
-    )
+    assert "could not find pixi.toml or pyproject.toml" in result.failure()
 
 
 async def test_bad_pixi_toml(kwargs: dict):
     kwargs["cwd"] = data_dir / "bad_pixi_toml"
     result = await verify_env_readiness(**kwargs)
-    assert "failed to parse project" in result.failure() or "unknown field" in result.failure()
+    assert "failed to parse project" in result.failure() or "Error" in result.failure()
 
 
 @pytest.mark.usefixtures("_patch_pixi_info_no_default_env")

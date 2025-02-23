@@ -12,7 +12,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        pixi-version: ["0.30.0", "0.40.1"]
+        pixi-version: ['0.30.0', '0.41.4']
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repo
