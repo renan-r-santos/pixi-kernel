@@ -56,12 +56,18 @@ class PixiKernelProvisioner(LocalProvisioner):  # type: ignore[misc]
             try:
                 notebook = json.loads(Path(notebook_path).read_text())
                 environment_name = notebook["metadata"]["pixi-kernel"]["environment"]
-            except Exception as exception:
-                self.log.error(
-                    f"Failed to get Pixi environment name from notebook metadata."
-                    f"Falling back to default environment. {exception}"
+            except Exception:
+                self.log.exception(
+                    "Failed to get Pixi environment name from notebook metadata."
+                    "Falling back to default environment."
                 )
                 environment_name = "default"
+
+        # If a new notebook is saved with the Pixi-kernel environment selection panel opened, the
+        # environment field in the Notebook metadata could become an empty string.
+        # https://github.com/renan-r-santos/pixi-kernel/issues/43#issuecomment-2676320749
+        if environment_name == "":
+            environment_name = "default"
 
         result = await verify_env_readiness(
             environment_name=environment_name,
