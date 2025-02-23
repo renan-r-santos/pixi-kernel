@@ -59,14 +59,14 @@
         "@jupyterlab/notebook": "^4.3.5",
         "@jupyterlab/services": "^7.3.5",
         "@rjsf/utils": "^5.24.3",
-        "react": "^19.0.0"
+        "react": "^18.3.0"
     },
     "devDependencies": {
         "@eslint/eslintrc": "^3.3.0",
         "@eslint/js": "^9.21.0",
         "@jupyterlab/builder": "^4.3.5",
         "@types/json-schema": "^7.0.15",
-        "@types/react": "^19.0.10",
+        "@types/react": "^18.3.10",
         "@types/react-addons-linked-state-mixin": "^0.14.27",
         "@typescript-eslint/eslint-plugin": "^8.24.1",
         "@typescript-eslint/parser": "^8.24.1",
