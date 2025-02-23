@@ -26,7 +26,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
     try {
       const component: IFormRenderer = {
         widgetRenderer: (props: WidgetProps) =>
-          PixiEnvWidget({ ...props, nbTracker })
+          PixiEnvWidget({ ...props, app, nbTracker })
       };
       formRegistry.addRenderer('pixi-kernel:plugin.pixi-envs', component);
     } catch (error) {

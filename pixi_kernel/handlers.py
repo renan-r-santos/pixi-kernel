@@ -23,9 +23,9 @@ class EnvHandler(APIHandler):
             raise tornado.web.HTTPError(400, "Missing request body")
 
         server_root = body["serverRoot"]
-        relative_path = body["relativePath"]
+        local_path = body["localPath"]
 
-        notebook_path = Path(server_root).expanduser().joinpath(relative_path).resolve()
+        notebook_path = Path(server_root).expanduser().joinpath(local_path).resolve()
         if notebook_path.is_file():
             notebook_path = notebook_path.parent
 
