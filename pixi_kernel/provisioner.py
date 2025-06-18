@@ -44,14 +44,15 @@ class PixiKernelProvisioner(LocalProvisioner):  # type: ignore[misc]
 
         env: dict[str, str] = kwargs.get("env", os.environ.copy())
 
+        # If a new notebook is saved with the Pixi-kernel environment selection panel opened, the
+        # environment field in the Notebook metadata could become an empty string.
+        # https://github.com/renan-r-santos/pixi-kernel/issues/43#issuecomment-2676320749
+        environment_name = ""
+
         # https://github.com/jupyterlab/jupyterlab/issues/16282
         notebook_path = env.get("JPY_SESSION_NAME")
         if notebook_path is None:
-            self.log.error(
-                "Failed to get notebook path from JPY_SESSION_NAME variable."
-                "Falling back to the default environment."
-            )
-            environment_name = "default"
+            self.log.error("Failed to get notebook path from JPY_SESSION_NAME variable.")
         else:
             try:
                 # Set encoding to utf-8 to avoid issues on Windows
@@ -59,17 +60,11 @@ class PixiKernelProvisioner(LocalProvisioner):  # type: ignore[misc]
                 notebook = json.loads(Path(notebook_path).read_text(encoding="utf-8"))
                 environment_name = notebook["metadata"]["pixi-kernel"]["environment"]
             except Exception:
-                self.log.exception(
-                    "Failed to get Pixi environment name from notebook metadata."
-                    "Falling back to default environment."
-                )
-                environment_name = "default"
+                self.log.exception("Failed to get Pixi environment name from notebook metadata.")
 
-        # If a new notebook is saved with the Pixi-kernel environment selection panel opened, the
-        # environment field in the Notebook metadata could become an empty string.
-        # https://github.com/renan-r-santos/pixi-kernel/issues/43#issuecomment-2676320749
         if environment_name == "":
-            environment_name = "default"
+            environment_name = os.environ.get("PIXI_KERNEL_FALLBACK_ENVIRONMENT", "default")
+            self.log.info(f"Falling back to the '{environment_name}' Pixi environment.")
 
         result = await verify_env_readiness(
             environment_name=environment_name,
