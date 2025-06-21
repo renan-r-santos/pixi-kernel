@@ -126,6 +126,13 @@ async def test_pyproject_project(kwargs: dict):
     assert Path(environment.prefix).parts[-2:] == ("envs", "default")
 
 
+async def test_transitive_dependency(kwargs: dict):
+    kwargs["cwd"] = data_dir / "transitive_dependency"
+    result = await verify_env_readiness(**kwargs)
+    environment = result.unwrap()
+    assert Path(environment.prefix).parts[-2:] == ("envs", "default")
+
+
 @pytest.fixture
 def env_for_pixi_in_pixi():
     cwd = data_dir / "pixi_in_pixi"

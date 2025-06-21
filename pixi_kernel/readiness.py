@@ -1,3 +1,4 @@
+import json
 import logging
 from pathlib import Path
 
@@ -75,13 +76,27 @@ async def verify_env_readiness(
 
     dependencies = pixi_environment.dependencies + pixi_environment.pypi_dependencies
     if required_package not in dependencies:
-        return Failure(
-            PIXI_KERNEL_NOT_FOUND.format(
-                kernel_name=kernel_name,
-                required_package=required_package,
-                prefix=pixi_environment.prefix,
-            )
+        # Check transitive dependencies
+        returncode, stdout, stderr = await subprocess_exec(
+            "pixi", "list", "--json", cwd=cwd, env=env
         )
+
+        logger.info(f"pixi list stderr: {stderr}")
+        logger.info(f"pixi list stdout: {stdout}")
+        if returncode != 0:
+            return Failure(f"Failed to run 'pixi list': {stderr}")
+
+        try:
+            if required_package not in {dep["name"] for dep in json.loads(stdout)}:
+                return Failure(
+                    PIXI_KERNEL_NOT_FOUND.format(
+                        kernel_name=kernel_name,
+                        required_package=required_package,
+                        prefix=pixi_environment.prefix,
+                    )
+                )
+        except (json.decoder.JSONDecodeError, KeyError) as exception:
+            return Failure(f"Failed to parse 'pixi list' output: {stdout}\n{exception}")
 
     # Make sure the environment can be solved and is up-to-date
     returncode, stdout, stderr = await subprocess_exec(
