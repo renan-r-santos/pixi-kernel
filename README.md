@@ -14,7 +14,7 @@ Per-directory Pixi environments with multi-language Jupyter kernels.
 
 ![JupyterLab launcher screen showing Pixi kernel](https://raw.githubusercontent.com/renan-r-santos/pixi-kernel/main/assets/launch-light.png)
 
-Pixi kernel supports Jupyterlab 4, Python 3.9+ and Pixi 0.30.0+ using `pyproject.toml` and
+Pixi kernel supports Jupyterlab 4, Python 3.9+ and Pixi 0.39.0+ using `pyproject.toml` and
 `pixi.toml` configurations.
 
 **Disclaimer**: _This project is not affiliated with Pixi, and not an official Pixi plugin._

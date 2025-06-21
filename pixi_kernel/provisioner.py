@@ -84,7 +84,7 @@ class PixiKernelProvisioner(LocalProvisioner):  # type: ignore[misc]
 
         # Update kernel spec command line arguments: `argv[:2] = ["pixi", "run"]`
         argv = kernel_spec.argv
-        kernel_spec.argv = argv[:2] + ["--environment", environment_name] + argv[2:]
+        kernel_spec.argv = [*argv[:2], "--environment", environment_name, *argv[2:]]
 
         # R kernel needs special treatment
         # https://github.com/renan-r-santos/pixi-kernel/issues/15

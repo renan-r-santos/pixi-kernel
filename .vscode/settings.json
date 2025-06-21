@@ -7,25 +7,9 @@
   },
   "editor.formatOnSave": true,
   "editor.rulers": [99],
+  "python.terminal.activateEnvInCurrentTerminal": true,
+  "python.terminal.activateEnvironment": true,
   "python.testing.pytestArgs": ["tests/unit"],
-  "python.testing.pytestEnabled": true
-
-  // Uncomment the following lines to enable unittest.
-  // Apparently VSCode cant' handle unittest and pytest at the same time.
-  //
-  // "python.testing.unittestEnabled": false
-  // "python.testing.unittestArgs": [
-  //   "-v",
-  //   "-s",
-  //   "./tests/integration/ipykernel",
-  //   "-p",
-  //   "kernel.py"
-  // ],
-  // "python.testing.unittestArgs": [
-  //   "-v",
-  //   "-s",
-  //   "./tests/integration/r-irkernel",
-  //   "-p",
-  //   "kernel.py"
-  // ]
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false
 }
