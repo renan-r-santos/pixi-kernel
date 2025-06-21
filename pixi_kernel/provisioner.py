@@ -54,7 +54,9 @@ class PixiKernelProvisioner(LocalProvisioner):  # type: ignore[misc]
             environment_name = "default"
         else:
             try:
-                notebook = json.loads(Path(notebook_path).read_text())
+                # Set encoding to utf-8 to avoid issues on Windows
+                # https://github.com/renan-r-santos/pixi-kernel/issues/55
+                notebook = json.loads(Path(notebook_path).read_text(encoding="utf-8"))
                 environment_name = notebook["metadata"]["pixi-kernel"]["environment"]
             except Exception:
                 self.log.exception(
