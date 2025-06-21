@@ -50,6 +50,16 @@ environment, use JupyterLab property inspector, save your notebook and restart y
 
 ![JupyterLab property inspector showing Pixi environment selector](https://raw.githubusercontent.com/renan-r-santos/pixi-kernel/main/assets/env-selector-light.png)
 
+## JupyterHub deployments with limited permissions
+
+If you're using pixi-kernel on JupyterHub and cannot access the environment where JupyterLab is
+installed, you can use the following workaround:
+
+1. Install `pixi-kernel` locally: `pip install pixi-kernel --user`
+2. Restart your JupyterLab server
+
+See https://github.com/renan-r-santos/pixi-kernel/issues/51 for more information.
+
 ## Limitations
 
 Pixi kernel only works with the default environment in VSCode.
