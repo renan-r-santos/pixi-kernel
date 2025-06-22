@@ -1,6 +1,7 @@
 import os
 from dataclasses import dataclass
 from pathlib import Path
+from subprocess import CalledProcessError
 
 from pydantic import ValidationError
 
@@ -8,13 +9,13 @@ from .async_subprocess import subprocess_exec
 from .types import PixiInfo
 
 
-@dataclass(frozen=True)
+@dataclass(kw_only=True)
 class PixiEnvironment:
     name: str
     default: bool = False
 
 
-DEFAULT_ENVIRONMENT = PixiEnvironment(name="default", default=True)
+DEFAULT_ENVIRONMENT_NAME = "default"
 
 
 async def envs_from_path(path: Path) -> list[PixiEnvironment]:
@@ -23,19 +24,15 @@ async def envs_from_path(path: Path) -> list[PixiEnvironment]:
     env = os.environ.copy()
     env.pop("PIXI_IN_SHELL", None)
 
-    default_env_name = os.environ.get("PIXI_KERNEL_DEFAULT_ENVIRONMENT", DEFAULT_ENVIRONMENT.name)
-
-    returncode, stdout, stderr = await subprocess_exec("pixi", "info", "--json", cwd=path, env=env)
-    if returncode != 0:
-        return [DEFAULT_ENVIRONMENT]
+    default_env_name = os.environ.get("PIXI_KERNEL_DEFAULT_ENVIRONMENT", DEFAULT_ENVIRONMENT_NAME)
 
     try:
+        returncode, stdout, stderr = await subprocess_exec(
+            "pixi", "info", "--json", cwd=path, env=env, check=True
+        )
         pixi_info = PixiInfo.model_validate_json(stdout, strict=True)
-    except ValidationError:
-        return [DEFAULT_ENVIRONMENT]
-
-    if len(pixi_info.environments) == 0:
-        return [DEFAULT_ENVIRONMENT]
+    except (ValidationError, CalledProcessError):
+        return [PixiEnvironment(name=DEFAULT_ENVIRONMENT_NAME, default=True)]
 
     envs: list[PixiEnvironment] = []
     found_default = False
@@ -48,7 +45,7 @@ async def envs_from_path(path: Path) -> list[PixiEnvironment]:
     # If no environment matched the default, fallback to "default" if present
     if not found_default:
         for env in envs:
-            if env.name == DEFAULT_ENVIRONMENT.name:
+            if env.name == DEFAULT_ENVIRONMENT_NAME:
                 env.default = True
                 found_default = True
                 break

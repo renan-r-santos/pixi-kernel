@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field
 
 
 class PixiInfo(BaseModel):
-    environments: list[Environment] = Field(alias="environments_info")
+    environments: list[Environment] = Field(alias="environments_info", min_length=1)
     project: Optional[Project] = Field(alias="project_info")
 
 
