@@ -51,7 +51,7 @@ environment, use JupyterLab property inspector, save your notebook and restart y
 ![JupyterLab property inspector showing Pixi environment selector](https://raw.githubusercontent.com/renan-r-santos/pixi-kernel/main/assets/env-selector-light.png)
 
 If environment cannot be determined, Pixi kernel will fallback to the value in the
-`PIXI_KERNEL_FALLBACK_ENVIRONMENT` environment variable, if specified. Otherwise, the `default`
+`PIXI_KERNEL_DEFAULT_ENVIRONMENT` environment variable, if specified. Otherwise, the `default`
 Pixi environment will be used.
 
 ## JupyterHub deployments with limited permissions

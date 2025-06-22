@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+from dataclasses import asdict
 
 import tornado
 from jupyter_server.base.handlers import APIHandler
@@ -30,7 +31,8 @@ class EnvHandler(APIHandler):
             notebook_path = notebook_path.parent
 
         envs = await envs_from_path(notebook_path)
-        await self.finish(json.dumps(envs))
+        envs_dicts = [asdict(env) for env in envs]
+        await self.finish(json.dumps(envs_dicts))
 
 
 def setup_handlers(web_app: ServerWebApplication) -> None:

@@ -63,7 +63,7 @@ class PixiKernelProvisioner(LocalProvisioner):  # type: ignore[misc]
                 self.log.exception("Failed to get Pixi environment name from notebook metadata.")
 
         if environment_name == "":
-            environment_name = os.environ.get("PIXI_KERNEL_FALLBACK_ENVIRONMENT", "default")
+            environment_name = os.environ.get("PIXI_KERNEL_DEFAULT_ENVIRONMENT", "default")
             self.log.info(f"Falling back to the '{environment_name}' Pixi environment.")
 
         result = await verify_env_readiness(

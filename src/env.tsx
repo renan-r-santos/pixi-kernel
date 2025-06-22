@@ -11,8 +11,13 @@ interface IPixiEnvProps extends WidgetProps {
   nbTracker: INotebookTracker;
 }
 
+interface IEnvOption {
+  name: string;
+  default: boolean;
+}
+
 export const PixiEnvWidget = (props: IPixiEnvProps) => {
-  const [envs, setEnvs] = useState(['']);
+  const [envs, setEnvs] = useState<IEnvOption[]>([]);
 
   useEffect(() => {
     const fetchEnvironments = async () => {
@@ -25,15 +30,32 @@ export const PixiEnvWidget = (props: IPixiEnvProps) => {
           props.app.serviceManager.contents.localPath(relativePath);
         const serverRoot = PageConfig.getOption('serverRoot') || '';
 
-        const environments = await requestAPI<string[]>('envs', {
+        const environments = await requestAPI<IEnvOption[]>('envs', {
           method: 'POST',
           body: JSON.stringify({ localPath, serverRoot })
         });
 
         setEnvs(environments);
+        // Select the first env with default: true, fallback to "default", else first
+        let defaultEnvironmentName = environments.find(e => e.default)?.name;
+        if (!defaultEnvironmentName) {
+          defaultEnvironmentName = environments.find(
+            e => e.name === 'default'
+          )?.name;
+        }
+        if (!defaultEnvironmentName && environments.length > 0) {
+          defaultEnvironmentName = environments[0].name;
+        }
+        // Only set if not already set by parent
+        if (!props.value && defaultEnvironmentName) {
+          props.onChange(defaultEnvironmentName);
+        }
       } catch (error) {
         console.error('Failed to fetch environments:', error);
-        setEnvs(['']);
+        setEnvs([]);
+        if (!props.value) {
+          props.onChange('');
+        }
       }
     };
 
@@ -49,8 +71,8 @@ export const PixiEnvWidget = (props: IPixiEnvProps) => {
       required={props.required}
     >
       {envs.map(env => (
-        <option key={env} value={env}>
-          {env}
+        <option key={env.name} value={env.name}>
+          {env.name}
         </option>
       ))}
     </select>
