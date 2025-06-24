@@ -1,6 +1,6 @@
 import json
+import os
 from pathlib import Path
-from dataclasses import asdict
 
 import tornado
 from jupyter_server.base.handlers import APIHandler
@@ -9,7 +9,7 @@ from jupyter_server.utils import url_path_join
 from returns.result import Failure
 
 from .compatibility import has_compatible_pixi
-from .env import envs_from_path
+from .env import DEFAULT_ENVIRONMENT, envs_from_path
 
 
 class EnvHandler(APIHandler):
@@ -31,8 +31,13 @@ class EnvHandler(APIHandler):
             notebook_path = notebook_path.parent
 
         envs = await envs_from_path(notebook_path)
-        envs_dicts = [asdict(env) for env in envs]
-        await self.finish(json.dumps(envs_dicts))
+
+        default_env = os.environ.get("PIXI_KERNEL_DEFAULT_ENVIRONMENT")
+        if default_env not in envs:
+            default_env = DEFAULT_ENVIRONMENT
+
+        response = {"environments": envs, "default": default_env}
+        await self.finish(json.dumps(response))
 
 
 def setup_handlers(web_app: ServerWebApplication) -> None:

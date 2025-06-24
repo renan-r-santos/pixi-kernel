@@ -11,13 +11,14 @@ interface IPixiEnvProps extends WidgetProps {
   nbTracker: INotebookTracker;
 }
 
-interface IEnvOption {
-  name: string;
-  default: boolean;
+interface IEnvironmentResponse {
+  environments: string[];
+  default: string;
 }
 
 export const PixiEnvWidget = (props: IPixiEnvProps) => {
-  const [envs, setEnvs] = useState<IEnvOption[]>([]);
+  const [envs, setEnvs] = useState(['']);
+  const [defaultEnv, setDefaultEnv] = useState('');
 
   useEffect(() => {
     const fetchEnvironments = async () => {
@@ -30,32 +31,16 @@ export const PixiEnvWidget = (props: IPixiEnvProps) => {
           props.app.serviceManager.contents.localPath(relativePath);
         const serverRoot = PageConfig.getOption('serverRoot') || '';
 
-        const environments = await requestAPI<IEnvOption[]>('envs', {
+        const response = await requestAPI<IEnvironmentResponse>('envs', {
           method: 'POST',
           body: JSON.stringify({ localPath, serverRoot })
         });
 
-        setEnvs(environments);
-        // Select the first env with default: true, fallback to "default", else first
-        let defaultEnvironmentName = environments.find(e => e.default)?.name;
-        if (!defaultEnvironmentName) {
-          defaultEnvironmentName = environments.find(
-            e => e.name === 'default'
-          )?.name;
-        }
-        if (!defaultEnvironmentName && environments.length > 0) {
-          defaultEnvironmentName = environments[0].name;
-        }
-        // Only set if not already set by parent
-        if (!props.value && defaultEnvironmentName) {
-          props.onChange(defaultEnvironmentName);
-        }
+        setEnvs(response.environments);
+        setDefaultEnv(response.default);
       } catch (error) {
         console.error('Failed to fetch environments:', error);
-        setEnvs([]);
-        if (!props.value) {
-          props.onChange('');
-        }
+        setEnvs(['']);
       }
     };
 
@@ -66,13 +51,13 @@ export const PixiEnvWidget = (props: IPixiEnvProps) => {
     <select
       id={props.id}
       className="form-control"
-      value={props.value || ''}
+      value={props.value || defaultEnv}
       onChange={e => props.onChange(e.target.value)}
       required={props.required}
     >
       {envs.map(env => (
-        <option key={env.name} value={env.name}>
-          {env.name}
+        <option key={env} value={env}>
+          {env}
         </option>
       ))}
     </select>
