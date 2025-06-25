@@ -11,8 +11,14 @@ interface IPixiEnvProps extends WidgetProps {
   nbTracker: INotebookTracker;
 }
 
+interface IEnvironmentResponse {
+  environments: string[];
+  default: string;
+}
+
 export const PixiEnvWidget = (props: IPixiEnvProps) => {
   const [envs, setEnvs] = useState(['']);
+  const [defaultEnv, setDefaultEnv] = useState('');
 
   useEffect(() => {
     const fetchEnvironments = async () => {
@@ -25,12 +31,17 @@ export const PixiEnvWidget = (props: IPixiEnvProps) => {
           props.app.serviceManager.contents.localPath(relativePath);
         const serverRoot = PageConfig.getOption('serverRoot') || '';
 
-        const environments = await requestAPI<string[]>('envs', {
+        const response = await requestAPI<IEnvironmentResponse>('envs', {
           method: 'POST',
           body: JSON.stringify({ localPath, serverRoot })
         });
 
-        setEnvs(environments);
+        setEnvs(response.environments);
+        setDefaultEnv(response.default);
+
+        if (!props.value && response.default) {
+          props.onChange(response.default);
+        }
       } catch (error) {
         console.error('Failed to fetch environments:', error);
         setEnvs(['']);
@@ -44,7 +55,7 @@ export const PixiEnvWidget = (props: IPixiEnvProps) => {
     <select
       id={props.id}
       className="form-control"
-      value={props.value || ''}
+      value={props.value || defaultEnv}
       onChange={e => props.onChange(e.target.value)}
       required={props.required}
     >
