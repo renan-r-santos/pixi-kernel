@@ -27,4 +27,4 @@ async def envs_from_path(path: Path) -> list[str]:
     if len(pixi_info.environments) == 0:
         return [DEFAULT_ENVIRONMENT]
 
-    return [env.name for env in pixi_info.environments]
+    return sorted([env.name for env in pixi_info.environments])
