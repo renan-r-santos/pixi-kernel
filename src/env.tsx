@@ -38,6 +38,10 @@ export const PixiEnvWidget = (props: IPixiEnvProps) => {
 
         setEnvs(response.environments);
         setDefaultEnv(response.default);
+
+        if (!props.value && response.default) {
+          props.onChange(response.default);
+        }
       } catch (error) {
         console.error('Failed to fetch environments:', error);
         setEnvs(['']);
