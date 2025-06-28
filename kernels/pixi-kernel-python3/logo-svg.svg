@@ -5,8 +5,8 @@
    version="1.0"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
-   sodipodi:docname="python-logo-only.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   sodipodi:docname="logo-svg.svg"
    width="83.371017pt"
    height="101.00108pt"
    inkscape:export-filename="python-logo-only.png"
@@ -43,11 +43,11 @@
      bordercolor="#666666"
      pagecolor="#ffffff"
      id="base"
-     inkscape:zoom="2.1461642"
-     inkscape:cx="91.558698"
-     inkscape:cy="47.9926"
+     inkscape:zoom="9.0035802"
+     inkscape:cx="37.762756"
+     inkscape:cy="77.024915"
      inkscape:window-x="1092"
-     inkscape:window-y="72"
+     inkscape:window-y="43"
      inkscape:current-layer="svg2"
      width="210mm"
      height="40mm"
@@ -220,7 +220,7 @@
        xlink:href="#linearGradient4671"
        id="linearGradient1475"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.562541,0,0,0.567972,-14.99112,-11.702371)"
+       gradientTransform="matrix(0.562541,0,0,0.567972,-14.991155,-12.092873)"
        x1="150.96111"
        y1="192.35176"
        x2="112.03144"
@@ -246,14 +246,106 @@
        fx="61.518883"
        fy="132.28575"
        r="29.036913" />
+    <linearGradient
+       id="paint0_linear_0_1"
+       x1="19.387199"
+       y1="0"
+       x2="19.387199"
+       y2="38.774399"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-color="#FFF500"
+         id="stop492" />
+      <stop
+         offset="0.686651"
+         stop-color="#FFC000"
+         id="stop494" />
+      <stop
+         offset="1"
+         stop-color="#FF7A00"
+         id="stop496" />
+    </linearGradient>
+    <linearGradient
+       id="paint1_linear_0_1"
+       x1="19.308001"
+       y1="22.3941"
+       x2="19.308001"
+       y2="13.6106"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         id="stop499" />
+      <stop
+         offset="1"
+         stop-opacity="0.24"
+         id="stop501" />
+    </linearGradient>
+    <linearGradient
+       id="paint2_linear_0_1"
+       x1="9.8595896"
+       y1="22.236"
+       x2="9.8595896"
+       y2="33.868301"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-opacity="0"
+         id="stop504" />
+      <stop
+         offset="1"
+         id="stop506" />
+    </linearGradient>
+    <linearGradient
+       id="paint3_linear_0_1"
+       x1="6.5"
+       y1="20"
+       x2="6.5"
+       y2="30.2871"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-opacity="0"
+         id="stop509" />
+      <stop
+         offset="1"
+         id="stop511" />
+    </linearGradient>
+    <linearGradient
+       id="paint4_linear_0_1"
+       x1="9.8813"
+       y1="22.236"
+       x2="9.8813"
+       y2="33.868301"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-opacity="0"
+         id="stop514" />
+      <stop
+         offset="1"
+         id="stop516" />
+    </linearGradient>
+    <linearGradient
+       id="paint5_linear_0_1"
+       x1="10.1404"
+       y1="22.236"
+       x2="10.1404"
+       y2="33.868301"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-opacity="0"
+         id="stop519" />
+      <stop
+         offset="1"
+         id="stop521" />
+    </linearGradient>
   </defs>
   <path
      style="fill:url(#linearGradient1478);fill-opacity:1"
      d="M 54.918785,9.1927421e-4 C 50.335132,0.02221727 45.957846,0.41313697 42.106285,1.0946693 30.760069,3.0991731 28.700036,7.2947714 28.700035,15.032169 v 10.21875 h 26.8125 v 3.40625 h -26.8125 -10.0625 c -7.792459,0 -14.6157588,4.683717 -16.7499998,13.59375 -2.46181998,10.212966 -2.57101508,16.586023 0,27.25 1.9059283,7.937852 6.4575432,13.593748 14.2499998,13.59375 h 9.21875 v -12.25 c 0,-8.849902 7.657144,-16.656248 16.75,-16.65625 h 26.78125 c 7.454951,0 13.406253,-6.138164 13.40625,-13.625 v -25.53125 c 0,-7.2663386 -6.12998,-12.7247771 -13.40625,-13.9374997 C 64.281548,0.32794397 59.502438,-0.02037903 54.918785,9.1927421e-4 Z m -14.5,8.21875012579 c 2.769547,0 5.03125,2.2986456 5.03125,5.1249996 -2e-6,2.816336 -2.261703,5.09375 -5.03125,5.09375 -2.779476,-1e-6 -5.03125,-2.277415 -5.03125,-5.09375 -10e-7,-2.826353 2.251774,-5.1249996 5.03125,-5.1249996 z"
-     id="path1948" />
+     id="path1948"
+     inkscape:export-filename="logo-32x32.png"
+     inkscape:export-xdpi="27.639999"
+     inkscape:export-ydpi="27.639999" />
   <path
      style="fill:url(#linearGradient1475);fill-opacity:1"
-     d="m 85.637535,28.657169 v 11.90625 c 0,9.230755 -7.825895,16.999999 -16.75,17 h -26.78125 c -7.335833,0 -13.406249,6.278483 -13.40625,13.625 v 25.531247 c 0,7.266344 6.318588,11.540324 13.40625,13.625004 8.487331,2.49561 16.626237,2.94663 26.78125,0 6.750155,-1.95439 13.406253,-5.88761 13.40625,-13.625004 V 86.500919 h -26.78125 v -3.40625 h 26.78125 13.406254 c 7.792461,0 10.696251,-5.435408 13.406241,-13.59375 2.79933,-8.398886 2.68022,-16.475776 0,-27.25 -1.92578,-7.757441 -5.60387,-13.59375 -13.406241,-13.59375 z m -15.0625,64.65625 c 2.779478,3e-6 5.03125,2.277417 5.03125,5.093747 -2e-6,2.826354 -2.251775,5.125004 -5.03125,5.125004 -2.76955,0 -5.03125,-2.29865 -5.03125,-5.125004 2e-6,-2.81633 2.261697,-5.093747 5.03125,-5.093747 z"
+     d="m 85.6375,28.266667 v 11.90625 c 0,9.230755 -7.825895,16.999999 -16.75,17 H 42.10625 c -7.335833,0 -13.406249,6.278483 -13.40625,13.625 v 25.531247 c 0,7.266346 6.318588,11.540326 13.40625,13.625006 8.487331,2.49561 16.626237,2.94663 26.78125,0 6.750155,-1.95439 13.406253,-5.88761 13.40625,-13.625006 V 86.110417 H 55.5125 v -3.40625 h 26.78125 13.406254 c 7.792466,0 10.696256,-5.435408 13.406246,-13.59375 2.79933,-8.398886 2.68022,-16.475776 0,-27.25 -1.92578,-7.757441 -5.60387,-13.59375 -13.406246,-13.59375 z M 70.575,92.922917 c 2.779478,3e-6 5.03125,2.277417 5.03125,5.093747 -2e-6,2.826356 -2.251775,5.125006 -5.03125,5.125006 -2.76955,0 -5.03125,-2.29865 -5.03125,-5.125006 2e-6,-2.81633 2.261697,-5.093747 5.03125,-5.093747 z"
      id="path1950" />
   <ellipse
      style="opacity:0.44382;fill:url(#radialGradient1480);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:15.4174;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -262,4 +354,54 @@
      cy="127.70079"
      rx="35.930977"
      ry="6.9673119" />
+  <g
+     style="fill:none"
+     id="g557"
+     transform="translate(-42.575112,-64.776579)">
+    <g
+       id="g643"
+       transform="matrix(1.5349091,0,0,1.5349091,93.923665,118.50767)">
+      <path
+         d="m 22.4337,2.2158 10.3011,5.94729 c 1.8852,1.08843 3.0465,3.09991 3.0465,5.27681 v 11.8946 c 0,2.1768 -1.1613,4.1883 -3.0465,5.2768 l -10.3011,5.9473 c -1.8852,1.0884 -4.2079,1.0884 -6.0931,0 L 6.0396,30.6113 C 4.15438,29.5228 2.99305,27.5113 2.99305,25.3345 V 13.4399 c 0,-2.1769 1.16134,-4.18838 3.04655,-5.27681 l 10.301,-5.9473 c 1.8852,-1.08843 4.2079,-1.08842 6.0931,1e-5 z"
+         fill="url(#paint0_linear_0_1)"
+         stroke="#000000"
+         stroke-width="0.791313"
+         id="path476"
+         style="fill:url(#paint0_linear_0_1)" />
+      <path
+         d="m 5.77658,13.5325 10.30102,5.9473 c 2.0076,1.1591 4.4811,1.1591 6.4888,0 l 10.301,-5.9473"
+         stroke="url(#paint1_linear_0_1)"
+         stroke-width="0.316525"
+         id="path478"
+         style="stroke:url(#paint1_linear_0_1)" />
+      <g
+         style="mix-blend-mode:overlay"
+         id="g488">
+        <path
+           d="m 8,22.236 v 9.2583"
+           stroke="url(#paint2_linear_0_1)"
+           stroke-width="0.316525"
+           id="path480"
+           style="stroke:url(#paint2_linear_0_1)" />
+        <path
+           d="M 6,20 V 30.2871"
+           stroke="url(#paint3_linear_0_1)"
+           stroke-width="0.316525"
+           id="path482"
+           style="stroke:url(#paint3_linear_0_1)" />
+        <path
+           d="m 10,25.243 v 7.3592"
+           stroke="url(#paint4_linear_0_1)"
+           stroke-width="0.316525"
+           id="path484"
+           style="stroke:url(#paint4_linear_0_1)" />
+        <path
+           d="m 12,28.25 v 5.6183"
+           stroke="url(#paint5_linear_0_1)"
+           stroke-width="0.316525"
+           id="path486"
+           style="stroke:url(#paint5_linear_0_1)" />
+      </g>
+    </g>
+  </g>
 </svg>
