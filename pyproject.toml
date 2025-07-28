@@ -1,6 +1,6 @@
 [project]
 name = "pixi-kernel"
-version = "0.6.4"
+version = "0.6.5"
 description = "Jupyter kernels using Pixi for reproducible notebooks"
 license = { text = "MIT" }
 authors = [
@@ -35,9 +35,9 @@ requires-python = ">=3.9,<4.0"
 dependencies = [
     "ipykernel>=6",
     "jupyter-client>=7",
-    "jupyter_server>=2.4.0,<3",
-    "pydantic>=2,<3",
-    "returns>=0.23,<0.24",      # 0.24 drops Python 3.9 support
+    "jupyter_server>=2.4.0",
+    "pydantic>=2",
+    "returns>=0.23",
 ]
 
 [project.urls]
@@ -47,14 +47,14 @@ Repository = "https://github.com/renan-r-santos/pixi-kernel"
 
 [tool.uv]
 dev-dependencies = [
-    "jupyter-kernel-test>=0.7,<0.8",
-    "jupyterlab>=4,<5",
-    "mypy>=1,<2",
-    "pytest>=8,<9",
-    "pytest-asyncio>=1,<2",
-    "pytest-cov>=6,<7",
-    "ruff>=0.12,<0.13",
-    "tox-uv>=1,<2",
+    "jupyter-kernel-test>=0.7",
+    "jupyterlab>=4",
+    "mypy>=1",
+    "pytest>=8",
+    "pytest-asyncio>=1",
+    "pytest-cov>=6",
+    "ruff>=0.12",
+    "tox-uv>=1",
 ]
 
 [project.entry-points."jupyter_client.kernel_provisioners"]
