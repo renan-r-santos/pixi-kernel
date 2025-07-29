@@ -1,5 +1,6 @@
 import os
 import stat
+import sys
 import tempfile
 from pathlib import Path
 
@@ -30,7 +31,8 @@ def mock_get_default_pixi_path(monkeypatch: pytest.MonkeyPatch):
 @pytest.fixture
 def pixi_path():
     with tempfile.TemporaryDirectory() as temp_dir:
-        pixi_path = Path(temp_dir) / "pixi"
+        pixi_name = "pixi.exe" if sys.platform == "win32" else "pixi"
+        pixi_path = Path(temp_dir) / pixi_name
         pixi_path.touch()
         pixi_path.chmod(pixi_path.stat().st_mode | stat.S_IEXEC)
         yield pixi_path
@@ -47,7 +49,8 @@ def config_path(monkeypatch: pytest.MonkeyPatch):
 @pytest.mark.usefixtures("mock_get_config_file", "mock_get_default_pixi_path")
 def test_find_pixi_with_which(pixi_path: Path, monkeypatch: pytest.MonkeyPatch):
     path = os.environ.get("PATH", "")
-    monkeypatch.setenv("PATH", f"{pixi_path.parent}:{path}")
+    new_path = f"{pixi_path.parent}{os.pathsep}{path}"
+    monkeypatch.setenv("PATH", new_path)
 
     result = find_pixi_binary()
     assert isinstance(result, Success)
