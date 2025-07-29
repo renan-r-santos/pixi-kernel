@@ -31,7 +31,7 @@ def mock_get_default_pixi_path(monkeypatch: pytest.MonkeyPatch):
 @pytest.fixture
 def pixi_path():
     with tempfile.TemporaryDirectory() as temp_dir:
-        pixi_name = "pixi.exe" if sys.platform == "win32" else "pixi"
+        pixi_name = "pixi.EXE" if sys.platform == "win32" else "pixi"
         pixi_path = Path(temp_dir) / pixi_name
         pixi_path.touch()
         pixi_path.chmod(pixi_path.stat().st_mode | stat.S_IEXEC)
