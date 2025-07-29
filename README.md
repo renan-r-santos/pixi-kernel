@@ -38,16 +38,15 @@ See the [Pixi docs](https://pixi.sh/latest/) for more information on how to use 
 By default, `pixi-kernel` will try to find the Pixi binary in this order:
 
 1. Use `shutil.which("pixi")` to find Pixi in your PATH
-2. Check for a configuration file at `{user_config_dir}/pixi-kernel/config.toml`
+2. Check for a configuration file stored at:
+   - Linux/macOS: `$HOME/.config/pixi-kernel/config.toml`
+   - Windows: `$Env:USERPROFILE\.config\pixi-kernel\config.toml`
 3. Check the default Pixi installation location:
    - Linux/macOS: `$HOME/.pixi/bin/pixi`
    - Windows: `$Env:USERPROFILE\.pixi\bin\pixi.exe`
 
 If you have Pixi installed in a non-standard location, you can create a configuration file to
 specify its path:
-
-- **Linux/macOS**: `~/.config/pixi-kernel/config.toml`
-- **Windows**: `%APPDATA%\renan-r-santos\pixi-kernel\config.toml`
 
 ```toml
 pixi-path = "/path/to/your/pixi"

@@ -36,7 +36,6 @@ dependencies = [
     "ipykernel>=6",
     "jupyter-client>=7",
     "jupyter_server>=2.4.0",
-    "platformdirs>=4",
     "pydantic>=2",
     "returns>=0.23",
     "tomli>=2; python_version<'3.11'",

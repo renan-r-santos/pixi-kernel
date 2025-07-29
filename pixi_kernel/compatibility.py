@@ -1,18 +1,16 @@
-import os
 import shutil
 import sys
 from pathlib import Path
 from typing import Any
 
-import platformdirs
 from returns.result import Failure, Result, Success
 
 from .async_subprocess import subprocess_exec
 
-try:
+if sys.version_info >= (3, 11):
     import tomllib
-except ImportError:
-    import tomli as tomllib  # type: ignore
+else:
+    import tomli  # noqa: F401
 
 
 MINIMUM_PIXI_VERSION = (0, 30, 0)
@@ -45,6 +43,17 @@ If you continue to face issues, report them at https://github.com/renan-r-santos
 """
 
 
+def get_config_file() -> Path:
+    return Path.home() / ".config" / "pixi-kernel" / "config.toml"
+
+
+def get_default_pixi_path() -> Path:
+    if sys.platform == "win32":
+        return Path.home() / ".pixi" / "bin" / "pixi.exe"
+    else:
+        return Path.home() / ".pixi" / "bin" / "pixi"
+
+
 def find_pixi_binary() -> Result[str, None]:
     # 1. Check if the Pixi binary is available in the system PATH
     pixi_path = shutil.which("pixi")
@@ -52,9 +61,7 @@ def find_pixi_binary() -> Result[str, None]:
         return Success(pixi_path)
 
     # 2. Check if a config file exists and read the Pixi path from it
-    config_dir = platformdirs.user_config_dir(appname="pixi-kernel", appauthor="renan-r-santos")
-    config_file = Path(config_dir) / "config.toml"
-
+    config_file = get_config_file()
     if config_file.is_file():
         try:
             content = Path(config_file).read_text()
@@ -67,11 +74,7 @@ def find_pixi_binary() -> Result[str, None]:
 
     # 3. Check if the default installation path exists
     # https://pixi.sh/latest/installation/#installer-script-options
-    if sys.platform == "win32":
-        default_pixi_path = Path(os.environ.get("USERPROFILE", "")) / ".pixi" / "bin" / "pixi.exe"
-    else:
-        default_pixi_path = Path(os.environ.get("HOME", "")) / ".pixi" / "bin" / "pixi"
-
+    default_pixi_path = get_default_pixi_path()
     if default_pixi_path.is_file():
         return Success(str(default_pixi_path))
 
