@@ -10,7 +10,7 @@ from .async_subprocess import subprocess_exec
 if sys.version_info >= (3, 11):
     import tomllib
 else:
-    import tomli  # noqa: F401
+    import tomli as tomllib
 
 
 MINIMUM_PIXI_VERSION = (0, 30, 0)
