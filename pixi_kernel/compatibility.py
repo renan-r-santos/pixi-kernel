@@ -13,7 +13,7 @@ else:
     import tomli as tomllib
 
 
-MINIMUM_PIXI_VERSION = (0, 30, 0)
+MINIMUM_PIXI_VERSION = (0, 39, 0)
 
 
 PIXI_NOT_FOUND = """Pixi was not detected in your system.
