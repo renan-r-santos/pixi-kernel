@@ -28,7 +28,7 @@ def kwargs():
     }
 
 
-@pytest.mark.usefixtures("_patch_path")
+@pytest.mark.usefixtures("_patch_find_pixi_binary")
 async def test_pixi_not_installed(kwargs: dict):
     expected = PIXI_NOT_FOUND.format(kernel_name=kwargs["kernel_name"])
     result = await verify_env_readiness(**kwargs)
