@@ -27,9 +27,31 @@ support](#kernel-support) table and replace `ipykernel` with the desired kernel 
 1. Install Pixi and `pixi-kernel` alongside JupyterLab using your favorite package manager.
 2. Restart JupyterLab.
 3. Create a new directory and initialize a Pixi project with `pixi init` and `pixi add ipykernel`.
-4. Restart the kernel and you are good to go.
+4. Select the Python Pixi kernel and you are good to go.
 
 See the [Pixi docs](https://pixi.sh/latest/) for more information on how to use Pixi.
+
+## Configuration
+
+### Custom Pixi binary location
+
+By default, `pixi-kernel` will try to find the Pixi binary in this order:
+
+1. Use `shutil.which("pixi")` to find Pixi in your PATH
+2. Check for a configuration file at `{user_config_dir}/pixi-kernel/config.toml`
+3. Check the default Pixi installation location:
+   - Linux/macOS: `$HOME/.pixi/bin/pixi`
+   - Windows: `$Env:USERPROFILE\.pixi\bin\pixi.exe`
+
+If you have Pixi installed in a non-standard location, you can create a configuration file to
+specify its path:
+
+- **Linux/macOS**: `~/.config/pixi-kernel/config.toml`
+- **Windows**: `%APPDATA%\renan-r-santos\pixi-kernel\config.toml`
+
+```toml
+pixi-path = "/path/to/your/pixi"
+```
 
 ## Kernel support
 
@@ -60,9 +82,11 @@ If you're using pixi-kernel on JupyterHub and cannot access the environment wher
 installed, you can use the following workaround:
 
 1. Install `pixi-kernel` locally: `pip install pixi-kernel --user`
-2. Restart your JupyterLab server
+2. Install Pixi
+3. Restart your JupyterLab server
 
-See https://github.com/renan-r-santos/pixi-kernel/issues/51 for more information.
+See https://github.com/renan-r-santos/pixi-kernel/issues/62 and
+https://github.com/renan-r-santos/pixi-kernel/issues/51 for more information.
 
 ## Limitations
 

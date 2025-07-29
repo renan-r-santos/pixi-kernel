@@ -5,8 +5,7 @@ from pathlib import Path
 from pydantic import ValidationError
 from returns.result import Failure, Result, Success
 
-from .async_subprocess import subprocess_exec
-from .compatibility import has_compatible_pixi
+from .compatibility import has_compatible_pixi, run_pixi
 from .types import Environment, PixiInfo
 
 PIXI_KERNEL_NOT_FOUND = """To run the {kernel_name} kernel, you need to add the {required_package}
@@ -41,7 +40,7 @@ async def verify_env_readiness(
         return result
 
     # Ensure there is a Pixi project in the current working directory or any of its parents
-    returncode, stdout, stderr = await subprocess_exec("pixi", "info", "--json", cwd=cwd, env=env)
+    returncode, stdout, stderr = await run_pixi("info", "--json", cwd=cwd, env=env)
 
     logger.info(f"pixi info stderr: {stderr}")
     logger.info(f"pixi info stdout: {stdout}")
@@ -56,14 +55,7 @@ async def verify_env_readiness(
     if pixi_info.project is None:
         # Attempt to get a good error message by running `pixi project version get`. Maybe there's
         # a typo in the toml file (parsing error) or there is no project at all.
-        returncode, stdout, stderr = await subprocess_exec(
-            "pixi",
-            "project",
-            "version",
-            "get",
-            cwd=cwd,
-            env=env,
-        )
+        returncode, stdout, stderr = await run_pixi("project", "version", "get", cwd=cwd, env=env)
         return Failure(stderr)
 
     # Find the Pixi environment and check if the required kernel package is a dependency
@@ -77,9 +69,7 @@ async def verify_env_readiness(
     dependencies = pixi_environment.dependencies + pixi_environment.pypi_dependencies
     if required_package not in dependencies:
         # Check transitive dependencies
-        returncode, stdout, stderr = await subprocess_exec(
-            "pixi", "list", "--json", cwd=cwd, env=env
-        )
+        returncode, stdout, stderr = await run_pixi("list", "--json", cwd=cwd, env=env)
 
         logger.info(f"pixi list stderr: {stderr}")
         logger.info(f"pixi list stdout: {stdout}")
@@ -99,13 +89,8 @@ async def verify_env_readiness(
             return Failure(f"Failed to parse 'pixi list' output: {stdout}\n{exception}")
 
     # Make sure the environment can be solved and is up-to-date
-    returncode, stdout, stderr = await subprocess_exec(
-        "pixi",
-        "install",
-        "--environment",
-        environment_name,
-        cwd=cwd,
-        env=env,
+    returncode, stdout, stderr = await run_pixi(
+        "install", "--environment", environment_name, cwd=cwd, env=env
     )
     if returncode != 0:
         return Failure(f"Failed to run 'pixi install --environment {environment_name}': {stderr}")
