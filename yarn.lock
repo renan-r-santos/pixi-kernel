@@ -1724,11 +1724,11 @@ __metadata:
   linkType: hard
 
 "@types/react@npm:*":
-  version: 19.1.8
-  resolution: "@types/react@npm:19.1.8"
+  version: 19.1.9
+  resolution: "@types/react@npm:19.1.9"
   dependencies:
     csstype: ^3.0.2
-  checksum: 17e0c74d9c01214938fa805aaa8b97925bf3c5514e88fdf94bec42c0a6d4abbc63d4e30255db176f46fd7f0aa89f8085b9b2b2fa5abaffbbf7e5009386ada892
+  checksum: 531b1f40e7f93aade4385a56b73e98846ec482ac695ccb0d4da1fc53fa398564f71383cd120cf8b8a9a1ea95f207c3e042d145fa8bc26e4fa57d863459e53b29
   languageName: node
   linkType: hard
 
@@ -2386,9 +2386,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001726":
-  version: 1.0.30001727
-  resolution: "caniuse-lite@npm:1.0.30001727"
-  checksum: 2bc6112f242701198a99c17713d4409be9b404d09005f34f351ec29a4ea46c054e7aa4982bc16f06b81b7a375cbc61c937e89650170cbce84db772a376ed3963
+  version: 1.0.30001731
+  resolution: "caniuse-lite@npm:1.0.30001731"
+  checksum: ecd2ad779f31011bef657c0104a08a780d9bb38ff8ad7aeeeaf196151be22c492de87f4a9c89a30ea4aa9575c5a39c85bf6bd56e89a4bf8259f54a4fbfc24a0d
   languageName: node
   linkType: hard
 
