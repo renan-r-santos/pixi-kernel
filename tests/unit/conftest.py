@@ -21,6 +21,11 @@ if platform.system() == "Windows":
         return request.param
 
 
+@pytest.fixture(autouse=True)
+def _clear_pixi_path_cache():
+    pixi_kernel.compatibility._pixi_path_cache = None
+
+
 @pytest.fixture
 def _patch_find_pixi_binary(monkeypatch: pytest.MonkeyPatch):
     monkeypatch.setattr(pixi_kernel.compatibility, "find_pixi_binary", lambda: Failure(None))
