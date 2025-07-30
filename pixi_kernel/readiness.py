@@ -2,7 +2,7 @@ import json
 import logging
 from pathlib import Path
 
-from pydantic import ValidationError
+import msgspec
 from returns.result import Failure, Result, Success
 
 from .compatibility import has_compatible_pixi, run_pixi
@@ -48,8 +48,8 @@ async def verify_env_readiness(
         return Failure(f"Failed to run 'pixi info': {stderr}")
 
     try:
-        pixi_info = PixiInfo.model_validate_json(stdout, strict=True)
-    except ValidationError as exception:
+        pixi_info = msgspec.json.decode(stdout, type=PixiInfo)
+    except msgspec.MsgspecError as exception:
         return Failure(f"Failed to parse 'pixi info' output: {stdout}\n{exception}")
 
     if pixi_info.project is None:
