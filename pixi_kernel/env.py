@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-from pydantic import ValidationError
+import msgspec
 
 from .compatibility import run_pixi
 from .types import PixiInfo
@@ -20,8 +20,8 @@ async def envs_from_path(path: Path) -> list[str]:
         return [DEFAULT_ENVIRONMENT]
 
     try:
-        pixi_info = PixiInfo.model_validate_json(stdout, strict=True)
-    except ValidationError:
+        pixi_info = msgspec.json.decode(stdout, type=PixiInfo)
+    except msgspec.MsgspecError:
         return [DEFAULT_ENVIRONMENT]
 
     if len(pixi_info.environments) == 0:
