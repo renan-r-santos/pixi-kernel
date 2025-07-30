@@ -1,7 +1,7 @@
 import shutil
 import sys
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 from returns.result import Failure, Result, Success
 
@@ -44,7 +44,7 @@ If you continue to face issues, report them at https://github.com/renan-r-santos
 
 
 # Cache for the Pixi path
-_pixi_path_cache: str | None = None
+_pixi_path_cache: Optional[str] = None
 
 
 def get_config_file() -> Path:
