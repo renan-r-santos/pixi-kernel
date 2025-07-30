@@ -35,8 +35,8 @@ requires-python = ">=3.9,<4.0"
 dependencies = [
     "ipykernel>=6",
     "jupyter-client>=7",
-    "jupyter_server>=2.4.0",
-    "pydantic>=2",
+    "jupyter_server>=2.4",
+    "msgspec>=0.18",
     "returns>=0.23",
     "tomli>=2; python_version<'3.11'",
 ]
@@ -50,7 +50,7 @@ Repository = "https://github.com/renan-r-santos/pixi-kernel"
 dev-dependencies = [
     "jupyter-kernel-test>=0.7",
     "jupyterlab>=4",
-    "msgspec[toml]>=0.19.0",
+    "msgspec[toml]>=0.18",
     "mypy>=1",
     "pytest>=8",
     "pytest-asyncio>=1",
