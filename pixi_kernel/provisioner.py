@@ -8,6 +8,7 @@ from jupyter_client.kernelspec import KernelSpec
 from jupyter_client.provisioning.local_provisioner import LocalProvisioner
 from returns.result import Failure
 
+from .compatibility import find_pixi_binary
 from .readiness import verify_env_readiness
 
 
@@ -80,8 +81,9 @@ class PixiKernelProvisioner(LocalProvisioner):  # type: ignore[misc]
         pixi_environment = result.unwrap()
 
         # Update kernel spec command line arguments: `argv[:2] = ["pixi", "run"]`
+        pixi_path = find_pixi_binary().unwrap()
         argv = kernel_spec.argv
-        kernel_spec.argv = [*argv[:2], "--environment", environment_name, *argv[2:]]
+        kernel_spec.argv = [pixi_path, argv[1], "--environment", environment_name, *argv[2:]]
 
         # R kernel needs special treatment
         # https://github.com/renan-r-santos/pixi-kernel/issues/15

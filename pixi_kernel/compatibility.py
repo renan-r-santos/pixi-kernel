@@ -43,6 +43,10 @@ If you continue to face issues, report them at https://github.com/renan-r-santos
 """
 
 
+# Cache for the Pixi path
+_pixi_path_cache: str | None = None
+
+
 def get_config_file() -> Path:
     return Path.home() / ".config" / "pixi-kernel" / "config.toml"
 
@@ -55,6 +59,10 @@ def get_default_pixi_path() -> Path:
 
 
 def find_pixi_binary() -> Result[str, None]:
+    # Return cached result if available
+    if _pixi_path_cache is not None:
+        return Success(_pixi_path_cache)
+
     # 1. Check if the Pixi binary is available in the system PATH
     pixi_path = shutil.which("pixi")
     if pixi_path is not None:
@@ -82,6 +90,11 @@ def find_pixi_binary() -> Result[str, None]:
 
 
 async def has_compatible_pixi() -> Result[None, str]:
+    global _pixi_path_cache
+
+    if _pixi_path_cache is not None:
+        return Success(None)
+
     result = find_pixi_binary()
 
     if isinstance(result, Failure):
@@ -100,6 +113,8 @@ async def has_compatible_pixi() -> Result[None, str]:
         minimum_version = ".".join(map(str, MINIMUM_PIXI_VERSION))
         return Failure(PIXI_OUTDATED.format(minimum_version=minimum_version))
 
+    # We found a compatible Pixi binary, cache it
+    _pixi_path_cache = pixi_path
     return Success(None)
 
 
