@@ -50,6 +50,7 @@ Repository = "https://github.com/renan-r-santos/pixi-kernel"
 dev-dependencies = [
     "jupyter-kernel-test>=0.7",
     "jupyterlab>=4",
+    "msgspec[toml]>=0.19.0",
     "mypy>=1",
     "pytest>=8",
     "pytest-asyncio>=1",

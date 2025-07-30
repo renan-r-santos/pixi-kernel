@@ -4,6 +4,7 @@ import sys
 import tempfile
 from pathlib import Path
 
+import msgspec
 import pytest
 from pixi_kernel.compatibility import find_pixi_binary
 from returns.result import Failure, Success
@@ -59,11 +60,12 @@ def test_find_pixi_with_which(pixi_path: Path, monkeypatch: pytest.MonkeyPatch):
 
 @pytest.mark.usefixtures("mock_which", "mock_get_default_pixi_path")
 def test_find_pixi_via_config_file(pixi_path: Path, config_path: Path):
-    config_path.write_text(f'pixi-path = "{pixi_path}"')
+    bytes = msgspec.toml.encode({"pixi-path": str(pixi_path)})
+    config_path.write_bytes(bytes)
     result = find_pixi_binary()
 
     assert isinstance(result, Success)
-    assert result.unwrap() == str(pixi_path)
+    assert Path(result.unwrap()) == pixi_path
 
 
 @pytest.mark.usefixtures("mock_which", "mock_get_default_pixi_path")
