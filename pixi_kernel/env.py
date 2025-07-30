@@ -3,7 +3,7 @@ from pathlib import Path
 
 from pydantic import ValidationError
 
-from .async_subprocess import subprocess_exec
+from .compatibility import run_pixi
 from .types import PixiInfo
 
 DEFAULT_ENVIRONMENT = "default"
@@ -15,7 +15,7 @@ async def envs_from_path(path: Path) -> list[str]:
     env = os.environ.copy()
     env.pop("PIXI_IN_SHELL", None)
 
-    returncode, stdout, stderr = await subprocess_exec("pixi", "info", "--json", cwd=path, env=env)
+    returncode, stdout, stderr = await run_pixi("info", "--json", cwd=path, env=env)
     if returncode != 0:
         return [DEFAULT_ENVIRONMENT]
 
