@@ -69,7 +69,14 @@ async def verify_env_readiness(
     dependencies = pixi_environment.dependencies + pixi_environment.pypi_dependencies
     if required_package not in dependencies:
         # Check transitive dependencies
-        returncode, stdout, stderr = await run_pixi("list", "--json", cwd=cwd, env=env)
+        returncode, stdout, stderr = await run_pixi(
+            "list",
+            "--json",
+            "--environment",
+            environment_name,
+            cwd=cwd,
+            env=env,
+        )
 
         logger.info(f"pixi list stderr: {stderr}")
         logger.info(f"pixi list stdout: {stdout}")

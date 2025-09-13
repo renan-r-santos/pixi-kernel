@@ -6,9 +6,10 @@ platforms = ["linux-64", "linux-aarch64", "osx-64", "osx-arm64", "win-64"]
 
 [dependencies]
 python = "*"
-jupyterlab = "*"
 
 [feature.test.dependencies]
+python = "*"
+jupyterlab = "*"
 
 [environments]
 test = ["test"]
