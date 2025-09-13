@@ -15,7 +15,7 @@ async def envs_from_path(path: Path) -> list[str]:
     env = os.environ.copy()
     env.pop("PIXI_IN_SHELL", None)
 
-    returncode, stdout, stderr = await run_pixi("info", "--json", cwd=path, env=env)
+    returncode, stdout, _ = await run_pixi("info", "--json", cwd=path, env=env)
     if returncode != 0:
         return [DEFAULT_ENVIRONMENT]
 
