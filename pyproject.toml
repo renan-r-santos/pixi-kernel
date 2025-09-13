@@ -1,6 +1,6 @@
 [project]
 name = "pixi-kernel"
-version = "0.6.6"
+version = "0.6.7"
 description = "Jupyter kernels using Pixi for reproducible notebooks"
 license = { text = "MIT" }
 authors = [
@@ -55,7 +55,7 @@ dev-dependencies = [
     "pytest>=8",
     "pytest-asyncio>=1",
     "pytest-cov>=6",
-    "ruff>=0.12",
+    "ruff>=0.13",
     "tox-uv>=1",
 ]
 

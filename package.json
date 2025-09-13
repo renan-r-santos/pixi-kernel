@@ -1,6 +1,6 @@
 {
     "name": "pixi-kernel",
-    "version": "0.6.6",
+    "version": "0.6.7",
     "description": "Jupyter kernels using Pixi for reproducible notebooks.",
     "keywords": [
         "kernel",
@@ -54,30 +54,30 @@
         "watch:labextension": "jupyter labextension watch ."
     },
     "dependencies": {
-        "@jupyterlab/application": "^4.4.5",
-        "@jupyterlab/coreutils": "^6.4.5",
-        "@jupyterlab/notebook": "^4.4.5",
-        "@jupyterlab/services": "^7.4.5",
-        "@rjsf/utils": "^5.24.12",
+        "@jupyterlab/application": "^4.4.7",
+        "@jupyterlab/coreutils": "^6.4.7",
+        "@jupyterlab/notebook": "^4.4.7",
+        "@jupyterlab/services": "^7.4.7",
+        "@rjsf/utils": "^5.24.13",
         "react": "^18.3.1"
     },
     "devDependencies": {
         "@eslint/eslintrc": "^3.3.1",
-        "@eslint/js": "^9.32.0",
-        "@jupyterlab/builder": "^4.4.5",
+        "@eslint/js": "^9.35.0",
+        "@jupyterlab/builder": "^4.4.7",
         "@types/json-schema": "^7.0.15",
-        "@types/react": "^18.3.12",
+        "@types/react": "^18.3.24",
         "@types/react-addons-linked-state-mixin": "^0.14.27",
-        "@typescript-eslint/eslint-plugin": "^8.38.0",
-        "@typescript-eslint/parser": "^8.38.0",
-        "eslint": "^9.32.0",
+        "@typescript-eslint/eslint-plugin": "^8.43.0",
+        "@typescript-eslint/parser": "^8.43.0",
+        "eslint": "^9.35.0",
         "eslint-config-prettier": "^10.1.8",
-        "eslint-plugin-prettier": "^5.5.3",
+        "eslint-plugin-prettier": "^5.5.4",
         "npm-run-all2": "^8.0.4",
         "prettier": "^3.6.2",
         "rimraf": "^6.0.1",
         "source-map-loader": "^5.0.0",
-        "typescript": "5.5.4"
+        "typescript": "5.9.2"
     },
     "jupyterlab": {
         "discovery": {

@@ -102,7 +102,7 @@ async def has_compatible_pixi() -> Result[None, str]:
     else:
         pixi_path = result.unwrap()
 
-    returncode, stdout, stderr = await subprocess_exec(pixi_path, "--version")
+    returncode, stdout, _ = await subprocess_exec(pixi_path, "--version")
     if returncode != 0 or not stdout.startswith("pixi "):
         return Failure(PIXI_VERSION_ERROR)
 

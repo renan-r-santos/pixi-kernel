@@ -85,7 +85,7 @@ class IRKernelTests(jkt.KernelTests):
     def test_display_vector(self):
         """Display of vectors."""
         code = "1:3"
-        reply, output_msgs = self._execute_code(code)
+        _, output_msgs = self._execute_code(code)
 
         # we currently send those formats: text/plain, text/html, text/latex, and text/markdown
         data = output_msgs[0]["content"]["data"]
@@ -101,7 +101,7 @@ class IRKernelTests(jkt.KernelTests):
     def test_display_vector_only_plaintext(self):
         """Display of plain text vectors."""
         code = without_rich_display.format("1:3")
-        reply, output_msgs = self._execute_code(code)
+        _, output_msgs = self._execute_code(code)
         data = output_msgs[0]["content"]["data"]
         assert len(data) == 1, data.keys()
         assert data["text/plain"] == "[1] 1 2 3"
@@ -109,7 +109,7 @@ class IRKernelTests(jkt.KernelTests):
     def test_irkernel_plots(self):
         """Plotting."""
         code = "plot(1:3)"
-        reply, output_msgs = self._execute_code(code)
+        _, output_msgs = self._execute_code(code)
 
         # we currently send two formats: png, and text/plain
         data = output_msgs[0]["content"]["data"]
@@ -134,7 +134,7 @@ class IRKernelTests(jkt.KernelTests):
             old_options <- options(jupyter.plot_mimetypes = c('image/png'))
             plot(1:3)
         """
-        reply, output_msgs = self._execute_code(code)
+        _, output_msgs = self._execute_code(code)
 
         # Only png, no svg or plain/text
         data = output_msgs[0]["content"]["data"]
@@ -149,7 +149,7 @@ class IRKernelTests(jkt.KernelTests):
 
         # And reset
         code = "options(old_options)"
-        reply, output_msgs = self._execute_code(code, tests=False)
+        _, output_msgs = self._execute_code(code, tests=False)
 
     def test_irkernel_plots_only_svg(self):
         if platform.system() == "Windows":
@@ -160,7 +160,7 @@ class IRKernelTests(jkt.KernelTests):
             old_options <- options(jupyter.plot_mimetypes = c('image/svg+xml'))
             plot(1:3)
         """
-        reply, output_msgs = self._execute_code(code)
+        _, output_msgs = self._execute_code(code)
 
         # Only svg, no png or plain/text
         data = output_msgs[0]["content"]["data"]
@@ -179,7 +179,7 @@ class IRKernelTests(jkt.KernelTests):
 
         # And reset
         code = "options(old_options)"
-        reply, output_msgs = self._execute_code(code, tests=False)
+        _, output_msgs = self._execute_code(code, tests=False)
 
     def test_irkernel_plots_without_rich_display(self):
         if platform.system() == "Windows":
@@ -189,7 +189,7 @@ class IRKernelTests(jkt.KernelTests):
             options(jupyter.rich_display = FALSE)
             plot(1:3)
         """
-        reply, output_msgs = self._execute_code(code)
+        _, output_msgs = self._execute_code(code)
 
         # Even with rich output as false, we send plots
         data = output_msgs[0]["content"]["data"]
@@ -199,12 +199,12 @@ class IRKernelTests(jkt.KernelTests):
 
         # And reset
         code = "options(jupyter.rich_display = TRUE)"
-        reply, output_msgs = self._execute_code(code, tests=False)
+        _, output_msgs = self._execute_code(code, tests=False)
 
     def test_irkernel_df_default_rich_output(self):
         """Data.frame rich representation."""
         code = "data.frame(x = 1:3)"
-        reply, output_msgs = self._execute_code(code)
+        _, output_msgs = self._execute_code(code)
 
         # we currently send three formats: text/plain, html, and latex
         data = output_msgs[0]["content"]["data"]
@@ -217,7 +217,7 @@ class IRKernelTests(jkt.KernelTests):
             data.frame(x = 1:3)
             options(jupyter.rich_display = TRUE)
         """
-        reply, output_msgs = self._execute_code(code)
+        _, output_msgs = self._execute_code(code)
 
         # only text/plain
         data = output_msgs[0]["content"]["data"]
@@ -229,7 +229,7 @@ class IRKernelTests(jkt.KernelTests):
             repr_html.full_page <- function(obj) sprintf('<html><body>%s</body></html>', obj)
             structure(0, class = 'full_page')
         """
-        reply, output_msgs = self._execute_code(code)
+        _, output_msgs = self._execute_code(code)
 
         data = output_msgs[0]["content"]["data"]
         assert len(data) == 2, data.keys()
@@ -242,14 +242,14 @@ class IRKernelTests(jkt.KernelTests):
 
     def test_in_kernel_set(self):
         """Jupyter.in_kernel option."""
-        reply, output_msgs = self._execute_code('getOption("jupyter.in_kernel")')
+        _, output_msgs = self._execute_code('getOption("jupyter.in_kernel")')
         data = output_msgs[0]["content"]["data"]
         assert len(data) >= 1, data.keys()
         assert data["text/plain"] == "[1] TRUE", data.keys()
 
     def test_warning_message(self):
         self.flush_channels()
-        reply, output_msgs = self.execute_helper('options(warn=1); warning(simpleWarning("wmsg"))')
+        _, output_msgs = self.execute_helper('options(warn=1); warning(simpleWarning("wmsg"))')
         assert output_msgs[0]["msg_type"] == "stream"
         assert output_msgs[0]["content"]["name"] == "stderr"
         if platform.system() == "Windows":
@@ -258,7 +258,7 @@ class IRKernelTests(jkt.KernelTests):
             assert output_msgs[0]["content"]["text"].strip() == "Warning message:\n“wmsg”"
 
         self.flush_channels()
-        reply, output_msgs = self.execute_helper(
+        _, output_msgs = self.execute_helper(
             'options(warn=1); f <- function() warning("wmsg"); f()'
         )
         assert output_msgs[0]["msg_type"] == "stream"
@@ -271,8 +271,8 @@ class IRKernelTests(jkt.KernelTests):
     def test_should_increment_history(self):
         """Properly increments execution history."""
         code = "data.frame(x = 1:3)"
-        reply, output_msgs = self._execute_code(code)
-        reply2, output_msgs2 = self._execute_code(code)
+        reply, _ = self._execute_code(code)
+        reply2, _ = self._execute_code(code)
         execution_count_1 = reply["content"]["execution_count"]
         execution_count_2 = reply2["content"]["execution_count"]
         assert execution_count_1 + 1 == execution_count_2
@@ -280,9 +280,9 @@ class IRKernelTests(jkt.KernelTests):
     def test_should_not_increment_history(self):
         """Does not increment history if silent is true or store_history is false."""
         code = "data.frame(x = 1:3)"
-        reply, output_msgs = self._execute_code(code, store_history=False)
-        reply2, output_msgs2 = self._execute_code(code, store_history=False)
-        reply3, output_msgs3 = self._execute_code(code, tests=False, silent=True)
+        reply, _ = self._execute_code(code, store_history=False)
+        reply2, _ = self._execute_code(code, store_history=False)
+        reply3, _ = self._execute_code(code, tests=False, silent=True)
         execution_count_1 = reply["content"]["execution_count"]
         execution_count_2 = reply2["content"]["execution_count"]
         execution_count_3 = reply3["content"]["execution_count"]
