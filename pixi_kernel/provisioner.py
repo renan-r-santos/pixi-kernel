@@ -12,7 +12,7 @@ from .compatibility import find_pixi_binary
 from .readiness import verify_env_readiness
 
 
-class PixiKernelProvisioner(LocalProvisioner):  # type: ignore[misc]
+class PixiKernelProvisioner(LocalProvisioner):
     async def _launch_fallback_kernel(self, *, message: str, **kwargs: Any) -> dict[str, Any]:
         kernel_spec = cast(KernelSpec, self.kernel_spec)
         kernel_spec.argv = [sys.executable, "-m", "pixi_kernel", "{connection_file}", message]
