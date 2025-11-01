@@ -1,13 +1,11 @@
 from __future__ import annotations
 
-from typing import Optional
-
 import msgspec
 
 
 class PixiInfo(msgspec.Struct, frozen=True, kw_only=True):
     environments: list[Environment] = msgspec.field(name="environments_info")
-    project: Optional[Project] = msgspec.field(name="project_info")
+    project: Project | None = msgspec.field(name="project_info")
 
 
 class Environment(msgspec.Struct, frozen=True, kw_only=True):
