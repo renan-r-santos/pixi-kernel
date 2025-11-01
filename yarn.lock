@@ -1574,7 +1574,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rjsf/utils@npm:^5.13.4":
+"@rjsf/utils@npm:^5.13.4, @rjsf/utils@npm:^5.24.13":
   version: 5.24.13
   resolution: "@rjsf/utils@npm:5.24.13"
   dependencies:
@@ -1586,22 +1586,6 @@ __metadata:
   peerDependencies:
     react: ^16.14.0 || >=17
   checksum: 40bb315a6e0b2e635dd6998a1ce82ce9fda2c8f57206f952006abc80e48d54790fa4298b167c0fdbc28a5a278573dbdb5bc68ec1da99c49a6b6c45fc7b61cdf5
-  languageName: node
-  linkType: hard
-
-"@rjsf/utils@npm:^6.0.1":
-  version: 6.0.1
-  resolution: "@rjsf/utils@npm:6.0.1"
-  dependencies:
-    fast-uri: ^3.1.0
-    json-schema-merge-allof: ^0.8.1
-    jsonpointer: ^5.0.1
-    lodash: ^4.17.21
-    lodash-es: ^4.17.21
-    react-is: ^18.3.1
-  peerDependencies:
-    react: ">=18"
-  checksum: 831b1b030fd30a9dbb4840bdee485a56b2e3128d3f2ba98faa0718c82679cc96ceaf6448b56c394129eba3b0e2fdf9a87d8ff15f6b47fb99af895cd36e32087a
   languageName: node
   linkType: hard
 
@@ -3181,7 +3165,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-uri@npm:^3.0.1, fast-uri@npm:^3.1.0":
+"fast-uri@npm:^3.0.1":
   version: 3.1.0
   resolution: "fast-uri@npm:3.1.0"
   checksum: daab0efd3548cc53d0db38ecc764d125773f8bd70c34552ff21abdc6530f26fa4cb1771f944222ca5e61a0a1a85d01a104848ff88c61736de445d97bd616ea7e
@@ -4457,7 +4441,7 @@ __metadata:
     "@jupyterlab/coreutils": ^6.4.10
     "@jupyterlab/notebook": ^4.4.10
     "@jupyterlab/services": ^7.4.10
-    "@rjsf/utils": ^6.0.1
+    "@rjsf/utils": ^5.24.13
     "@types/json-schema": ^7.0.15
     "@types/react": ^18.3.26
     "@types/react-addons-linked-state-mixin": ^0.14.27
@@ -4668,7 +4652,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-is@npm:^18.0.0, react-is@npm:^18.2.0, react-is@npm:^18.3.1":
+"react-is@npm:^18.0.0, react-is@npm:^18.2.0":
   version: 18.3.1
   resolution: "react-is@npm:18.3.1"
   checksum: e20fe84c86ff172fc8d898251b7cc2c43645d108bf96d0b8edf39b98f9a2cae97b40520ee7ed8ee0085ccc94736c4886294456033304151c3f94978cec03df21
