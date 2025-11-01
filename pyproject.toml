@@ -1,6 +1,6 @@
 [project]
 name = "pixi-kernel"
-version = "0.6.7"
+version = "0.7.0"
 description = "Jupyter kernels using Pixi for reproducible notebooks"
 license = { text = "MIT" }
 authors = [
@@ -23,15 +23,15 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Typing :: Typed",
 ]
 
-requires-python = ">=3.9,<4.0"
+requires-python = ">=3.10,<4.0"
 dependencies = [
     "ipykernel>=6",
     "jupyter-client>=7",
@@ -46,8 +46,8 @@ Documentation = "https://github.com/renan-r-santos/pixi-kernel"
 Homepage = "https://github.com/renan-r-santos/pixi-kernel"
 Repository = "https://github.com/renan-r-santos/pixi-kernel"
 
-[tool.uv]
-dev-dependencies = [
+[dependency-groups]
+dev = [
     "jupyter-kernel-test>=0.7",
     "jupyterlab>=4",
     "msgspec[toml]>=0.18",
@@ -65,7 +65,7 @@ pixi-kernel-provisioner = "pixi_kernel.provisioner:PixiKernelProvisioner"
 [tool.ruff]
 src = ["pixi_kernel"]
 line-length = 99
-target-version = "py39"
+target-version = "py310"
 
 [tool.ruff.lint]
 extend-select = [

@@ -2,7 +2,7 @@ import json
 import os
 import sys
 from pathlib import Path
-from typing import Any, Optional, cast
+from typing import Any, cast
 
 from jupyter_client.kernelspec import KernelSpec
 from jupyter_client.provisioning.local_provisioner import LocalProvisioner
@@ -25,7 +25,7 @@ class PixiKernelProvisioner(LocalProvisioner):
         # Reload argv from the original kernel spec to avoid side effects from previous launches
         kernel_spec.argv = KernelSpec.from_resource_dir(kernel_spec.resource_dir).argv
 
-        kernel_metadata: Optional[dict[str, str]] = kernel_spec.metadata.get("pixi-kernel")
+        kernel_metadata: dict[str, str] | None = kernel_spec.metadata.get("pixi-kernel")
         if kernel_metadata is None:
             message = (
                 f"Kernel {kernel_spec.display_name} uses the PixiKernelProvisioner but it"
