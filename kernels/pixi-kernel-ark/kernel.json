@@ -1,0 +1,25 @@
+{
+  "argv": [
+    "pixi",
+    "run",
+    "ark",
+    "--connection_file",
+    "{connection_file}",
+    "--session-mode",
+    "notebook"
+  ],
+  "display_name": "Ark R Kernel (Pixi)",
+  "language": "R",
+  "env": {
+    "RUST_LOG": "error"
+  },
+  "metadata": {
+    "pixi-kernel": {
+      "required-package": "ark"
+    },
+    "kernel_provisioner": {
+      "provisioner_name": "pixi-kernel-provisioner",
+      "config": {}
+    }
+  }
+}

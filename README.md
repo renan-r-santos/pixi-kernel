@@ -60,9 +60,7 @@ Pixi kernel supports the following kernels:
 | -------- | -------------- | -------------------------------------------------- |
 | Python   | IPython Kernel | [ipykernel](https://github.com/ipython/ipykernel)  |
 | R        | IR Kernel      | [r-irkernel](https://github.com/IRkernel/IRkernel) |
-
-Support for other kernels and languages can be added by opening an issue or a pull request, see
-[CONTRIBUTING](CONTRIBUTING.md#adding-support-for-new-kernels).
+| R        | Ark R Kernel   | [ark](https://github.com/posit-dev/ark)            |
 
 ## Pixi environments
 

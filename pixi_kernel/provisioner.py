@@ -87,7 +87,7 @@ class PixiKernelProvisioner(LocalProvisioner):
 
         # R kernel needs special treatment
         # https://github.com/renan-r-santos/pixi-kernel/issues/15
-        if required_package == "r-irkernel":
+        if required_package in ["r-irkernel", "ark"]:
             r_libs_path = str(Path(pixi_environment.prefix) / "lib" / "R" / "library")
             kernel_spec.env["R_LIBS"] = r_libs_path
             kernel_spec.env["R_LIBS_SITE"] = r_libs_path
